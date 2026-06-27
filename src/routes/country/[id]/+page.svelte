@@ -19,7 +19,16 @@
 	import type { Tier, Zone } from '$lib/data/zones/types';
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Select from '$lib/components/ui/Select.svelte';
-	import { geoArea, geoGraticule10, geoMercator, geoPath, geoCircle, geoContains } from 'd3-geo';
+	import {
+		geoArea,
+		geoCentroid,
+		geoGraticule10,
+		geoMercator,
+		geoPath,
+		geoCircle,
+		geoContains
+	} from 'd3-geo';
+	import { angularDistanceDeg } from '$lib/utils/geo';
 	import type { CountryFeature } from '$lib/data/places/countries';
 
 	const W = 960;
@@ -71,16 +80,21 @@
 	function framingFeature(feat: CountryFeature): CountryFeature {
 		const g = feat.geometry;
 		if (g.type !== 'MultiPolygon' || g.coordinates.length < 2) return feat;
-		let best = g.coordinates[0];
-		let bestArea = -1;
-		for (const poly of g.coordinates) {
-			const a = geoArea({ type: 'Polygon', coordinates: poly });
-			if (a > bestArea) {
-				bestArea = a;
-				best = poly;
-			}
-		}
-		return { ...feat, geometry: { type: 'Polygon', coordinates: best } };
+		const polys = g.coordinates.map((poly) => {
+			const f = { type: 'Polygon' as const, coordinates: poly };
+			return { poly, area: geoArea(f), c: geoCentroid(f) };
+		});
+		polys.sort((a, b) => b.area - a.area);
+		const main = polys[0];
+		// Keep the main landmass plus any island clustered near it (so an
+		// archipelago like Japan stays whole), but drop far-flung outliers (US
+		// Alaska/Hawaii, French overseas departments) that would otherwise shrink
+		// the mainland to a dot.
+		const NEAR_DEG = 14;
+		const kept = polys.filter(
+			(p) => p === main || angularDistanceDeg(main.c[1], main.c[0], p.c[1], p.c[0]) <= NEAR_DEG
+		);
+		return { ...feat, geometry: { type: 'MultiPolygon', coordinates: kept.map((k) => k.poly) } };
 	}
 
 	const frame = $derived(info ? framingFeature(info.feature) : null);
@@ -95,7 +109,7 @@
 		);
 	});
 	const path = $derived(projection ? geoPath(projection) : null);
-	const shape = $derived(path && info ? (path(info.feature) ?? '') : '');
+	const shape = $derived(path && frame ? (path(frame) ?? '') : '');
 	const grat = $derived(path ? (path(geoGraticule10()) ?? '') : '');
 	const centroid = $derived(path && frame ? path.centroid(frame) : null);
 
@@ -107,13 +121,56 @@
 	}
 	const visibleZones = $derived(info ? info.zones.filter(zoneVisible) : []);
 
+	// Push overlapping markers apart so co-located exposures (e.g. the cluster
+	// around Baku) stay individually visible and clickable instead of stacking
+	// into a blob. A few relaxation passes are plenty for the handful of marks a
+	// country has. Works the same for every country, no per-country tuning.
+	function spreadMarks<T extends { x: number; y: number }>(pts: T[]): T[] {
+		const out = pts.map((p) => ({ ...p }));
+		const MIN = 14;
+		for (let iter = 0; iter < 80; iter++) {
+			let moved = false;
+			for (let i = 0; i < out.length; i++) {
+				for (let j = i + 1; j < out.length; j++) {
+					let dx = out[j].x - out[i].x;
+					let dy = out[j].y - out[i].y;
+					let d = Math.hypot(dx, dy);
+					if (d < 0.01) {
+						// Identical points: fan them out along the golden angle (deterministic).
+						const a = j * 2.399;
+						dx = Math.cos(a);
+						dy = Math.sin(a);
+						d = 1;
+					}
+					if (d < MIN) {
+						const push = (MIN - d) / 2;
+						const ux = dx / d;
+						const uy = dy / d;
+						out[i].x -= ux * push;
+						out[i].y -= uy * push;
+						out[j].x += ux * push;
+						out[j].y += uy * push;
+						moved = true;
+					}
+				}
+			}
+			if (!moved) break;
+		}
+		for (const p of out) {
+			p.x = Math.max(10, Math.min(W - 10, p.x));
+			p.y = Math.max(10, Math.min(H - 10, p.y));
+		}
+		return out;
+	}
+
 	const marks = $derived.by(() => {
 		const proj = projection;
 		if (!proj) return [];
-		return visibleZones.flatMap((z) => {
+		const raw = visibleZones.flatMap((z) => {
 			const p = proj([z.lng, z.lat]);
 			return p ? [{ z, x: p[0], y: p[1], color: categoryColor(z) }] : [];
 		});
+		return spreadMarks(raw);
 	});
 
 	const reachPaths = $derived.by(() => {
@@ -128,19 +185,28 @@
 	const cityMarks = $derived.by(() => {
 		const proj = projection;
 		if (!info || !proj) return [];
-		const inside = cities
+		const ranked = cities
 			.map((c, i) => ({ c, i }))
 			.filter(({ c }) => geoContains(info.feature, [c.lng, c.lat]))
 			.sort(
 				(a, b) =>
 					(b.c.significant ? 1e9 : 0) + (b.c.capital ? 5e8 : 0) + b.c.pop -
 					((a.c.significant ? 1e9 : 0) + (a.c.capital ? 5e8 : 0) + a.c.pop)
-			)
-			.slice(0, 10);
-		return inside.flatMap(({ c, i }) => {
+			);
+		// Show more cities, but declutter to one per screen cell and drop any that
+		// project outside the framed view (e.g. cities in dropped territories).
+		const out: { name: string; x: number; y: number; capital: boolean; idx: number }[] = [];
+		const occupied = new Set<string>();
+		for (const { c, i } of ranked) {
 			const p = proj([c.lng, c.lat]);
-			return p ? [{ name: c.name, x: p[0], y: p[1], capital: !!c.capital, idx: i }] : [];
-		});
+			if (!p || p[0] < 0 || p[0] > W || p[1] < 0 || p[1] > H) continue;
+			const cell = `${Math.round(p[0] / 66)},${Math.round(p[1] / 26)}`;
+			if (occupied.has(cell)) continue;
+			occupied.add(cell);
+			out.push({ name: c.name, x: p[0], y: p[1], capital: !!c.capital, idx: i });
+			if (out.length >= 26) break;
+		}
+		return out;
 	});
 
 	const metricMeta = $derived(metric !== 'none' ? (METRIC_BY_KEY[metric] ?? null) : null);
@@ -583,11 +649,11 @@
 		border-radius: 999px;
 		background: linear-gradient(
 			90deg,
-			rgb(68, 1, 84),
-			rgb(59, 82, 139),
-			rgb(33, 145, 140),
-			rgb(94, 201, 98),
-			rgb(253, 231, 37)
+			rgb(179, 135, 155),
+			rgb(177, 153, 189),
+			rgb(159, 177, 204),
+			rgb(166, 204, 191),
+			rgb(210, 220, 171)
 		);
 	}
 	.pin {
@@ -702,23 +768,23 @@
 		text-anchor: middle;
 		font-size: 30px;
 		font-weight: 800;
-		fill: #fff;
+		fill: #141d33;
 		paint-order: stroke;
-		stroke: rgba(5, 7, 14, 0.85);
-		stroke-width: 5px;
+		stroke: rgba(255, 255, 255, 0.5);
+		stroke-width: 4px;
 		stroke-linejoin: round;
 		font-variant-numeric: tabular-nums;
 	}
 	.sr-lab {
 		text-anchor: middle;
 		font-size: 11px;
-		font-weight: 600;
+		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.06em;
-		fill: rgba(255, 255, 255, 0.75);
+		fill: rgba(20, 29, 51, 0.82);
 		paint-order: stroke;
-		stroke: rgba(5, 7, 14, 0.85);
-		stroke-width: 3px;
+		stroke: rgba(255, 255, 255, 0.45);
+		stroke-width: 2.5px;
 		stroke-linejoin: round;
 	}
 	.reach-area {
@@ -768,6 +834,22 @@
 	}
 	.mark:hover {
 		filter: brightness(1.25);
+	}
+	/* The selected dot breathes slowly to call out its place on the map.
+	   transform-box: fill-box scales it about its own center, not the SVG origin. */
+	.mark.active {
+		transform-box: fill-box;
+		transform-origin: center;
+		animation: breathe 1.8s ease-in-out infinite;
+	}
+	@keyframes breathe {
+		0%,
+		100% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.32);
+		}
 	}
 
 	/* Right side panel */

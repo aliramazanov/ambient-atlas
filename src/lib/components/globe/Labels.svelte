@@ -98,16 +98,24 @@
 		if (value != null) {
 			const m = METRIC_BY_KEY[key];
 			el.textContent = `${l.text} ${m.format(value)}`;
-			el.style.color = metricColor(m, value);
-			el.style.background = 'rgba(6, 10, 16, 0.62)';
-			el.style.padding = '1px 6px';
-			el.style.borderRadius = '5px';
+			// Filled pastel pill with dark text: the ramp reads as a clear scale this
+			// way, where small pastel-colored text on the dark globe washed out.
+			el.style.color = '#0b1320';
+			el.style.background = metricColor(m, value);
+			el.style.padding = '1px 7px';
+			el.style.borderRadius = '999px';
+			el.style.fontWeight = '700';
+			el.style.textShadow = 'none';
+			el.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.5)';
 		} else {
 			el.textContent = l.text;
 			el.style.color = '';
 			el.style.background = '';
 			el.style.padding = '';
 			el.style.borderRadius = '';
+			el.style.fontWeight = '';
+			el.style.textShadow = '';
+			el.style.boxShadow = '';
 		}
 	}
 

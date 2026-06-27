@@ -156,28 +156,32 @@ export const METRIC_BY_KEY: Record<string, MetricDef> = Object.fromEntries(
   metrics.map((m) => [m.key, m]),
 );
 
-// Viridis: perceptually uniform and colorblind-safe (purple = worse, yellow = better).
-const VIRIDIS: number[][] = [
-  [68, 1, 84],
-  [59, 82, 139],
-  [33, 145, 140],
-  [94, 201, 98],
-  [253, 231, 37],
+// Soft pastel sequential ramp: muted mauve (worse) through lilac, powder blue
+// and mint to a pale sage-gold (better). Chosen for a calm, premium country
+// fill instead of a saturated data-viz palette. Lightness still rises toward
+// "better", so the order survives even desaturated. Keep these stops in sync
+// with the legend gradient in the country page (.ramp).
+const RAMP: number[][] = [
+  [179, 135, 155],
+  [177, 153, 189],
+  [159, 177, 204],
+  [166, 204, 191],
+  [210, 220, 171],
 ];
-function viridis(t: number): string {
+function rampColor(t: number): string {
   t = Math.max(0, Math.min(1, t));
-  const x = t * (VIRIDIS.length - 1);
+  const x = t * (RAMP.length - 1);
   const i = Math.floor(x);
   const f = x - i;
-  const a = VIRIDIS[i];
-  const b = VIRIDIS[Math.min(VIRIDIS.length - 1, i + 1)];
+  const a = RAMP[i];
+  const b = RAMP[Math.min(RAMP.length - 1, i + 1)];
   const c = (k: number) => Math.round(a[k] + (b[k] - a[k]) * f);
   return `rgb(${c(0)}, ${c(1)}, ${c(2)})`;
 }
 
-/** Colorblind-safe metric color (worse to better), respecting direction. */
+/** Pastel metric color from worse to better, respecting the metric's direction. */
 export function metricColor(m: MetricDef, value: number): string {
   let t = norm(value, m.domain);
   if (!m.higherBetter) t = 1 - t;
-  return viridis(t);
+  return rampColor(t);
 }

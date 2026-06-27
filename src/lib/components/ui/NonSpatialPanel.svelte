@@ -92,8 +92,8 @@
 		{#if ui.countryMetric !== 'none'}
 			{@const m = METRIC_BY_KEY[ui.countryMetric]}
 			<div class="mdesc">
-				{m.source}{m.year ? `, ${m.year}` : ''}. Color runs
-				{m.higherBetter ? 'low (red) to high (green)' : 'good (green) to bad (red)'}.
+				{m.source}{m.year ? `, ${m.year}` : ''}.
+				{m.higherBetter ? 'Higher is better.' : 'Lower is better.'}
 			</div>
 		{/if}
 	</div>
