@@ -1,0 +1,3135 @@
+import type { Zone } from './types';
+
+// Transcribed from research/01_ZONES.md and research/04_ANTHROPOGENIC.md.
+// Descriptions are written without em dashes. Coordinates are anchor points;
+// region-scale zones are illustrative, not surveyed boundaries.
+// Extend this array with more entries from the research using the same shape.
+
+export const zones: Zone[] = [
+	// ===================== ESTABLISHED: RADIATION =====================
+	{
+		id: 'ramsar',
+		name: 'Ramsar high background radiation',
+		tier: 'established',
+		category: 'radiation',
+		lat: 36.89,
+		lng: 50.68,
+		r: 12,
+		certainty: 'null-finding',
+		emissionType: 'ionizing',
+		desc: "Among Earth's highest natural background radiation; people exposed for generations, yet an expected cancer excess is hard to detect. The often-quoted 260 mSv/year is a single hotspot, not a residential dose.",
+		citations: [
+			{
+				type: 'review',
+				ref: 'Hendry et al. 2009, J Radiol Prot',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4030667/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'kerala-monazite',
+		name: 'Kerala monazite coast',
+		tier: 'established',
+		category: 'radiation',
+		lat: 9.065,
+		lng: 76.531,
+		r: 25,
+		certainty: 'null-finding',
+		emissionType: 'ionizing',
+		desc: 'Thorium-rich monazite sands give this coastal strip very high natural background radiation. The large Karunagappally cohort found no statistically significant excess cancer.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Nair et al. 2009, Health Physics',
+				url: 'https://pubmed.ncbi.nlm.nih.gov/19066487/',
+				openAccess: false
+			}
+		]
+	},
+	{
+		id: 'guarapari',
+		name: 'Guarapari radioactive sands',
+		tier: 'established',
+		category: 'radiation',
+		lat: -20.672,
+		lng: -40.502,
+		r: 12,
+		certainty: 'established',
+		emissionType: 'ionizing',
+		desc: 'Monazite black-sand beaches produce locally extreme natural radiation on a populated coast. The dramatic surface readings are localized, since people do not live continuously on the sand.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Vasconcelos et al. 2025, IJERPH',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC11828634/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'yangjiang',
+		name: 'Yangjiang high background area',
+		tier: 'established',
+		category: 'radiation',
+		lat: 21.85,
+		lng: 111.97,
+		r: 30,
+		certainty: 'null-finding',
+		emissionType: 'ionizing',
+		desc: 'Monazite-bearing soils raise natural radiation to about triple the regional baseline. The prospective cohort found no increase in cancer mortality.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Tao et al. 2000, J Radiat Res',
+				url: 'https://academic.oup.com/jrr/article/41/Suppl/S31/1006292',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'mamuju',
+		name: 'Mamuju high background area',
+		tier: 'established',
+		category: 'radiation',
+		lat: -2.68,
+		lng: 118.89,
+		r: 35,
+		certainty: 'established',
+		emissionType: 'ionizing',
+		desc: 'Volcanic and lateritic ground enriched in uranium and thorium gives residents one of the highest residential-average natural doses recorded, about 32 mSv/year.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Nugraha, Hosoda et al. 2021, Sci Rep',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8285509/',
+				openAccess: true
+			}
+		]
+	},
+
+	// ===================== ESTABLISHED: ALTITUDE =====================
+	{
+		id: 'altiplano',
+		name: 'Andean Altiplano',
+		tier: 'established',
+		category: 'altitude',
+		lat: -16.5,
+		lng: -68.15,
+		r: 120,
+		certainty: 'established',
+		desc: 'Permanent high-altitude life under chronic hypoxia plus elevated cosmic-ray dose. The erythrocytotic adaptation carries the highest chronic mountain sickness burden of the classic highland populations.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Aymara adaptation review 2023',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC10048644/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'tibet',
+		name: 'Tibetan Plateau',
+		tier: 'established',
+		category: 'altitude',
+		lat: 32.0,
+		lng: 88.0,
+		r: 400,
+		certainty: 'established',
+		desc: 'A vast high-altitude population under chronic hypoxia, adapted via a blunted hemoglobin response (EPAS1 and EGLN1), with far lower chronic mountain sickness than Andeans.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'EPAS1 down-regulation 2017',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5400376/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'ethiopian-highlands',
+		name: 'Ethiopian highlands',
+		tier: 'established',
+		category: 'altitude',
+		lat: 9.5,
+		lng: 39.0,
+		r: 150,
+		certainty: 'established',
+		desc: 'A third distinct adaptation: near-normal hemoglobin and oxygen saturation under chronic hypoxia, apparently via nitric-oxide-mediated vasodilation.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Ethiopian adaptation 2022',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC9033342/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'la-rinconada',
+		name: 'La Rinconada',
+		tier: 'established',
+		category: 'altitude',
+		lat: -14.6257,
+		lng: -69.4412,
+		r: 12,
+		certainty: 'established',
+		desc: 'The highest permanent human habitation on Earth at about 5100 m, where barometric pressure is near half of sea level. Chronic mountain sickness reaches about 14 percent and excessive erythrocytosis about 44 percent.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Highest-city erythrocytosis 2020',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC7373800/',
+				openAccess: true
+			}
+		]
+	},
+
+	// ===================== ESTABLISHED: FIBER =====================
+	{
+		id: 'cappadocia',
+		name: 'Cappadocia erionite',
+		tier: 'established',
+		category: 'fiber',
+		lat: 38.7,
+		lng: 34.8,
+		r: 20,
+		certainty: 'established',
+		desc: 'Erionite in local volcanic tuff, quarried to build homes, drives catastrophic mesothelioma rates purely from geology, an exposure you cannot escape if you live there.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Cappadocia epidemic review 2017',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5497117/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'biancavilla',
+		name: 'Biancavilla fluoro-edenite',
+		tier: 'established',
+		category: 'fiber',
+		lat: 37.6463,
+		lng: 14.8614,
+		r: 12,
+		certainty: 'established',
+		desc: 'Fluoro-edenite, a natural fibrous amphibole first described here, in quarried volcanic rock used in local construction, drives a pleural mesothelioma cluster. IARC Group 1.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Sputum fibres, Environ Health 2006',
+				url: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1557492/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'metsovo',
+		name: 'Metsovo lung',
+		tier: 'established',
+		category: 'fiber',
+		lat: 39.7702,
+		lng: 21.1829,
+		r: 12,
+		certainty: 'established',
+		desc: 'Tremolite asbestos in a local white soil used for whitewash until the mid-1900s caused endemic pleural disease and mesothelioma, declining since the practice ended.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Metsovo whitewash-mesothelioma link',
+				url: 'https://pubmed.ncbi.nlm.nih.gov/2882352/',
+				openAccess: false
+			}
+		]
+	},
+
+	// ===================== ESTABLISHED: CHEMISTRY =====================
+	{
+		id: 'bengal-arsenic',
+		name: 'Bengal Basin arsenic',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 23.2,
+		lng: 89.5,
+		r: 200,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Natural arsenic in shallow groundwater across a huge populated delta, called the largest mass poisoning in history; chronic effects are still being mapped.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Smith et al. 2000, Bull WHO',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC2560840/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'chile-arsenic',
+		name: 'Northern Chile arsenic',
+		tier: 'established',
+		category: 'chemistry',
+		lat: -23.65,
+		lng: -70.4,
+		r: 90,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Antofagasta drew arsenic-rich Andean water of about 860 ug/L from 1958 to 1970; lung and bladder cancer persist about 40 years after exposure ended.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Ferreccio et al. 2013, CEBP',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3848421/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'eafrica-fluoride',
+		name: 'East African Rift fluoride',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 8.5,
+		lng: 39.0,
+		r: 150,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Volcanic aquifers high in fluoride cause widespread dental and skeletal fluorosis along a long rift belt; the benefit versus harm at natural levels is contested.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Groundwater Project, East African Rift Valley',
+				url: 'https://books.gw-project.org/fluoride-in-groundwater/chapter/the-east-african-rift-valley/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'keshan-ne',
+		name: 'Keshan selenium-deficiency belt',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 48.03,
+		lng: 125.88,
+		r: 150,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Selenium-poor soils cause a regional cardiomyopathy; the safe window for selenium is narrow. Largely historic after salt and grain supplementation.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Spatial epidemiology of Keshan disease 2022',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC9479656/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'keshan-sw',
+		name: 'Keshan selenium-deficiency belt',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 25.04,
+		lng: 101.55,
+		r: 120,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'The southwest anchor of the same selenium-poor belt that produces endemic cardiomyopathy across many Chinese provinces.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Keshan cardiomyopathy review 2021',
+				url: 'https://www.frontiersin.org/journals/pediatrics/articles/10.3389/fped.2021.576916/full',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'enshi-selenosis',
+		name: 'Enshi selenosis',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 30.27,
+		lng: 109.49,
+		r: 35,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Naturally selenium-rich soils from carbonaceous shale cause selenium toxicity, the excess end of the same narrow window.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Yang et al. 1983, Am J Clin Nutr',
+				url: 'https://pubmed.ncbi.nlm.nih.gov/6846228/',
+				openAccess: false
+			}
+		]
+	},
+	{
+		id: 'himalaya-iodine-w',
+		name: 'Himalayan iodine belt',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 28.5,
+		lng: 83.5,
+		r: 150,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Iodine-poor mountain soils create historic goiter belts shaped purely by geology; largely resolved by salt iodization.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Nepal iodine review 2022',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC9486041/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'alpine-iodine',
+		name: 'Alpine iodine belt',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 46.5,
+		lng: 10.5,
+		r: 120,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'A classic inland mountain iodine-deficiency belt from glaciation-leached soils, effectively resolved by iodized salt from 1922.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Iodine Deficiency Disorders, Endotext',
+				url: 'https://www.ncbi.nlm.nih.gov/books/NBK285556/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'chaco-arsenic',
+		name: 'Chaco-Pampean arsenic (HACRE)',
+		tier: 'established',
+		category: 'chemistry',
+		lat: -32.0,
+		lng: -63.0,
+		r: 170,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Geogenic arsenic in loess aquifers from volcanic ash exposes several million people, causing the chronic skin disease HACRE and cancer.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Hong et al. 2011, Sci Total Environ',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3977337/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'guizhou-fluorosis',
+		name: 'Guizhou coal-burning fluorosis',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 26.9,
+		lng: 105.5,
+		r: 110,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'Indoor burning of high-fluorine coal and clay binder volatilizes fluoride onto food and air, causing dental and skeletal fluorosis through a non-waterborne route.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Qin et al. 2009, J Environ Public Health',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC2778178/',
+				openAccess: true
+			}
+		]
+	},
+
+	// ===================== ESTABLISHED: AIRBORNE =====================
+	{
+		id: 'saharan-source',
+		name: 'Saharan dust corridor',
+		tier: 'established',
+		category: 'airborne',
+		lat: 16.956,
+		lng: 17.781,
+		r: 250,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'The Bodele Depression, the most productive dust source on Earth, launches mineral dust that crosses the Atlantic delivering minerals, microbes and allergens.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Koren et al. 2006, Environ Res Lett',
+				url: 'https://iopscience.iop.org/article/10.1088/1748-9326/1/1/014005',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'saharan-atlantic',
+		name: 'Saharan dust corridor',
+		tier: 'established',
+		category: 'airborne',
+		lat: 16.0,
+		lng: -40.0,
+		r: 300,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'The mid-Atlantic track of the Saharan Air Layer, carrying chronic population-wide airborne exposure toward the Caribbean and the Americas.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Koren et al. 2006, Environ Res Lett',
+				url: 'https://iopscience.iop.org/article/10.1088/1748-9326/1/1/014005',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'saharan-amazon',
+		name: 'Saharan dust corridor',
+		tier: 'established',
+		category: 'airborne',
+		lat: -3.0,
+		lng: -60.0,
+		r: 300,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'Saharan dust reaching the Amazon, fertilizing the basin with phosphorus and iron while exposing it to mineral aerosol.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Yu et al. 2015 (NASA summary)',
+				url: 'https://www.nasa.gov/centers-and-facilities/goddard/nasa-satellite-reveals-how-much-saharan-dust-feeds-amazons-plants/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'campi-flegrei',
+		name: 'Campi Flegrei outgassing',
+		tier: 'established',
+		category: 'airborne',
+		lat: 40.827,
+		lng: 14.139,
+		r: 12,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Volcanic CO2 and H2S outgassing in a densely populated, restless caldera produces constant low-level exposure.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Nat Commun 2024',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC11612255/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'rotorua',
+		name: 'Rotorua geothermal H2S',
+		tier: 'established',
+		category: 'airborne',
+		lat: -38.139,
+		lng: 176.245,
+		r: 12,
+		certainty: 'contested',
+		emissionType: 'chemical',
+		desc: 'Chronic hydrogen-sulfide exposure from geothermal activity in an inhabited city. Health findings genuinely conflict across study generations.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'PLoS ONE 2015 (null)',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4378981/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'asian-dust',
+		name: 'Asian dust corridor',
+		tier: 'established',
+		category: 'airborne',
+		lat: 40.0,
+		lng: 110.0,
+		r: 250,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'Spring dust from the Gobi and Loess Plateau sweeps over China, Korea and Japan, mixing with pollutants and raising circulatory and respiratory mortality.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Health Effects of Asian Dust 2020, EHP',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC7319773/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'aralkum',
+		name: 'Aral Sea dried-bed dust',
+		tier: 'established',
+		category: 'airborne',
+		lat: 45.0,
+		lng: 59.0,
+		r: 250,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'The exposed Aral seabed generates salt-and-dust storms carrying salts and legacy agrochemicals hundreds of kilometers downwind.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Dry Tears of the Aral, UN Chronicle',
+				url: 'https://www.un.org/en/chronicle/article/dry-tears-aral',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'sistan',
+		name: 'Sistan 120 days of wind',
+		tier: 'established',
+		category: 'airborne',
+		lat: 31.034,
+		lng: 61.488,
+		r: 150,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'The Levar wind lofts saline dust off the desiccated Hamoun lakebeds, producing among the highest PM10 burdens on Earth and excess respiratory and cardiovascular disease.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Sci Rep 2025',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12749386/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'lake-nyos',
+		name: 'Lake Nyos volcanic CO2',
+		tier: 'established',
+		category: 'airborne',
+		lat: 6.44,
+		lng: 10.3,
+		r: 14,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'A deep crater lake traps magmatic CO2; a 1986 limnic eruption released a dense cloud that asphyxiated about 1746 people. Engineered degassing now bleeds it off.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Eos 2016, AGU',
+				url: 'https://eos.org/science-updates/cameroons-lake-nyos-gas-burst-30-years-later',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'hawaii-vog',
+		name: 'Hawaii vog (Kilauea SO2)',
+		tier: 'established',
+		category: 'airborne',
+		lat: 19.42,
+		lng: -155.29,
+		r: 18,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Kilauea SO2 reacts to sulfate aerosol that drifts over downwind communities, causing respiratory irritation and aggravating asthma.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Tam et al. 2016, Environ Int',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4905765/',
+				openAccess: true
+			}
+		]
+	},
+
+	// ===================== ESTABLISHED: DIETARY =====================
+	{
+		id: 'guam-bmaa',
+		name: 'Guam BMAA (ALS-PDC)',
+		tier: 'established',
+		category: 'dietary',
+		lat: 13.292,
+		lng: 144.655,
+		r: 18,
+		certainty: 'contested',
+		emissionType: 'chemical',
+		desc: 'A cycad-derived neurotoxin is tied to a local ALS-Parkinson-dementia cluster among the Chamorro. The BMAA causal link is debated and not established.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Cox et al. 2003, PNAS',
+				url: 'https://www.pnas.org/content/100/23/13380',
+				openAccess: true
+			},
+			{
+				type: 'skeptical',
+				ref: 'Chernoff et al. 2017 (critical review)',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC6503681/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'konzo-drc',
+		name: 'Konzo cassava belt',
+		tier: 'established',
+		category: 'dietary',
+		lat: -7.283,
+		lng: 19.0,
+		r: 200,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Cyanogenic cassava under drought or processing failure, with protein deficiency, causes a permanent spastic paralysis. The wetting method prevents it.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Nzwalo & Cliff 2011, PLoS NTD',
+				url: 'https://journals.plos.org/plosntds/article?id=10.1371/journal.pntd.0001051',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'konzo-moz',
+		name: 'Konzo cassava belt',
+		tier: 'established',
+		category: 'dietary',
+		lat: -15.12,
+		lng: 39.27,
+		r: 200,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'The Nampula focus where konzo first appeared in the 1981 drought, driven by the same cyanogenic-cassava mechanism.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Nzwalo & Cliff 2011, PLoS NTD',
+				url: 'https://journals.plos.org/plosntds/article?id=10.1371/journal.pntd.0001051',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'aflatoxin-wafrica',
+		name: 'Aflatoxin zone',
+		tier: 'established',
+		category: 'dietary',
+		lat: 9.0,
+		lng: 8.0,
+		r: 300,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Natural fungal toxin in stored grain and nuts, a proven cause of liver cancer acting synergistically with hepatitis B; the chronic low-dose gradient is less mapped.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'IARC Aflatoxins monograph',
+				url: 'https://www.ncbi.nlm.nih.gov/books/NBK533573/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'aflatoxin-seasia',
+		name: 'Aflatoxin zone',
+		tier: 'established',
+		category: 'dietary',
+		lat: 13.7,
+		lng: 100.5,
+		r: 300,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'The Southeast Asian arm of the aflatoxin belt, where hot humid storage of maize and groundnuts drives chronic dietary exposure.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'IARC Aflatoxins monograph',
+				url: 'https://www.ncbi.nlm.nih.gov/books/NBK533573/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'ciguatera',
+		name: 'Ciguatera fish poisoning',
+		tier: 'established',
+		category: 'dietary',
+		lat: -17.54,
+		lng: -149.83,
+		r: 250,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Ciguatoxins from reef dinoflagellates biomagnify into large predatory reef fish, causing the most common non-bacterial seafood illness; heavily under-reported.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Friedman et al. 2017, Marine Drugs',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5367029/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'neurolathyrism',
+		name: 'Neurolathyrism (grass pea)',
+		tier: 'established',
+		category: 'dietary',
+		lat: 11.75,
+		lng: 39.0,
+		r: 250,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'The neurotoxin beta-ODAP in drought-hardy grass pea causes irreversible spastic paraparesis when it dominates the diet during famine.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Dawunt prevalence 2023',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC10552212/',
+				openAccess: true
+			}
+		]
+	},
+
+	// ===================== GRAY =====================
+	{
+		id: 'saa',
+		name: 'South Atlantic Anomaly',
+		tier: 'gray',
+		category: 'gray',
+		lat: -26.0,
+		lng: -53.0,
+		r: 600,
+		certainty: 'open',
+		desc: "Earth's weakest surface magnetic field. No demonstrated ground-level human effect, but the radical-pair mechanism keeps the question from being fully closed. The original suspicion.",
+		citations: [
+			{
+				type: 'skeptical',
+				ref: 'Driessen et al. 2020, PLoS ONE',
+				url: 'https://doi.org/10.1371/journal.pone.0230038',
+				openAccess: true,
+				doi: '10.1371/journal.pone.0230038'
+			}
+		]
+	},
+	{
+		id: 'lithium-andes',
+		name: 'Lithium-rich groundwater (Andes)',
+		tier: 'gray',
+		category: 'gray',
+		lat: -22.0,
+		lng: -67.0,
+		r: 120,
+		certainty: 'open',
+		emissionType: 'chemical',
+		desc: 'Naturally high trace lithium in water. Ecological studies link higher water-lithium to lower suicide and dementia, but causation versus confounding is unresolved, and one pre-registered study found nothing.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Memon et al. 2020, Br J Psychiatry',
+				url: 'https://doi.org/10.1192/bjp.2020.128',
+				openAccess: false,
+				doi: '10.1192/bjp.2020.128'
+			}
+		]
+	},
+	{
+		id: 'photoperiod-nordic',
+		name: 'High-latitude photoperiod (Nordic)',
+		tier: 'gray',
+		category: 'gray',
+		lat: 69.0,
+		lng: 20.0,
+		r: 300,
+		certainty: 'open',
+		desc: 'Extreme seasonal day-length swings drive circadian and sleep physiology. The mood link is weaker than assumed: the Tromso study found no clear seasonal jump in distress.',
+		citations: [
+			{
+				type: 'skeptical',
+				ref: 'Johnsen et al. 2012, BMC Psychiatry',
+				url: 'https://doi.org/10.1186/1471-244X-12-225',
+				openAccess: true,
+				doi: '10.1186/1471-244X-12-225'
+			}
+		]
+	},
+	{
+		id: 'radon-cornwall',
+		name: 'Radon-prone granite (SW England)',
+		tier: 'gray',
+		category: 'gray',
+		lat: 50.5,
+		lng: -4.0,
+		r: 80,
+		certainty: 'contested',
+		emissionType: 'ionizing',
+		desc: 'Granite bedrock releases radon. The high-concentration lung-cancer link is solid, but effects across the low-concentration regional gradient remain argued.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Darby et al. 2005, BMJ',
+				url: 'https://doi.org/10.1136/bmj.38308.477650.63',
+				openAccess: true,
+				doi: '10.1136/bmj.38308.477650.63'
+			}
+		]
+	},
+	{
+		id: 'soft-water',
+		name: 'Soft-water cardiovascular belt',
+		tier: 'gray',
+		category: 'gray',
+		lat: 55.0,
+		lng: -4.0,
+		r: 150,
+		certainty: 'open',
+		emissionType: 'chemical',
+		desc: 'Naturally soft, low calcium and magnesium water shows weak ecological links to cardiovascular outcomes; persistently hard to confirm or dismiss.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'WHO 2009, Calcium and Magnesium in Drinking-Water',
+				url: 'https://iris.who.int/handle/10665/43836',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'manganese-bangladesh',
+		name: 'Manganese-rich groundwater',
+		tier: 'gray',
+		category: 'gray',
+		lat: 23.77,
+		lng: 90.66,
+		r: 120,
+		certainty: 'open',
+		emissionType: 'chemical',
+		desc: 'Naturally elevated manganese in water with suspected neurodevelopmental effects. Associations exist but are cross-sectional and confounded by arsenic and lead.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Wasserman et al. 2006, EHP',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC1332667/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'geomagnetic-auroral',
+		name: 'Geomagnetic-storm exposure (auroral)',
+		tier: 'gray',
+		category: 'gray',
+		lat: 67.0,
+		lng: -50.0,
+		r: 500,
+		certainty: 'open',
+		desc: 'High-latitude regions feel the strongest geomagnetic storms. Time-series links to cardiovascular and psychiatric upticks exist but sit close to pseudoscience and are weakly established.',
+		citations: [
+			{
+				type: 'skeptical',
+				ref: 'Palmer et al. 2006, Surv Geophys',
+				url: 'https://doi.org/10.1007/s10712-006-9010-7',
+				openAccess: false,
+				doi: '10.1007/s10712-006-9010-7'
+			}
+		]
+	},
+	{
+		id: 'co2-mofette',
+		name: 'CO2 mofette villages',
+		tier: 'gray',
+		category: 'gray',
+		lat: 41.76,
+		lng: 12.65,
+		r: 80,
+		certainty: 'open',
+		emissionType: 'chemical',
+		desc: 'Heavier-than-air CO2 pools in low spots near cold degassing vents. Acute asphyxiation is clear; the chronic low-level question is open, with long-term epidemiology almost absent.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Viveiros et al. 2024, iScience',
+				url: 'https://doi.org/10.1016/j.isci.2024.110990',
+				openAccess: true,
+				doi: '10.1016/j.isci.2024.110990'
+			}
+		]
+	},
+	{
+		id: 'high-altitude-uv',
+		name: 'High-altitude UV (Andes)',
+		tier: 'gray',
+		category: 'gray',
+		lat: -15.5,
+		lng: -70.5,
+		r: 120,
+		certainty: 'open',
+		desc: 'Ambient UV is extreme at altitude. Ocular effects are least contested; skin-cancer and vitamin D paradoxes and immune effects remain open questions.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Cabrol et al. 2014, Front Environ Sci',
+				url: 'https://doi.org/10.3389/fenvs.2014.00019',
+				openAccess: true,
+				doi: '10.3389/fenvs.2014.00019'
+			}
+		]
+	},
+
+	// ===================== SOLVED =====================
+	{
+		id: 'blackfoot',
+		name: 'Blackfoot disease (SW Taiwan)',
+		tier: 'solved',
+		category: 'solved',
+		lat: 23.36,
+		lng: 120.17,
+		r: 40,
+		certainty: 'solved-firm',
+		emissionType: 'chemical',
+		desc: 'Villagers lost their feet to gangrene for decades. Asking why here traced it to naturally high arsenic in artesian well water, now a textbook case of chronic arsenic poisoning.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Lamm et al. 2006, EHP',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC1513326/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'balkan-nephropathy',
+		name: 'Balkan endemic nephropathy',
+		tier: 'solved',
+		category: 'solved',
+		lat: 44.3,
+		lng: 22.6,
+		r: 120,
+		certainty: 'solved-firm',
+		emissionType: 'chemical',
+		desc: 'Kidney failure clustered in Danube-basin villages for generations. It was finally pinned to aristolochic acid from a wild weed whose seeds contaminated local wheat.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Grollman et al. 2007, PNAS',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC1913550/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'kashin-beck',
+		name: 'Kashin-Beck disease belt',
+		tier: 'solved',
+		category: 'solved',
+		lat: 34.0,
+		lng: 101.0,
+		r: 200,
+		certainty: 'solved-debated',
+		emissionType: 'chemical',
+		desc: 'A crippling bone-and-joint disease confined to a band across China and Siberia. Asking why this band led to selenium-poor soil, grain mycotoxins and water organic matter; the dominant factor is still argued.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Sudre & Mathieu 2001, Int Orthop',
+				url: 'https://link.springer.com/content/pdf/10.1007/s002640000179.pdf',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'podoconiosis',
+		name: 'Podoconiosis (Ethiopian highlands)',
+		tier: 'solved',
+		category: 'solved',
+		lat: 6.9,
+		lng: 37.75,
+		r: 120,
+		certainty: 'solved-firm',
+		emissionType: 'mixed',
+		desc: 'Severe leg swelling appeared only in barefoot highland farmers. The cause was found in the red volcanic clay itself: mineral particles absorbed through bare skin, with strong HLA susceptibility.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Davey et al. 2012, NEJM (HLA)',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3350841/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'pellagra',
+		name: 'Pellagra belt (historical US South)',
+		tier: 'solved',
+		category: 'solved',
+		lat: 33.0,
+		lng: -88.0,
+		r: 200,
+		certainty: 'solved-firm',
+		emissionType: 'chemical',
+		desc: 'An epidemic of skin, gut and mental decline was assumed infectious. Investigating why it tracked a maize-heavy diet revealed dietary niacin deficiency, not a germ.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Mooney et al. 2014, Am J Epidemiol',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4108042/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'colorado-brown-stain',
+		name: 'Colorado Brown Stain (fluoride)',
+		tier: 'solved',
+		category: 'solved',
+		lat: 38.834,
+		lng: -104.821,
+		r: 40,
+		certainty: 'solved-firm',
+		emissionType: 'chemical',
+		desc: 'Residents had grotesquely mottled but decay-resistant teeth. Tracing town water sources revealed natural fluoride, the detective story that founded water fluoridation.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'NIDCR, The Story of Fluoridation',
+				url: 'https://www.nidcr.nih.gov/health-info/fluoride/the-story-of-fluoridation',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'tropical-ataxic',
+		name: 'Tropical ataxic neuropathy',
+		tier: 'solved',
+		category: 'solved',
+		lat: 6.85,
+		lng: 3.95,
+		r: 120,
+		certainty: 'solved-debated',
+		emissionType: 'chemical',
+		desc: 'A slow loss of coordination clustered in cassava-dependent villages. Asking why led to chronic cyanide from poorly processed cassava; one later study failed to reproduce the link.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Oluwole & Oludiran 2013, Int J Health Geogr',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3847696/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'haff-disease',
+		name: 'Haff disease',
+		tier: 'solved',
+		category: 'solved',
+		lat: 54.45,
+		lng: 19.75,
+		r: 40,
+		certainty: 'open',
+		emissionType: 'chemical',
+		desc: 'Sudden crushing muscle breakdown after eating local fish, first seen in 1924 and recurring worldwide. The fish link is certain; the heat-stable toxin is still not identified.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Yangtze outbreak 2020, Emerg Infect Dis',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC7706968/',
+				openAccess: true
+			}
+		]
+	},
+
+	// ===================== ANTHROPOGENIC =====================
+	{
+		id: 'gabala',
+		name: 'Gabala Radar Station',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 40.8691,
+		lng: 47.8016,
+		r: 30,
+		certainty: 'anecdotal',
+		emissionType: 'rf',
+		desc: 'A Soviet early-warning radar (non-ionizing RF). Residents reported birth defects and chronic illness, but rigorous independent study is essentially absent and official surveys were inconclusive.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Gabala Radar Station, local health awareness (CRRC)',
+				url: 'https://crrc.ge/en/gabala-radar-station-local-health-awareness/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'skrunda',
+		name: 'Skrunda Radar Station',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 56.7,
+		lng: 21.99,
+		r: 25,
+		certainty: 'contested',
+		emissionType: 'rf',
+		desc: 'Published studies reported poorer memory and attention in children living near this Soviet early-warning radar, but the findings are contested and not accepted as proof of RF harm.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Kolodynski & Kolodynska 1996, Sci Total Environ',
+				url: 'https://eurekamag.com/research/009/057/009057100.php',
+				openAccess: false
+			}
+		]
+	},
+	{
+		id: 'semipalatinsk',
+		name: 'Semipalatinsk Polygon',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 50.07,
+		lng: 78.43,
+		r: 200,
+		certainty: 'established',
+		emissionType: 'ionizing',
+		desc: 'Soviet nuclear test fallout exposed downwind villages to doses comparable to Hiroshima survivors. Studies link it to leukemia, solid cancers and congenital malformations; long concealed.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Studies of Health Effects near Semipalatinsk 2017',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5661192/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'nevada-downwinders',
+		name: 'Nevada Test Site downwinders',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 37.0,
+		lng: -116.0,
+		r: 250,
+		certainty: 'acknowledged-late',
+		emissionType: 'ionizing',
+		desc: 'Above-ground tests exposed downwind communities to iodine-131, raising thyroid cancer and leukemia. Long denied, then acknowledged through federal compensation.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'NCI I-131 fallout assessment',
+				url: 'https://www.cancer.gov/about-cancer/causes-prevention/risk/radiation/i-131',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'marshall-islands',
+		name: 'Marshall Islands (Bikini, Rongelap)',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 11.6,
+		lng: 165.4,
+		r: 120,
+		certainty: 'established',
+		emissionType: 'ionizing',
+		desc: 'Castle Bravo and other tests heavily contaminated inhabited atolls, causing thyroid disease, cancers and forced relocations, with compensation only much later.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Simon, Bouville et al. 2010, Health Physics',
+				url: 'https://pubmed.ncbi.nlm.nih.gov/20622547/',
+				openAccess: false
+			}
+		]
+	},
+	{
+		id: 'maralinga',
+		name: 'Maralinga',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: -30.17,
+		lng: 131.62,
+		r: 120,
+		certainty: 'acknowledged-late',
+		emissionType: 'ionizing',
+		desc: 'British tests exposed Aboriginal communities and personnel to fallout and plutonium contamination. A 1985 Royal Commission led to cleanup and compensation after long denial.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'ARPANSA Maralinga information',
+				url: 'https://www.arpansa.gov.au',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'lop-nur',
+		name: 'Lop Nur test site',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 40.8,
+		lng: 89.5,
+		r: 200,
+		certainty: 'contested',
+		emissionType: 'ionizing',
+		desc: 'Chinese atmospheric tests over decades. Claims of large excess cancers among Uyghur and downwind populations are serious but rest on modeling, since local health data are state-controlled.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Lop Nor contamination review 2025, J Radiat Res',
+				url: 'https://academic.oup.com/jrr/article/66/1/24/7954235',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'mururoa',
+		name: 'Mururoa and Fangataufa',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: -21.83,
+		lng: -138.9,
+		r: 150,
+		certainty: 'acknowledged-late',
+		emissionType: 'ionizing',
+		desc: 'French tests sent fallout over inhabited atolls. France long denied harm, then compensated victims; declassified data suggest exposures were larger than admitted.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Moruroa Files (Disclose / Princeton)',
+				url: 'https://moruroa-files.org',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'mayak',
+		name: 'Mayak / Techa River',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 55.7,
+		lng: 60.8,
+		r: 150,
+		certainty: 'established',
+		emissionType: 'ionizing',
+		desc: 'A plutonium complex that dumped waste into the Techa River and exploded in 1957, kept secret for decades. The Techa River cohort shows clear dose-related leukemia and solid cancers.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Techa River cohort cancer incidence',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3661945/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'hanford',
+		name: 'Hanford Site downwinders',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 46.55,
+		lng: -119.49,
+		r: 120,
+		certainty: 'contested',
+		emissionType: 'ionizing',
+		desc: 'Plutonium production, including a deliberate 1949 iodine-131 release, exposed downwind communities. The thyroid disease study found no clear dose-response, a contested null.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Hanford Thyroid Disease Study (CDC)',
+				url: 'https://www.cdc.gov/nceh/radiation/hanford/htdsweb/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'sellafield-seascale',
+		name: 'Sellafield / Seascale cluster',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 54.42,
+		lng: -3.5,
+		r: 25,
+		certainty: 'contested',
+		emissionType: 'ionizing',
+		desc: 'A childhood leukaemia cluster near the reprocessing site. The cluster is real but its cause remains unexplained, with the original paternal-irradiation hypothesis largely rejected.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'COMARE reports on Sellafield/Seascale',
+				url: 'https://www.gov.uk/government/collections/comare-reports',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'santa-susana',
+		name: 'Santa Susana Field Laboratory',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 34.23,
+		lng: -118.69,
+		r: 25,
+		certainty: 'contested',
+		emissionType: 'mixed',
+		desc: 'A 1959 partial meltdown plus rocket-engine testing. Surrounding communities allege elevated cancers; one study reported a raised rate within a few miles, disputed by others.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'EPA Santa Susana Field Laboratory',
+				url: 'https://www.epa.gov/radiation/santa-susana-field-laboratory',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'navajo-churchrock',
+		name: 'Navajo uranium / Church Rock',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 35.64,
+		lng: -108.6,
+		r: 120,
+		certainty: 'acknowledged-late',
+		emissionType: 'ionizing',
+		desc: 'Hundreds of abandoned mines and the 1979 Church Rock tailings spill, one of the largest US radioactive releases. Miner lung cancer is established; community effects are documented.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'EPA Navajo Nation uranium cleanup',
+				url: 'https://www.epa.gov/navajo-nation-uranium-cleanup',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'jadugoda',
+		name: 'Jadugoda uranium mines',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 22.65,
+		lng: 86.36,
+		r: 30,
+		certainty: 'contested',
+		emissionType: 'ionizing',
+		desc: 'Doctors surveys report congenital deformities, stillbirths and infertility far above comparison villages near the tailings; the operator disputes the methodology and a radiation link.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Indian Doctors for Peace and Development, Jadugoda survey',
+				url: 'https://www.ippnw.org/wp-content/uploads/2020/07/JadugodaHealthSurvey.pdf',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'goiania',
+		name: 'Goiania Cs-137 accident',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: -16.68,
+		lng: -49.25,
+		r: 15,
+		certainty: 'established',
+		emissionType: 'ionizing',
+		desc: 'A scavenged radiotherapy cesium-137 source contaminated a neighborhood in 1987, killing four and contaminating hundreds. A fully documented acute radiological accident.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'IAEA, The Radiological Accident in Goiania 1988',
+				url: 'https://www.iaea.org/publications/3684/the-radiological-accident-in-goiania',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'fallujah',
+		name: 'Fallujah birth defects',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 33.35,
+		lng: 43.78,
+		r: 40,
+		certainty: 'contested',
+		emissionType: 'mixed',
+		desc: 'Sharp rises in congenital birth defects and childhood cancer were reported after the 2004 battles. The claims are heavily contested and the specific depleted-uranium causation is unproven.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Busby, Hamdan, Ariabi 2010, IJERPH',
+				url: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2922729/',
+				openAccess: true
+			},
+			{
+				type: 'review',
+				ref: 'Birth defects in Iraq: a review 2012, Conflict and Health',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3492088/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'balkan-syndrome',
+		name: 'Balkan syndrome (NATO DU)',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 42.66,
+		lng: 21.17,
+		r: 120,
+		certainty: 'contested',
+		emissionType: 'ionizing',
+		desc: 'Veterans and residents allege cancers from NATO depleted-uranium munitions. WHO and UNEP field studies found no clear population radiological harm, while noting localized contamination.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'UNEP, Depleted Uranium in Kosovo 2001',
+				url: 'https://www.unep.org',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'vieques',
+		name: 'Vieques bombing range',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 18.13,
+		lng: -65.43,
+		r: 20,
+		certainty: 'contested',
+		emissionType: 'chemical',
+		desc: 'Decades of live-fire training left a Superfund site. Residents report higher cancer and other disease; a causal link to munitions contamination is debated.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'ATSDR Vieques public health assessments',
+				url: 'https://www.atsdr.cdc.gov/sites/vieques/',
+				openAccess: true
+			}
+		]
+	},
+
+	// ===================== ADDITIONAL: NATURAL =====================
+	{
+		id: 'australia-uv',
+		name: 'Australian UV / melanoma belt',
+		tier: 'established',
+		category: 'radiation',
+		lat: -23.0,
+		lng: 144.0,
+		r: 300,
+		certainty: 'established',
+		desc: "Intense ambient solar ultraviolet over a fair-skinned population gives Australia, especially Queensland, the world's highest melanoma rates. A naturally occurring radiation exposure.",
+		citations: [
+			{
+				type: 'agency',
+				ref: 'AIHW, Cancer data in Australia',
+				url: 'https://www.aihw.gov.au/reports/cancer/cancer-data-in-australia',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'punjab-uranium',
+		name: 'Malwa uranium groundwater (Punjab)',
+		tier: 'gray',
+		category: 'gray',
+		lat: 30.21,
+		lng: 74.95,
+		r: 120,
+		certainty: 'open',
+		emissionType: 'chemical',
+		desc: 'Naturally elevated uranium in shallow groundwater across southwest Punjab, often above the WHO guideline. Local claims of kidney damage and birth defects rest on ecological correlations and are confounded by fluoride and pesticides.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Bajwa et al. 2017, J Radiat Res Appl Sci',
+				url: 'https://www.sciencedirect.com/science/article/pii/S1687850715000059',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'sri-lanka-ckdu',
+		name: 'Sri Lankan CKDu (dry zone)',
+		tier: 'gray',
+		category: 'gray',
+		lat: 8.35,
+		lng: 80.65,
+		r: 70,
+		certainty: 'open',
+		emissionType: 'chemical',
+		desc: 'A chronic kidney disease of unknown cause clusters among dry-zone farmers. Hypotheses span water hardness with fluoride, cadmium or arsenic from fertilizer, agrochemicals, and heat stress; none is confirmed.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Wimalawansa 2016, CKDu in Sri Lanka',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5102238/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'mesoamerican-nephropathy',
+		name: 'Mesoamerican nephropathy',
+		tier: 'gray',
+		category: 'gray',
+		lat: 12.57,
+		lng: -87.03,
+		r: 90,
+		certainty: 'open',
+		emissionType: 'chemical',
+		desc: 'A fatal kidney disease strikes young male farm laborers on the Pacific lowlands of Central America. Recurrent heat stress with dehydration versus agrochemicals and heavy metals are debated; the cause is unresolved.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Mesoamerican Nephropathy review 2020',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC7588276/',
+				openAccess: true
+			}
+		]
+	},
+
+	// ===================== ADDITIONAL: ANTHROPOGENIC DISASTERS =====================
+	{
+		id: 'chernobyl',
+		name: 'Chernobyl exclusion zone',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 51.39,
+		lng: 30.1,
+		r: 90,
+		certainty: 'established',
+		emissionType: 'ionizing',
+		desc: 'The 1986 reactor explosion contaminated large areas of Ukraine and Belarus. Childhood thyroid cancer from iodine-131 is firmly established; broader effects range from supported to contested.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'WHO, Chernobyl health effects',
+				url: 'https://www.who.int/news-room/questions-and-answers/item/chernobyl-health-effects',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'fukushima',
+		name: 'Fukushima Daiichi',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 37.42,
+		lng: 141.03,
+		r: 50,
+		certainty: 'contested',
+		emissionType: 'ionizing',
+		desc: 'The 2011 meltdown released radionuclides over Fukushima. Thyroid screening found many nodules in children, but most experts attribute this to the screening effect rather than radiation, a genuinely contested question.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'UNSCEAR 2020/2021 Fukushima report',
+				url: 'https://www.unscear.org/unscear/en/publications/2020_2021_1.html',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'bhopal',
+		name: 'Bhopal gas disaster',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 23.2599,
+		lng: 77.4126,
+		r: 18,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'In 1984 a pesticide plant leaked methyl isocyanate over Bhopal, killing thousands within days and leaving chronic respiratory, ocular and reproductive harm. One of the worst industrial disasters in history.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Broughton 2005, Environmental Health',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC1142333/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'minamata',
+		name: 'Minamata disease',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 32.21,
+		lng: 130.4,
+		r: 18,
+		certainty: 'acknowledged-late',
+		emissionType: 'chemical',
+		desc: 'A factory discharged methylmercury into Minamata Bay for decades; it bioaccumulated in fish and caused a devastating neurological disease, recognized only after long denial. The natural vector was the local seafood diet.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'National Institute for Minamata Disease',
+				url: 'https://www.nimd.go.jp/archives/english/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'seveso',
+		name: 'Seveso dioxin release',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 45.65,
+		lng: 9.15,
+		r: 16,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'A 1976 chemical plant accident exposed a town north of Milan to TCDD dioxin, causing chloracne and, in long-term follow-up, raising some cancer risks. It prompted the EU Seveso industrial-safety directives.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Bertazzi et al. 2001, Am J Epidemiol',
+				url: 'https://pubmed.ncbi.nlm.nih.gov/11447040/',
+				openAccess: false
+			}
+		]
+	},
+	{
+		id: 'enewetak',
+		name: 'Enewetak Atoll tests',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 11.5,
+		lng: 162.33,
+		r: 60,
+		certainty: 'established',
+		emissionType: 'ionizing',
+		desc: 'A second major US Pacific test site, where dozens of detonations left lasting contamination; cleanup waste is entombed under the Runit Dome. Part of the same testing legacy as Bikini.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Simon, Bouville et al. 2010, Health Physics',
+				url: 'https://pubmed.ncbi.nlm.nih.gov/20622547/',
+				openAccess: false
+			}
+		]
+	},
+	{
+		id: 'kiritimati',
+		name: 'Christmas Island (Kiritimati) tests',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 1.87,
+		lng: -157.4,
+		r: 40,
+		certainty: 'anecdotal',
+		emissionType: 'ionizing',
+		desc: 'The US and UK conducted atmospheric nuclear tests near Christmas Island in the late 1950s and 1960s. Veterans and islanders report later illness, but rigorous local epidemiology is limited.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Operation Grapple (overview)',
+				url: 'https://en.wikipedia.org/wiki/Operation_Grapple',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'three-mile-island',
+		name: 'Three Mile Island',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 40.15,
+		lng: -76.72,
+		r: 18,
+		certainty: 'contested',
+		emissionType: 'ionizing',
+		desc: 'The 1979 partial meltdown in Pennsylvania released a small amount of radioactivity. Official reviews found no clear health impact, while some community studies dispute that; the case remains contested.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'US NRC, Three Mile Island accident',
+				url: 'https://www.nrc.gov/reading-rm/doc-collections/fact-sheets/3mile-isle.html',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'kuwait-oil-fires',
+		name: 'Kuwait oil fires (1991)',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 29.2,
+		lng: 47.8,
+		r: 70,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'Retreating forces set hundreds of oil wells ablaze in 1991, blanketing the region in soot and toxic smoke for months with documented respiratory effects. A deliberate man-made airborne catastrophe.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Kuwaiti oil fires (overview)',
+				url: 'https://en.wikipedia.org/wiki/Kuwaiti_oil_fires',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'love-canal',
+		name: 'Love Canal',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 43.08,
+		lng: -78.95,
+		r: 12,
+		certainty: 'acknowledged-late',
+		emissionType: 'chemical',
+		desc: 'A neighborhood built over a buried chemical-waste dump in New York suffered seepage linked to miscarriages and birth defects, recognized after residents organized. It launched the US Superfund program.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'US EPA, Love Canal',
+				url: 'https://www.epa.gov/history/love-canal',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'centralia',
+		name: 'Centralia mine fire',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 40.8,
+		lng: -76.34,
+		r: 10,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'An underground coal-seam fire ignited in 1962 still burns beneath this Pennsylvania town, venting carbon monoxide and causing subsidence; the town was largely abandoned. A slow man-made disaster.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Centralia mine fire (overview)',
+				url: 'https://en.wikipedia.org/wiki/Centralia,_Pennsylvania',
+				openAccess: true
+			}
+		]
+	},
+
+	// ===================== EXPANSION: NATURAL =====================
+	{
+		id: 'nz-uv',
+		name: 'New Zealand UV / melanoma',
+		tier: 'established',
+		category: 'radiation',
+		lat: -41.5,
+		lng: 172.5,
+		r: 200,
+		certainty: 'established',
+		desc: 'Clean air, a thin ozone column and a fair-skinned population give New Zealand, including the South Island, melanoma rates among the highest on Earth. Ambient solar ultraviolet, island-wide.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'UNEP Environmental Effects Assessment, UV and ozone',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8860140/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'punta-arenas-uv',
+		name: 'Punta Arenas ozone-hole UV',
+		tier: 'established',
+		category: 'radiation',
+		lat: -53.16,
+		lng: -70.92,
+		r: 60,
+		certainty: 'established',
+		desc: 'Southern Patagonia sits under the edge of the Antarctic ozone hole, with springtime UV-B spikes far above normal. Studies report rising melanoma and ocular damage during depleted-ozone episodes.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Abarca & Casiccia 2002, ozone-hole skin disease, S. Chile',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC1615121/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'wittenoom',
+		name: 'Wittenoom crocidolite',
+		tier: 'established',
+		category: 'fiber',
+		lat: -22.24,
+		lng: 118.34,
+		r: 20,
+		certainty: 'established',
+		desc: 'Blue asbestos (crocidolite) was mined here until 1966, and tailings were spread through the town. Workers and residents suffered catastrophic mesothelioma; the town was degazetted and erased from maps.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Wittenoom 50-year follow-up, Br J Cancer 2012',
+				url: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3305966/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'leadville',
+		name: 'Leadville high-altitude',
+		tier: 'established',
+		category: 'altitude',
+		lat: 39.2508,
+		lng: -106.2925,
+		r: 15,
+		certainty: 'established',
+		desc: 'The highest incorporated city in the contiguous US (about 3100 m), with a largely non-adapted population, a key site for high-altitude pulmonary hypertension and elevated pregnancy complications.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'High-Altitude Pulmonary Hypertension outcomes 2017',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5361756/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'lake-kivu',
+		name: 'Lake Kivu gas hazard',
+		tier: 'established',
+		category: 'airborne',
+		lat: -2.0,
+		lng: 29.1,
+		r: 35,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'A deep lake holding vast dissolved CO2 and methane, with more than two million people on its shores. A limnic eruption would be catastrophic; managed gas extraction now aims to reduce the risk.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Nature, How dangerous is Lake Kivu? 2021',
+				url: 'https://www.nature.com/immersive/d41586-021-02523-5/index.html',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'iceland-volcanic-gas',
+		name: 'Iceland volcanic gas',
+		tier: 'established',
+		category: 'airborne',
+		lat: 64.9,
+		lng: -18.0,
+		r: 80,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Fissure eruptions such as Holuhraun in 2014-2015 released huge SO2 plumes reaching inhabited areas; the 1783 Laki eruption caused mass mortality. Recurrent volcanic-gas exposure.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Carlsen et al. 2021, Environmental Health',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC7916308/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'owens-lake',
+		name: 'Owens Lake dust',
+		tier: 'established',
+		category: 'airborne',
+		lat: 36.4332,
+		lng: -117.9509,
+		r: 14,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'After Los Angeles diverted its river, the desiccated lakebed became the largest single PM10 dust source in the US, laden with arsenic and other metals. Controls have since cut emissions sharply.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'US EPA Region 9, Owens Valley',
+				url: 'https://19january2017snapshot.epa.gov/www3/region9/air/owens/qa.html',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'mekong-arsenic',
+		name: 'Mekong delta arsenic',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 11.0,
+		lng: 105.3,
+		r: 120,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Geogenic arsenic in young deltaic groundwater across Cambodia and southern Vietnam, highly variable over short distances, exposing hundreds of thousands who switched to tubewells.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Berg et al. 2007, Sci Total Environ',
+				url: 'https://folia.unifr.ch/global/documents/105358',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'hetao-arsenic',
+		name: 'Hetao Plain arsenic',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 40.7,
+		lng: 107.4,
+		r: 130,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'High natural arsenic in the shallow groundwater of Inner Mongolia, emerging after a switch to deep tube wells; the same northern Chinese basins also carry high fluoride.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Zheng et al. 2007, EHP',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC1852669/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'india-fluorosis',
+		name: 'Indian fluorosis belt',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 26.9,
+		lng: 75.8,
+		r: 160,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Granite and gneiss release fluoride into groundwater across Rajasthan, Telangana and beyond, the type region of Indian endemic dental and skeletal fluorosis.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Khairnar et al. 2015, J Clin Diagn Res',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4525626/',
+				openAccess: true
+			}
+		]
+	},
+
+	// ===================== EXPANSION: GRAY =====================
+	{
+		id: 'iberia-radon',
+		name: 'Iberian granite radon',
+		tier: 'gray',
+		category: 'gray',
+		lat: 42.2,
+		lng: -8.0,
+		r: 90,
+		certainty: 'contested',
+		emissionType: 'ionizing',
+		desc: 'Granite bedrock in Galicia and central Portugal releases radon into homes, comparable to Cornwall. The high-dose lung-cancer link is solid; the low-dose regional gradient stays argued.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Darby et al. 2005, BMJ (residential radon)',
+				url: 'https://doi.org/10.1136/bmj.38308.477650.63',
+				openAccess: true,
+				doi: '10.1136/bmj.38308.477650.63'
+			}
+		]
+	},
+	{
+		id: 'fennoscandia-radon',
+		name: 'Fennoscandian shield radon',
+		tier: 'gray',
+		category: 'gray',
+		lat: 61.0,
+		lng: 15.0,
+		r: 250,
+		certainty: 'contested',
+		emissionType: 'ionizing',
+		desc: 'Widespread granite-derived radon across the Nordic shield gives chronic low-level indoor exposure, with a contested low-dose gradient.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Darby et al. 2005, BMJ (residential radon)',
+				url: 'https://doi.org/10.1136/bmj.38308.477650.63',
+				openAccess: true,
+				doi: '10.1136/bmj.38308.477650.63'
+			}
+		]
+	},
+	{
+		id: 'alaska-photoperiod',
+		name: 'Alaska photoperiod and cosmic dose',
+		tier: 'gray',
+		category: 'gray',
+		lat: 64.5,
+		lng: -150.0,
+		r: 300,
+		certainty: 'open',
+		desc: 'Extreme seasonal light-dark swings plus elevated cosmic-ray dose and locally high radon. A plausible chronic circadian and radiation load, poorly isolated in research.',
+		citations: [
+			{
+				type: 'skeptical',
+				ref: 'Johnsen et al. 2012, BMC Psychiatry (Tromso paradox)',
+				url: 'https://doi.org/10.1186/1471-244X-12-225',
+				openAccess: true,
+				doi: '10.1186/1471-244X-12-225'
+			}
+		]
+	},
+
+	// ===================== EXPANSION: SOLVED / OPEN =====================
+	{
+		id: 'mseleni',
+		name: 'Mseleni joint disease',
+		tier: 'solved',
+		category: 'solved',
+		lat: -27.339,
+		lng: 32.564,
+		r: 40,
+		certainty: 'open',
+		desc: 'A crippling hip disease found only around this remote South African community since 1970. Fifty years of checks (manganese, low calcium, fungal toxins, a founder gene) leave the cause unresolved.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Dinkele et al. 2020, Lancet Rheumatology',
+				url: 'https://pubmed.ncbi.nlm.nih.gov/38258279/',
+				openAccess: false
+			}
+		]
+	},
+
+	// ===================== EXPANSION: ANTHROPOGENIC =====================
+	{
+		id: 'norilsk',
+		name: 'Norilsk smelter pollution',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 69.35,
+		lng: 88.2,
+		r: 40,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'An Arctic nickel-copper smelting complex pours out sulfur dioxide and heavy metals, with reduced life expectancy and respiratory disease. One of the most polluted cities on Earth.',
+		citations: [
+			{
+				type: 'agency',
+				ref: "Pure Earth, World's Worst Polluted Places",
+				url: 'https://www.pureearth.org/learn-more/worlds-worst-polluted-places/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'kabwe',
+		name: 'Kabwe lead poisoning',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: -14.45,
+		lng: 28.45,
+		r: 25,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'A century of lead mining and smelting left soils and children with extreme lead burdens. Among the most lead-poisoned places in the world.',
+		citations: [
+			{
+				type: 'agency',
+				ref: "Pure Earth, World's Worst Polluted Places",
+				url: 'https://www.pureearth.org/learn-more/worlds-worst-polluted-places/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'la-oroya',
+		name: 'La Oroya smelter',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: -11.52,
+		lng: -75.9,
+		r: 18,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'A polymetallic smelter in the Peruvian Andes gave nearly all local children elevated blood lead, with sulfur dioxide and arsenic exposure across the town.',
+		citations: [
+			{
+				type: 'agency',
+				ref: "Pure Earth, World's Worst Polluted Places",
+				url: 'https://www.pureearth.org/learn-more/worlds-worst-polluted-places/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'agbogbloshie',
+		name: 'Agbogbloshie e-waste',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 5.55,
+		lng: -0.23,
+		r: 12,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'A large electronic-waste processing area in Accra where cable burning released lead, dioxins and heavy metals into soil, air and workers.',
+		citations: [
+			{
+				type: 'agency',
+				ref: "Pure Earth, World's Worst Polluted Places",
+				url: 'https://www.pureearth.org/learn-more/worlds-worst-polluted-places/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'dzerzhinsk',
+		name: 'Dzerzhinsk chemical legacy',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 56.24,
+		lng: 43.46,
+		r: 20,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'A former Soviet chemical-weapons and industry hub in Russia, with groundwater and soil heavily contaminated by toxic byproducts and sharply reduced local life expectancy.',
+		citations: [
+			{
+				type: 'agency',
+				ref: "Pure Earth, World's Worst Polluted Places",
+				url: 'https://www.pureearth.org/learn-more/worlds-worst-polluted-places/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'itai-itai',
+		name: 'Itai-itai (Toyama cadmium)',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 36.7,
+		lng: 137.2,
+		r: 25,
+		certainty: 'acknowledged-late',
+		emissionType: 'chemical',
+		desc: 'Mining cadmium discharged upstream contaminated paddy rice in the Jinzu basin, causing brittle, painful bones, Japan first officially recognized pollution disease. The vector was the local rice.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Aoshima 2016, Soil Sci Plant Nutr',
+				url: 'https://www.tandfonline.com/doi/full/10.1080/00380768.2016.1159116',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'flint',
+		name: 'Flint water crisis',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 43.01,
+		lng: -83.69,
+		r: 12,
+		certainty: 'acknowledged-late',
+		emissionType: 'chemical',
+		desc: 'A 2014 switch in water source without corrosion control leached lead from pipes, raising childrens blood lead across the city before officials acknowledged it.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Hanna-Attisha et al. 2016, Am J Public Health',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4985856/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'ogoniland',
+		name: 'Ogoniland oil pollution',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 4.7,
+		lng: 7.3,
+		r: 40,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Decades of oil spills and gas flaring in the Niger Delta contaminated soil, water and air; a UN assessment found benzene in drinking water far above safe limits.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'UNEP, Environmental Assessment of Ogoniland 2011',
+				url: 'https://www.unep.org/explore-topics/disasters-conflicts/where-we-work/nigeria',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'palomares',
+		name: 'Palomares plutonium',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 37.24,
+		lng: -1.8,
+		r: 10,
+		certainty: 'acknowledged-late',
+		emissionType: 'ionizing',
+		desc: 'A 1966 mid-air collision dropped US hydrogen bombs near this Spanish village; two ruptured and scattered plutonium across farmland, with contamination and cleanup disputes lasting decades.',
+		citations: [
+			{
+				type: 'agency',
+				ref: '1966 Palomares incident (overview)',
+				url: 'https://en.wikipedia.org/wiki/1966_Palomares_incident',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'tokaimura',
+		name: 'Tokaimura criticality',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 36.47,
+		lng: 140.57,
+		r: 10,
+		certainty: 'established',
+		emissionType: 'ionizing',
+		desc: 'A 1999 criticality accident at a fuel facility in Japan killed two workers and exposed others and nearby residents to a burst of radiation. A localized, well-documented event.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Tokaimura nuclear accidents (overview)',
+				url: 'https://en.wikipedia.org/wiki/Tokaimura_nuclear_accidents',
+				openAccess: true
+			}
+		]
+	},
+
+	// ===================== EXPANSION 2: MORE NATURAL =====================
+	{
+		id: 'red-river-arsenic',
+		name: 'Red River delta arsenic',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 21.0,
+		lng: 105.85,
+		r: 110,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Natural arsenic in shallow groundwater around Hanoi; deep-aquifer pumping has drawn contamination downward over a century.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Winkel et al. 2011, PNAS',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3029707/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'indus-arsenic',
+		name: 'Indus Plain arsenic (Pakistan)',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 30.5,
+		lng: 71.5,
+		r: 200,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Geogenic arsenic across the alluvial Indus Plain may expose tens of millions, mapped by large-scale hazard modeling.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'Podgorski et al. 2017, Science Advances',
+				url: 'https://www.science.org/doi/10.1126/sciadv.1700935',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'lagunera-arsenic',
+		name: 'Comarca Lagunera arsenic (Mexico)',
+		tier: 'established',
+		category: 'chemistry',
+		lat: 25.5,
+		lng: -103.4,
+		r: 90,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'Naturally arsenic-rich groundwater in a north-central Mexican basin, a long-recognized endemic arsenicism region.',
+		citations: [
+			{
+				type: 'review',
+				ref: 'Hong et al. 2011, Sci Total Environ',
+				url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3977337/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'lake-monoun',
+		name: 'Lake Monoun CO2',
+		tier: 'established',
+		category: 'airborne',
+		lat: 5.58,
+		lng: 10.58,
+		r: 12,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'A Cameroonian crater lake whose 1984 limnic CO2 release killed 37 people, the precursor to the larger Lake Nyos disaster. Now monitored and degassed.',
+		citations: [
+			{
+				type: 'primary',
+				ref: 'CO2-enriched water at Lake Monoun 2022, Front Earth Sci',
+				url: 'https://doi.org/10.3389/feart.2022.766791',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'dieng-co2',
+		name: 'Dieng Plateau CO2',
+		tier: 'established',
+		category: 'airborne',
+		lat: -7.2,
+		lng: 109.92,
+		r: 14,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'A volcanic plateau in Java where cold CO2 outbursts have asphyxiated people and livestock, including a 1979 event that killed scores fleeing an eruption.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Dieng volcanic complex (overview)',
+				url: 'https://en.wikipedia.org/wiki/Dieng_Volcanic_Complex',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'salton-sea',
+		name: 'Salton Sea dust',
+		tier: 'established',
+		category: 'airborne',
+		lat: 33.3,
+		lng: -115.8,
+		r: 25,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'A shrinking saline lake in California exposing a dusty, contaminant-laden lakebed; the surrounding Imperial Valley has some of the highest child asthma rates in the state.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Salton Sea (overview)',
+				url: 'https://en.wikipedia.org/wiki/Salton_Sea',
+				openAccess: true
+			}
+		]
+	},
+
+	// ===================== EXPANSION 2: MORE ANTHROPOGENIC =====================
+	{
+		id: 'rocky-flats',
+		name: 'Rocky Flats Plant',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 39.89,
+		lng: -105.19,
+		r: 18,
+		certainty: 'contested',
+		emissionType: 'ionizing',
+		desc: 'A former plutonium-pit plant near Denver that suffered fires and contamination. Plutonium in soils is documented; community cancer claims are disputed, and reuse as a wildlife refuge is contested.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Rocky Flats Plant (overview)',
+				url: 'https://en.wikipedia.org/wiki/Rocky_Flats_Plant',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'sumgayit',
+		name: 'Sumgayit chemical legacy',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 40.59,
+		lng: 49.67,
+		r: 18,
+		certainty: 'established',
+		emissionType: 'chemical',
+		desc: 'A Soviet petrochemical and industrial center in Azerbaijan left with heavy mercury and organic contamination and elevated local cancer and birth-defect reports.',
+		citations: [
+			{
+				type: 'agency',
+				ref: "Pure Earth, World's Worst Polluted Places",
+				url: 'https://www.pureearth.org/learn-more/worlds-worst-polluted-places/',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'picher',
+		name: 'Picher / Tar Creek',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 36.98,
+		lng: -94.83,
+		r: 14,
+		certainty: 'acknowledged-late',
+		emissionType: 'chemical',
+		desc: 'Decades of lead and zinc mining left giant chat piles and lead-poisoned children in this Oklahoma town, a Superfund site that was bought out and abandoned.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Picher, Oklahoma / Tar Creek (overview)',
+				url: 'https://en.wikipedia.org/wiki/Picher,_Oklahoma',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'hinkley',
+		name: 'Hinkley chromium-6',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 34.94,
+		lng: -117.18,
+		r: 12,
+		certainty: 'contested',
+		emissionType: 'chemical',
+		desc: 'A utility discharged hexavalent chromium into the groundwater of this Mojave town, the basis of a famous lawsuit. The cancer-cluster claim remains scientifically contested.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Hinkley, California (overview)',
+				url: 'https://en.wikipedia.org/wiki/Hinkley,_California',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'anniston',
+		name: 'Anniston PCBs',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 33.66,
+		lng: -85.83,
+		r: 14,
+		certainty: 'acknowledged-late',
+		emissionType: 'chemical',
+		desc: 'A chemical plant discharged PCBs for decades in this Alabama town, contaminating soil and residents; internal documents showed the harm was known and concealed.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Anniston, Alabama (overview)',
+				url: 'https://en.wikipedia.org/wiki/Anniston,_Alabama',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'karabash',
+		name: 'Karabash copper smelter',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 55.48,
+		lng: 60.2,
+		r: 16,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'A century-old copper smelter in the Urals stripped surrounding hills bare and left acid rain, heavy metals and severe respiratory disease, once called one of the most polluted spots on Earth.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'Karabash (overview)',
+				url: 'https://en.wikipedia.org/wiki/Karabash',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'linfen',
+		name: 'Linfen coal air',
+		tier: 'anthropogenic',
+		category: 'anthropogenic',
+		lat: 36.08,
+		lng: 111.5,
+		r: 30,
+		certainty: 'established',
+		emissionType: 'mixed',
+		desc: 'A coal-industry city in Shanxi long ranked among the worst for air quality, with heavy particulate and sulfur pollution from mining, coking and power generation.',
+		citations: [
+			{
+				type: 'agency',
+				ref: "Pure Earth, World's Worst Polluted Places",
+				url: 'https://www.pureearth.org/learn-more/worlds-worst-polluted-places/',
+				openAccess: true
+			}
+		]
+	},
+
+	// ===================== EXPANSION 3: RADON-PRONE TERRAIN =====================
+	{ id: 'radon-us-midwest', name: 'US Upper Midwest radon', tier: 'gray', category: 'gray', lat: 44.0, lng: -96.0, r: 180, certainty: 'contested', emissionType: 'ionizing', desc: 'The Upper Midwest and Northern Plains (Minnesota, Iowa, the Dakotas, Nebraska) are EPA Zone 1, with among the highest indoor radon in the US.', citations: [{ type: 'agency', ref: 'US EPA Map of Radon Zones', url: 'https://www.epa.gov/radon/epa-map-radon-zones', openAccess: true }] },
+	{ id: 'radon-us-appalachia', name: 'Appalachia / Ohio Valley radon', tier: 'gray', category: 'gray', lat: 39.5, lng: -81.0, r: 160, certainty: 'contested', emissionType: 'ionizing', desc: 'Pennsylvania, Ohio, Kentucky, West Virginia and Virginia sit on high-radon EPA Zone 1 terrain.', citations: [{ type: 'agency', ref: 'US EPA Map of Radon Zones', url: 'https://www.epa.gov/radon/epa-map-radon-zones', openAccess: true }] },
+	{ id: 'radon-us-rockies', name: 'Mountain West radon', tier: 'gray', category: 'gray', lat: 39.7, lng: -105.5, r: 130, certainty: 'contested', emissionType: 'ionizing', desc: 'The Colorado Front Range and Mountain West sit on uranium-bearing rock with high indoor radon.', citations: [{ type: 'agency', ref: 'US EPA Map of Radon Zones', url: 'https://www.epa.gov/radon/epa-map-radon-zones', openAccess: true }] },
+	{ id: 'radon-us-newengland', name: 'New England radon', tier: 'gray', category: 'gray', lat: 43.6, lng: -72.0, r: 110, certainty: 'contested', emissionType: 'ionizing', desc: 'New England granite gives high indoor radon across Vermont, New Hampshire, Maine and parts of Massachusetts.', citations: [{ type: 'agency', ref: 'US EPA Map of Radon Zones', url: 'https://www.epa.gov/radon/epa-map-radon-zones', openAccess: true }] },
+	{ id: 'radon-us-piedmont', name: 'Carolina-Virginia Piedmont radon', tier: 'gray', category: 'gray', lat: 36.2, lng: -79.5, r: 120, certainty: 'contested', emissionType: 'ionizing', desc: 'The Piedmont of the Carolinas and Virginia has elevated radon from granitic and metamorphic bedrock.', citations: [{ type: 'agency', ref: 'US EPA Map of Radon Zones', url: 'https://www.epa.gov/radon/epa-map-radon-zones', openAccess: true }] },
+	{ id: 'radon-canada-prairies', name: 'Canadian Prairies radon', tier: 'gray', category: 'gray', lat: 50.5, lng: -104.0, r: 170, certainty: 'contested', emissionType: 'ionizing', desc: 'Saskatchewan and Manitoba have among the highest indoor radon levels in Canada.', citations: [{ type: 'agency', ref: 'Health Canada, Radon', url: 'https://www.canada.ca/en/health-canada/services/health-risks-safety/radiation/radon.html', openAccess: true }] },
+	{ id: 'radon-erzgebirge', name: 'Erzgebirge radon', tier: 'gray', category: 'gray', lat: 50.5, lng: 13.0, r: 110, certainty: 'contested', emissionType: 'ionizing', desc: "The Erzgebirge on the Czech-German border is Europe's classic high-radon uranium terrain.", citations: [{ type: 'agency', ref: 'European radon map (overview)', url: 'https://remon.jrc.ec.europa.eu/', openAccess: true }] },
+	{ id: 'radon-france', name: 'French granite radon', tier: 'gray', category: 'gray', lat: 46.0, lng: 2.5, r: 150, certainty: 'contested', emissionType: 'ionizing', desc: 'Granitic Massif Central and Brittany are the main radon-prone regions of France.', citations: [{ type: 'agency', ref: 'European radon map (overview)', url: 'https://remon.jrc.ec.europa.eu/', openAccess: true }] },
+
+	// ===================== EXPANSION 3: UV BELTS (solar ultraviolet) =====================
+	{ id: 'uv-us-southeast', name: 'US Southeast / Florida UV', tier: 'established', category: 'radiation', lat: 29.0, lng: -83.0, r: 150, certainty: 'established', desc: 'High year-round ambient solar UV across the southeastern US and Florida, with correspondingly high skin-cancer rates.', citations: [{ type: 'agency', ref: 'UNEP Environmental Effects Assessment, UV', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8860140/', openAccess: true }] },
+	{ id: 'uv-us-southwest', name: 'US Southwest UV', tier: 'established', category: 'radiation', lat: 33.5, lng: -111.5, r: 150, certainty: 'established', desc: 'Intense ambient UV across Arizona, New Mexico and the desert Southwest.', citations: [{ type: 'agency', ref: 'UNEP Environmental Effects Assessment, UV', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8860140/', openAccess: true }] },
+	{ id: 'uv-tropics-africa', name: 'Sahel / tropical Africa UV', tier: 'established', category: 'radiation', lat: 12.0, lng: 18.0, r: 280, certainty: 'established', desc: 'Very high year-round ambient UV across the Sahel and tropical Africa.', citations: [{ type: 'agency', ref: 'UNEP Environmental Effects Assessment, UV', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8860140/', openAccess: true }] },
+	{ id: 'saharan-canaries', name: 'Saharan dust corridor', tier: 'established', category: 'airborne', lat: 28.0, lng: -16.0, r: 70, certainty: 'established', emissionType: 'mixed', desc: 'Saharan dust ("calima") regularly blankets the Canary Islands and nearby Atlantic coast.', citations: [{ type: 'primary', ref: 'Koren et al. 2006, Environ Res Lett', url: 'https://iopscience.iop.org/article/10.1088/1748-9326/1/1/014005', openAccess: true }] },
+
+	// ===================== EXPANSION 4: CAUCASUS & CASPIAN =====================
+	{ id: 'alaverdi', name: 'Alaverdi copper smelter', tier: 'anthropogenic', category: 'anthropogenic', lat: 41.1, lng: 44.66, r: 16, certainty: 'established', severity: 4, research: 4, emissionType: 'chemical', desc: "Armenia's main copper smelter fumed sulfur dioxide (about 38,000 tonnes in 2017, far over the legal limit) and heavy metals over the town until its recent shutdown; contamination persists.", health: 'Respiratory and cardiovascular disease, elevated cancer, and lead, arsenic and cadmium exposure in residents and workers.', citations: [{ type: 'primary', ref: 'Risk assessment of heavy metals in Alaverdi, Eur J Public Health 2015', url: 'https://academic.oup.com/eurpub/article/25/suppl_3/ckv172.024/2578253', openAccess: false }] },
+	{ id: 'kajaran', name: 'Kajaran copper-molybdenum mine', tier: 'anthropogenic', category: 'anthropogenic', lat: 39.15, lng: 46.16, r: 16, certainty: 'established', severity: 3, research: 3, emissionType: 'chemical', desc: "Armenia's largest mine, a vast open-pit copper-molybdenum operation in Syunik whose tailings and dust load the surrounding valleys with heavy metals.", health: 'Chronic heavy-metal (copper, molybdenum, arsenic) exposure and respiratory effects from mine dust and tailings.', citations: [{ type: 'agency', ref: 'Kajaran mine (overview)', url: 'https://en.wikipedia.org/wiki/Kajaran_mine', openAccess: true }] },
+	{ id: 'chiatura', name: 'Chiatura manganese', tier: 'anthropogenic', category: 'anthropogenic', lat: 42.29, lng: 43.28, r: 18, certainty: 'established', severity: 4, research: 3, emissionType: 'chemical', desc: 'A century and a half of manganese mining buried much of this Georgian town in ore waste; the Qvirila River carries manganese tens of thousands of times above natural levels.', health: 'Manganese is a neurotoxin: chronic exposure can cause manganism (Parkinson-like movement disorder) plus respiratory effects from dust.', citations: [{ type: 'primary', ref: 'Manganese mining and water quality, Mine Water Environ 2011', url: 'https://link.springer.com/article/10.1007/s10230-011-0163-3', openAccess: false }] },
+	{ id: 'kazreti', name: 'Kazreti (Madneuli) copper-gold', tier: 'anthropogenic', category: 'anthropogenic', lat: 41.45, lng: 44.5, r: 14, certainty: 'contested', severity: 3, research: 2, emissionType: 'chemical', desc: 'Copper and gold mining and enrichment in southern Georgia discharge heavy metals into the Mashavera and Kazretula rivers used for irrigation.', health: 'Heavy-metal (copper, cadmium, arsenic, lead) exposure through contaminated water, soil and crops.', citations: [{ type: 'agency', ref: 'Mining in the South Caucasus and its hazards', url: 'https://caspianpost.com/en/post/mining-in-the-south-caucasus-and-its-environmental-hazards', openAccess: true }] },
+	{ id: 'baku-absheron-oil', name: 'Baku / Absheron oil pollution', tier: 'anthropogenic', category: 'anthropogenic', lat: 40.4, lng: 50.0, r: 30, certainty: 'established', severity: 3, research: 3, emissionType: 'chemical', desc: 'Over a century of oil extraction and refining has left the Absheron peninsula and parts of the Caspian shore with widespread soil, water and air hydrocarbon contamination.', health: 'Respiratory disease and exposure to petroleum hydrocarbons and associated carcinogens.', citations: [{ type: 'agency', ref: 'Environmental issues in Azerbaijan (overview)', url: 'https://en.wikipedia.org/wiki/Environmental_issues_in_Azerbaijan', openAccess: true }] },
+	{ id: 'azerbaijan-mud-volcanoes', name: 'Azerbaijan mud volcanoes', tier: 'gray', category: 'gray', lat: 40.1, lng: 49.4, r: 40, certainty: 'open', severity: 2, research: 2, emissionType: 'chemical', desc: "The Gobustan-Absheron region holds the world's largest concentration of mud volcanoes, venting methane, other gases and occasionally oil from the South Caspian basin.", health: 'Localized methane and gas emissions plus episodic eruptions; direct chronic human-health evidence is limited.', citations: [{ type: 'agency', ref: 'NASA, Mud Volcano Islands in Azerbaijan', url: 'https://science.nasa.gov/earth/earth-observatory/a-school-of-mud-volcano-islands-in-azerbaijan/', openAccess: true }] },
+	{ id: 'caucasus-mineral-waters-radon', name: 'Caucasus Mineral Waters radon', tier: 'gray', category: 'gray', lat: 44.05, lng: 43.06, r: 35, certainty: 'contested', severity: 2, research: 3, emissionType: 'ionizing', desc: 'The Pyatigorsk spa region of the North Caucasus is famous for naturally radon-rich mineral waters used therapeutically; chronic low-dose effects are contested.', health: 'Chronic radon exposure (lung-cancer risk at high dose); therapeutic benefit at spa levels is claimed but unproven.', citations: [{ type: 'agency', ref: 'Caucasian Mineral Waters (overview)', url: 'https://en.wikipedia.org/wiki/Caucasian_Mineral_Waters', openAccess: true }] },
+
+	// ===================== EXPANSION 5: ERIONITE (asbestos-like fibre) =====================
+	{ id: 'us-west-erionite', name: 'Western US erionite', tier: 'established', category: 'fiber', lat: 39.0, lng: -117.0, r: 90, certainty: 'contested', severity: 5, research: 3, desc: 'Fibrous erionite occurs across Arizona, Nevada, Oregon and Utah; where it is disturbed (road gravel, construction) it poses an asbestos-like inhalation hazard.', health: 'Malignant mesothelioma and lung disease from inhaled erionite, a confirmed (IARC Group 1) carcinogen.', citations: [{ type: 'agency', ref: 'USGS, erionite comparison (Oregon, North Dakota, Turkey) 2010', url: 'https://pubs.usgs.gov/publication/ofr20101286', openAccess: true }] },
+	{ id: 'auckland-erionite', name: 'Auckland erionite', tier: 'established', category: 'fiber', lat: -36.85, lng: 174.76, r: 14, certainty: 'open', severity: 5, research: 2, desc: 'Fibrous erionite has been identified in rock around urban Auckland and flagged as a possible "new asbestos" where it is exposed and disturbed.', health: 'Potential mesothelioma and lung disease from inhaled erionite; the urban exposure is an emerging, not-yet-quantified concern.', citations: [{ type: 'review', ref: 'Salmond & Brook 2020, What lies beneath: is this the new asbestos?, Newsroom', url: 'https://newsroom.co.nz/2020/09/23/what-lies-beneath-is-this-the-new-asbestos/', openAccess: true }] },
+
+	// ===================== EXPANSION 6: BACKLOG ADDITIONS =====================
+	{ id: 'mariana', name: 'Mariana (Fundao) dam collapse', tier: 'anthropogenic', category: 'anthropogenic', lat: -20.23, lng: -43.42, r: 60, certainty: 'established', severity: 4, research: 4, emissionType: 'chemical', desc: 'The 2015 Fundao tailings-dam collapse released a wave of mine waste down the Rio Doce to the sea, Brazil\'s worst environmental disaster.', health: 'Heavy-metal and tailings contamination of drinking and river water along the Rio Doce; displacement.', citations: [{ type: 'agency', ref: 'Mariana dam disaster (overview)', url: 'https://en.wikipedia.org/wiki/Mariana_dam_disaster', openAccess: true }] },
+	{ id: 'brumadinho', name: 'Brumadinho dam collapse', tier: 'anthropogenic', category: 'anthropogenic', lat: -20.12, lng: -44.12, r: 30, certainty: 'established', severity: 5, research: 4, emissionType: 'chemical', desc: 'The 2019 Corrego do Feijao tailings dam failed without warning, killing 270 people and contaminating the Paraopeba River.', health: 'Sudden mass casualties plus heavy-metal contamination of soil and river water.', citations: [{ type: 'agency', ref: 'Brumadinho dam disaster (overview)', url: 'https://en.wikipedia.org/wiki/Brumadinho_dam_disaster', openAccess: true }] },
+	{ id: 'agent-orange-vietnam', name: 'Agent Orange dioxin hotspots', tier: 'anthropogenic', category: 'anthropogenic', lat: 10.97, lng: 106.82, r: 40, certainty: 'established', severity: 4, research: 4, emissionType: 'chemical', desc: 'Former US airbases such as Bien Hoa and Da Nang remain heavily contaminated with TCDD dioxin from Agent Orange stored and spilled there.', health: 'Dioxin exposure linked to cancers, birth defects and developmental harm across generations.', citations: [{ type: 'agency', ref: 'Agent Orange (overview)', url: 'https://en.wikipedia.org/wiki/Agent_Orange', openAccess: true }] },
+	{ id: 'libby-montana', name: 'Libby asbestos', tier: 'anthropogenic', category: 'anthropogenic', lat: 48.39, lng: -115.55, r: 16, certainty: 'established', severity: 5, research: 5, emissionType: 'chemical', desc: 'Vermiculite mining released Libby amphibole asbestos across this Montana town for decades; declared a public-health emergency in 2009.', health: 'Asbestosis, mesothelioma and lung cancer from Libby amphibole fibres.', citations: [{ type: 'agency', ref: 'ATSDR, Libby Asbestos Site', url: 'https://www.atsdr.cdc.gov/sites/libby/', openAccess: true }] },
+	{ id: 'new-idria', name: 'New Idria asbestos', tier: 'established', category: 'fiber', lat: 36.42, lng: -120.67, r: 35, certainty: 'established', severity: 5, research: 3, desc: 'One of the largest naturally occurring asbestos bodies; serpentinite weathers to chrysotile in local soils and dust.', health: 'Mesothelioma risk that falls with distance from the natural asbestos source.', citations: [{ type: 'primary', ref: 'Proximity to NOA and mesothelioma, AJRCCM 2005', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC2718408/', openAccess: true }] },
+	{ id: 'new-caledonia-asbestos', name: 'New Caledonia asbestos', tier: 'established', category: 'fiber', lat: -21.3, lng: 165.5, r: 120, certainty: 'established', severity: 5, research: 3, desc: 'Naturally occurring tremolite asbestos, with serpentinite road gravel a key exposure route on the main island.', health: 'Pleural disease and mesothelioma from environmental tremolite.', citations: [{ type: 'primary', ref: 'NC mesothelioma risk factors, EHP 2011', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3094423/', openAccess: true }] },
+	{ id: 'almaden', name: 'Almaden mercury district', tier: 'established', category: 'chemistry', lat: 38.77, lng: -4.84, r: 30, certainty: 'established', severity: 4, research: 4, emissionType: 'chemical', desc: 'The largest mercury deposit on Earth, mined from cinnabar for two millennia, leaving the region rich in mercury.', health: 'Chronic mercury exposure (hydrargyrism): tremor, neurological and kidney effects.', citations: [{ type: 'agency', ref: 'Almaden (overview)', url: 'https://en.wikipedia.org/wiki/Almad%C3%A9n', openAccess: true }] },
+	{ id: 'idrija', name: 'Idrija mercury district', tier: 'established', category: 'chemistry', lat: 46.0, lng: 14.03, r: 25, certainty: 'established', severity: 4, research: 4, emissionType: 'chemical', desc: 'The world\'s second-largest mercury mine, leaving elevated mercury in soils, river and air around this Slovenian town.', health: 'Chronic mercury exposure with neurological and renal effects.', citations: [{ type: 'agency', ref: 'Idrija (overview)', url: 'https://en.wikipedia.org/wiki/Idrija', openAccess: true }] },
+	{ id: 'uddanam-ckdu', name: 'Uddanam CKDu', tier: 'gray', category: 'gray', lat: 18.75, lng: 84.3, r: 50, certainty: 'open', severity: 4, research: 3, emissionType: 'chemical', desc: 'A chronic kidney disease of unknown cause clusters in this coastal Andhra Pradesh region, like the Sri Lankan and Mesoamerican epidemics.', health: 'Progressive chronic kidney disease of unknown etiology, leading to renal failure.', citations: [{ type: 'review', ref: 'Global CKDu 2016, BMC Nephrology', url: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4539684/', openAccess: true }] },
+	{ id: 'cameroon-podoconiosis', name: 'Podoconiosis (Cameroon highlands)', tier: 'solved', category: 'solved', lat: 5.9, lng: 10.1, r: 50, certainty: 'solved-firm', severity: 3, research: 4, emissionType: 'mixed', desc: 'The same volcanic-soil leg disease as the Ethiopian highlands, identified as a reaction to mineral particles in red clay from volcanic rock.', health: 'Disabling non-infectious leg swelling (elephantiasis) absorbed through bare skin.', citations: [{ type: 'primary', ref: 'Davey et al. 2012, NEJM (HLA)', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3350841/', openAccess: true }] },
+	{ id: 'drc-goiter', name: 'Ubangi goiter belt', tier: 'established', category: 'chemistry', lat: 3.25, lng: 19.77, r: 150, certainty: 'established', severity: 4, research: 4, emissionType: 'chemical', desc: 'The best-characterized endemic-cretinism zone, from combined iodine and selenium deficiency plus cassava goitrogens.', health: 'Goiter and myxedematous cretinism with severe developmental impairment.', citations: [{ type: 'primary', ref: 'Familial cretinism in DRC 2020, Nutrients', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC7601371/', openAccess: true }] },
+	{ id: 'sudbury', name: 'Sudbury smelter (historical)', tier: 'anthropogenic', category: 'anthropogenic', lat: 46.49, lng: -81.0, r: 35, certainty: 'acknowledged-late', severity: 3, research: 4, emissionType: 'mixed', desc: 'A century of nickel-copper smelting stripped the landscape bare with sulfur dioxide and metals; a major regreening has since reversed much of it.', health: 'Historic respiratory effects, acid rain and metal-laden soils, now much reduced.', citations: [{ type: 'agency', ref: 'Sudbury regreening (overview)', url: 'https://en.wikipedia.org/wiki/Regreening_of_Sudbury', openAccess: true }] },
+	{ id: 'ok-tedi', name: 'Ok Tedi river pollution', tier: 'anthropogenic', category: 'anthropogenic', lat: -5.2, lng: 141.13, r: 60, certainty: 'established', severity: 3, research: 3, emissionType: 'chemical', desc: 'Riverine disposal of mine tailings devastated the Ok Tedi and Fly River systems in Papua New Guinea for decades.', health: 'Heavy-metal contamination of fish, water and gardens that local communities depend on.', citations: [{ type: 'agency', ref: 'Ok Tedi environmental disaster (overview)', url: 'https://en.wikipedia.org/wiki/Ok_Tedi_environmental_disaster', openAccess: true }] },
+	{ id: 'kingston-coal-ash', name: 'Kingston coal-ash spill', tier: 'anthropogenic', category: 'anthropogenic', lat: 35.9, lng: -84.52, r: 14, certainty: 'established', severity: 3, research: 3, emissionType: 'chemical', desc: 'A 2008 dike failure released a vast slurry of coal ash, laden with arsenic and other metals, across Tennessee land and rivers.', health: 'Arsenic and heavy-metal exposure; serious illness later reported among cleanup workers.', citations: [{ type: 'agency', ref: 'Kingston Fossil Plant coal-ash spill (overview)', url: 'https://en.wikipedia.org/wiki/Kingston_Fossil_Plant_coal_fly_ash_slurry_spill', openAccess: true }] },
+	{ id: 'berkeley-pit', name: 'Berkeley Pit (Butte)', tier: 'anthropogenic', category: 'anthropogenic', lat: 46.02, lng: -112.51, r: 12, certainty: 'established', severity: 3, research: 3, emissionType: 'chemical', desc: 'A former open-pit copper mine now filled with strongly acidic, metal-laden water that must be perpetually managed.', health: 'Acidic water with arsenic and heavy metals; airborne dust and a contamination legacy.', citations: [{ type: 'agency', ref: 'Berkeley Pit (overview)', url: 'https://en.wikipedia.org/wiki/Berkeley_Pit', openAccess: true }] },
+	{ id: 'yellowstone-gas', name: 'Yellowstone geothermal gas', tier: 'gray', category: 'gray', lat: 44.46, lng: -110.83, r: 60, certainty: 'open', severity: 2, research: 2, emissionType: 'chemical', desc: 'Diffuse CO2 and H2S degassing across the caldera pools in low hollows, historically lethal to wildlife in spots like Death Gulch.', health: 'Localized asphyxiation and gas exposure in low-lying or enclosed areas.', citations: [{ type: 'agency', ref: 'USGS YVO, Yellowstone gas hazards', url: 'https://www.usgs.gov/observatories/yvo/news/are-yellowstones-gases-dangerous', openAccess: true }] },
+	{ id: 'etna', name: 'Mount Etna volcanic gas', tier: 'established', category: 'airborne', lat: 37.75, lng: 14.99, r: 35, certainty: 'established', severity: 3, research: 3, emissionType: 'chemical', desc: 'Europe\'s most active volcano persistently degasses SO2 and ash over a densely populated flank of Sicily.', health: 'Respiratory irritation from SO2 and ash; locally elevated trace elements in water.', citations: [{ type: 'agency', ref: 'Mount Etna (overview)', url: 'https://en.wikipedia.org/wiki/Mount_Etna', openAccess: true }] },
+	{ id: 'nyiragongo', name: 'Nyiragongo / Goma', tier: 'established', category: 'airborne', lat: -1.52, lng: 29.25, r: 30, certainty: 'established', severity: 4, research: 3, emissionType: 'chemical', desc: 'A persistently active volcano looming over Goma (about two million people), with a fast lava lake and chronic gas emissions; it erupted into the city in 2002 and 2021.', health: 'Volcanic SO2 and CO2 (mazuku) exposure plus catastrophic eruption and lava risk.', citations: [{ type: 'agency', ref: 'Mount Nyiragongo (overview)', url: 'https://en.wikipedia.org/wiki/Mount_Nyiragongo', openAccess: true }] },
+
+	// ===================== EXPANSION 9: PER-COUNTRY SWEEP (EUROPE) =====================
+	{ id: "castleisland-kerry-radon", name: "Castleisland radon belt, County Kerry", tier: "established", category: "radiation", lat: 52.23, lng: -9.46, r: 45, reachKm: 45, certainty: "established", severity: 4, research: 4, emissionType: "ionizing", desc: "Carboniferous limestone and karst terrain around Castleisland in southwest Ireland produces some of Europe's highest indoor radon concentrations, with many homes above the national reference level.", health: "Chronic inhalation of radon decay products raises lung cancer risk.", citations: [{ type: "primary", ref: "Burke & Murphy, J Environ Radioact (2004), PubMed 15296255", url: "https://pubmed.ncbi.nlm.nih.gov/15296255/", openAccess: false }] },
+	{ id: "silvermines-tipperary", name: "Silvermines metal district, County Tipperary", tier: "anthropogenic", category: "anthropogenic", lat: 52.79, lng: -8.23, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Over a thousand years of silver, lead, zinc and barite mining at Silvermines left tailings and floodplain soils enriched in lead, cadmium and arsenic.", health: "Lead and cadmium exposure pathways prompted a national investigation after fatal livestock lead poisoning, with concern for childhood lead uptake.", citations: [{ type: "agency", ref: "EPA Ireland, Expert Group Report for Silvermines (2004)", url: "https://www.epa.ie/publications/monitoring--assessment/assessment/land-and-soil/final-report-of-expert-group-for-silvermines-county-tipperary-lead-and-other-relevant-metals.php", openAccess: true }] },
+	{ id: "cornwall-devon-arsenic", name: "Cornwall and West Devon mining arsenic", tier: "anthropogenic", category: "anthropogenic", lat: 50.53, lng: -4.22, r: 150, reachKm: 150, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Nineteenth-century copper, tin and arsenic mining left roughly 722 square km of soil in southwest England arsenic-contaminated.", health: "Chronic ingestion, inhalation and skin contact with arsenic-rich soil and dust raises long-term cancer risk.", citations: [{ type: "primary", ref: "Rieuwerts et al., Sci Total Environ (2020), PubMed 32388294", url: "https://pubmed.ncbi.nlm.nih.gov/32388294/", openAccess: false }] },
+	{ id: "salsigne-orbiel-arsenic", name: "Salsigne / Orbiel valley arsenic", tier: "anthropogenic", category: "anthropogenic", lat: 43.31, lng: 2.36, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "The former Salsigne gold and arsenic mine in the Aude left more than 12 million tonnes of waste that disperse arsenic into the Orbiel valley.", health: "Residents show arsenic overexposure and many local children had urinary arsenic above the reference level.", citations: [{ type: "agency", ref: "Sante publique France, Orbiel Valley / Salsigne", url: "https://www.santepubliquefrance.fr/en/regions-and-territories/occitanie/contaminated-site-and-soil-orbiel-valley-salsigne", openAccess: true }] },
+	{ id: "northern-corsica-asbestos", name: "Northern Corsica naturally occurring asbestos", tier: "established", category: "fiber", lat: 42.6, lng: 9.3, r: 80, reachKm: 80, certainty: "established", severity: 4, research: 4, desc: "Serpentinite and ophiolitic rocks across northern Corsica host abundant chrysotile and tremolite asbestos released into air during quarrying, road works and weathering.", health: "Non-occupational environmental exposure to these fibers is associated with elevated malignant mesothelioma risk.", citations: [{ type: "primary", ref: "Lahondere et al., Environ Earth Sci (2019)", url: "https://link.springer.com/article/10.1007/s12665-019-8548-x", openAccess: false }] },
+	{ id: "kempen-campine-cadmium", name: "Kempen / Campine cadmium belt", tier: "anthropogenic", category: "anthropogenic", lat: 51.2, lng: 5.2, r: 80, reachKm: 80, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Atmospheric fallout from historic zinc smelting diffusely contaminated about 700 square km of sandy soils with cadmium and zinc across the Belgian-Dutch Campine region.", health: "The CadmiBel and related studies linked environmental cadmium exposure here to early kidney tubular damage and bone effects.", citations: [{ type: "primary", ref: "CadmiBel study, Early Kidney Damage, PMC2649217", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2649217/", openAccess: true }] },
+	{ id: "wismut-uranium-saxony", name: "Wismut uranium mining legacy", tier: "anthropogenic", category: "anthropogenic", lat: 50.86, lng: 12.18, r: 60, reachKm: 60, certainty: "established", severity: 5, research: 5, emissionType: "mixed", desc: "Cold War uranium mining by Wismut in Saxony and Thuringia produced over 216,000 tonnes of uranium and left extensive radon-emitting tailings and contaminated land.", health: "Lung cancer mortality in the miner cohort was about 2.4 times the general population and rose with radon exposure.", citations: [{ type: "primary", ref: "Kreuzer et al., Wismut cohort, Dtsch Arztebl Int (2021), PMC8182779", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8182779/", openAccess: true }] },
+	{ id: "stolberg-cadmium", name: "Stolberg lead-zinc smelter soils", tier: "anthropogenic", category: "anthropogenic", lat: 50.77, lng: 6.23, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "Long-running lead and zinc smelting near Stolberg left garden soils and home-grown vegetables with very high cadmium and lead concentrations.", health: "Residents consuming home-grown produce face chronic dietary exposure to cadmium and lead.", citations: [{ type: "primary", ref: "Wilhelm et al., Gesundheitswesen (1993), PubMed 8358190", url: "https://pubmed.ncbi.nlm.nih.gov/8358190/", openAccess: false }] },
+	{ id: "arnoldstein-carinthia", name: "Arnoldstein lead-zinc smelter, Carinthia", tier: "anthropogenic", category: "anthropogenic", lat: 46.55, lng: 13.71, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "Centuries of lead, zinc and cadmium smelting at Arnoldstein contaminated surrounding agricultural soils with lead, cadmium, copper and zinc.", health: "Lead and cadmium entry into the local food chain poses chronic dietary metal exposure to residents.", citations: [{ type: "primary", ref: "Friesl-Hanl et al., Environ Geochem Health (2009)", url: "https://link.springer.com/article/10.1007/s10653-009-9256-3", openAccess: false }] },
+	{ id: "bad-gastein-radon", name: "Bad Gastein radon terrain", tier: "gray", category: "gray", lat: 47.08, lng: 13.1, r: 20, reachKm: 20, certainty: "open", severity: 2, research: 3, emissionType: "ionizing", desc: "The Gastein valley hosts radon-rich thermal waters and mine galleries where natural radon reaches very high levels, used since the 1950s for radon spa therapy.", health: "Chronic low-dose radon alpha exposure here sits at the center of the unresolved debate over whether it relieves rheumatic inflammation or adds long-term radiation risk.", citations: [{ type: "review", ref: "Becker, Health effects of high radon environments in Central Europe, PMC2651614", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2651614/", openAccess: true }] },
+	{ id: "olkusz-bukowno-zinc-lead", name: "Olkusz-Bukowno zinc-lead district", tier: "anthropogenic", category: "anthropogenic", lat: 50.27, lng: 19.46, r: 50, reachKm: 50, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Centuries of zinc-lead ore mining and smelting around the Boleslaw plant near Bukowno left soils with very high zinc, lead and cadmium.", health: "Residents, especially children, face elevated lead and cadmium body burdens with neurodevelopmental and renal risk.", citations: [{ type: "primary", ref: "Cabala et al., Int J Environ Res (2017)", url: "https://link.springer.com/article/10.1007/s41742-017-0033-3", openAccess: false }] },
+	{ id: "legnica-glogow-copper", name: "Legnica-Glogow copper district", tier: "anthropogenic", category: "anthropogenic", lat: 51.55, lng: 16.2, r: 100, reachKm: 100, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "The KGHM copper smelters at Glogow and Legnica have for decades emitted copper, lead, arsenic and mercury, building a halo of metal-contaminated soils.", health: "Inhalation and soil pathways yield elevated cancer risk and historically high childhood blood lead, with arsenic and mercury key drivers.", citations: [{ type: "review", ref: "Kowalska et al., IJERPH (2022), PMC9564705", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9564705/", openAccess: true }] },
+	{ id: "ostrava-karvina-bap", name: "Ostrava-Karvina coal basin", tier: "anthropogenic", category: "anthropogenic", lat: 49.84, lng: 18.28, r: 60, reachKm: 60, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Heavy metallurgy, coking and coal combustion make this region a European hot spot for benzo[a]pyrene and fine particulates.", health: "Long-term exposure raises childhood respiratory disease, adult chronic bronchitis and lifetime carcinogenic risk.", citations: [{ type: "review", ref: "Sram et al., ISRN Public Health (2013)", url: "https://onlinelibrary.wiley.com/doi/10.1155/2013/416701", openAccess: true }] },
+	{ id: "pribram-lead", name: "Pribram lead smelter district", tier: "anthropogenic", category: "anthropogenic", lat: 49.69, lng: 14.01, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Lead smelting at Kovohute Pribram, on a historic silver-lead field, heavily contaminated surrounding soils.", health: "Children near the plant historically carried very high blood lead levels, a marker of neurotoxic exposure now much reduced.", citations: [{ type: "primary", ref: "Rubes et al., Environ Health Perspect (1997), PubMed 9189705", url: "https://pubmed.ncbi.nlm.nih.gov/9189705/", openAccess: false }] },
+	{ id: "ziar-nad-hronom-fluoride", name: "Ziar nad Hronom aluminium valley", tier: "anthropogenic", category: "anthropogenic", lat: 48.59, lng: 18.85, r: 40, reachKm: 40, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Primary aluminium electrolysis in the Ziar valley released large amounts of fluoride that contaminated the basin's air, soil and vegetation for decades.", health: "Chronic fluoride exposure produced cases of skeletal fluorosis and widespread dental fluorosis.", citations: [{ type: "primary", ref: "Buchancova et al., Interdiscip Toxicol (2010), PMC2993488", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2993488/", openAccess: true }] },
+	{ id: "rudnany-spis-mercury", name: "Rudnany-Middle Spis mercury district", tier: "anthropogenic", category: "anthropogenic", lat: 48.91, lng: 20.74, r: 35, reachKm: 35, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Centuries of mercury and copper ore mining and smelting in the Middle Spis released roughly 142 tonnes of mercury plus arsenic and copper.", health: "All environmental compartments remain mercury-burdened, exposing inhabitants to chronic mercury, arsenic and copper.", citations: [{ type: "primary", ref: "Fazekasova & Fazekas, Ecotoxicol Environ Saf (2018)", url: "https://www.sciencedirect.com/science/article/abs/pii/S0147651317303573", openAccess: false }] },
+	{ id: "pezinok-arsenic-antimony", name: "Pezinok antimony-arsenic mining site", tier: "anthropogenic", category: "anthropogenic", lat: 48.32, lng: 17.27, r: 20, reachKm: 20, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Abandoned antimony mining in the Male Karpaty at Pezinok drives geogenic dissolution of arsenopyrite and stibnite, contaminating local waters.", health: "Waters reach tens of thousands of micrograms per litre arsenic and thousands of antimony, posing chronic toxic-metal exposure.", citations: [{ type: "primary", ref: "Hiller et al., Environ Earth Sci (2012)", url: "https://link.springer.com/article/10.1007/s12665-011-1310-7", openAccess: false }] },
+	{ id: "gyongyosoroszi-lead-zinc", name: "Gyongyosoroszi lead-zinc mine", tier: "anthropogenic", category: "anthropogenic", lat: 47.86, lng: 19.9, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "An abandoned lead-zinc mine in the Matra Mountains discharges acid mine drainage and contaminates the Toka stream and floodplain gardens.", health: "Soils reach high lead and arsenic with a cumulative hazard well above safe levels for residents eating local produce.", citations: [{ type: "primary", ref: "Sipter et al., Commun Soil Sci Plant Anal (2009)", url: "https://www.tandfonline.com/doi/full/10.1080/00103620802647173", openAccess: false }] },
+	{ id: "meza-valley-lead", name: "Upper Meza valley lead district", tier: "anthropogenic", category: "anthropogenic", lat: 46.51, lng: 14.85, r: 25, reachKm: 25, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "More than 330 years of lead-zinc mining and smelting at Mezica left Crna, Mezica and Zerjav with soils, dust and food carrying elevated lead.", health: "Children in the valley still show blood lead substantially above the national average, a recognized poisoning hot spot.", citations: [{ type: "primary", ref: "Bierkens et al., J Hazard Mater (2015), PubMed 25917691", url: "https://pubmed.ncbi.nlm.nih.gov/25917691/", openAccess: false }] },
+	{ id: "celje-zinc", name: "Celje old zinc smelter brownfield", tier: "anthropogenic", category: "anthropogenic", lat: 46.23, lng: 15.27, r: 20, reachKm: 20, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Zinc smelting from 1874 left central Celje with soils heavily enriched in cadmium, lead, zinc, copper and arsenic.", health: "Soil cadmium, lead and arsenic widely exceed critical levels near the city center, creating chronic toxic-metal exposure.", citations: [{ type: "primary", ref: "Lestan et al., J Hazard Mater (2010)", url: "https://www.sciencedirect.com/science/article/abs/pii/S0304389410002116", openAccess: false }] },
+	{ id: "estarreja-chemical", name: "Estarreja chemical complex (Aveiro)", tier: "anthropogenic", category: "anthropogenic", lat: 40.75, lng: -8.57, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Seven decades of effluent from Portugal's second-largest chemical complex left soils, well water and the Ria de Aveiro lagoon enriched in arsenic, mercury and other metals.", health: "Long-residence residents eating home-grown food show elevated arsenic exposure and associations with dementia and metal-related risk.", citations: [{ type: "primary", ref: "Inacio et al., Exposure and Health (2019)", url: "https://link.springer.com/article/10.1007/s12403-019-00323-x", openAccess: false }] },
+	{ id: "urgeirica-uranium", name: "Urgeirica uranium mine and tailings", tier: "anthropogenic", category: "anthropogenic", lat: 40.51, lng: -7.88, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 4, emissionType: "ionizing", desc: "Portugal's largest former uranium mine and mill left tailings with radioactivity far above background, releasing radon and contaminating well and stream water.", health: "Radon inhalation, elevated gamma dose and crops irrigated with contaminated water could push some residents above dose limits.", citations: [{ type: "review", ref: "Carvalho et al., Urgeirica mine remediation (2015)", url: "https://link.springer.com/chapter/10.1007/978-3-319-11059-2_7", openAccess: false }] },
+	{ id: "aznalcollar-guadiamar", name: "Aznalcollar spill, Guadiamar valley", tier: "anthropogenic", category: "anthropogenic", lat: 37.46, lng: -6.23, r: 55, reachKm: 55, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "The 1998 pyrite tailings-dam failure released about 4.5 million cubic metres of acidic sludge laden with arsenic, lead, cadmium and zinc toward Donana.", health: "Hot-spot soils along the corridor retain high arsenic and heavy-metal loads with persistent contamination of the floodplain.", citations: [{ type: "primary", ref: "Grimalt et al., Sci Total Environ (1999), PubMed 10635576", url: "https://pubmed.ncbi.nlm.nih.gov/10635576/", openAccess: false }] },
+	{ id: "huelva-phosphogypsum", name: "Huelva phosphogypsum stacks", tier: "anthropogenic", category: "anthropogenic", lat: 37.24, lng: -6.93, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 4, emissionType: "ionizing", desc: "About 1,200 hectares of fertilizer-industry phosphogypsum waste, enriched in radium-226 and toxic metals, sit on the Tinto estuary marshes beside Huelva.", health: "The piles produce a local radioactive impact, and nearby residents carry measurable internal burdens of toxic metalloids.", citations: [{ type: "primary", ref: "Romero-Otero et al., IJERPH (2024), PMC11857056", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11857056/", openAccess: true }] },
+	{ id: "taranto-ilva", name: "Taranto ILVA steelworks (Tamburi)", tier: "anthropogenic", category: "anthropogenic", lat: 40.49, lng: 17.22, r: 30, reachKm: 30, certainty: "established", severity: 5, research: 5, emissionType: "mixed", desc: "Europe's largest steel plant has loaded the Tamburi and Borgo districts of Taranto with dioxins, benzene, PAHs and heavy metals for decades.", health: "Studies link emissions to excess overall and cancer mortality, with childhood leukaemia and lung cancer above expected levels in the nearest neighbourhoods.", citations: [{ type: "review", ref: "Comba et al., J Environ Public Health (2012), PMC3886576", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3886576/", openAccess: true }] },
+	{ id: "gela-petrochemical", name: "Gela petrochemical area (Sicily)", tier: "anthropogenic", category: "anthropogenic", lat: 37.07, lng: 14.25, r: 25, reachKm: 25, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "A national priority contaminated site, the Gela refinery and petrochemical complex contaminated soil, groundwater and local food chains in southern Sicily.", health: "Studies document large excesses of congenital anomalies, including a several-fold rise in hypospadias among local newborns.", citations: [{ type: "primary", ref: "Santoro et al., IJERPH (2017)", url: "https://www.mdpi.com/1660-4601/14/3/292", openAccess: true }] },
+	{ id: "calabria-asbestos", name: "Calabria-Basilicata naturally occurring asbestos", tier: "established", category: "fiber", lat: 39.95, lng: 16.1, r: 80, reachKm: 80, certainty: "established", severity: 3, research: 4, emissionType: "mixed", desc: "Ophiolitic serpentinite outcrops across Calabria and southern Basilicata carry naturally occurring tremolite, actinolite and chrysotile asbestos, with villages built on or beside the rock.", health: "Environmental and occupational asbestos exposure is tied to registered mesothelioma deaths, with several villages flagged high-risk.", citations: [{ type: "primary", ref: "Bruno et al., Public Health (2021)", url: "https://www.sciencedirect.com/science/article/abs/pii/S0033350621001529", openAccess: false }] },
+	{ id: "lavrion-lead", name: "Lavrion lead-silver mining legacy", tier: "anthropogenic", category: "anthropogenic", lat: 37.71, lng: 24.06, r: 20, reachKm: 20, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Millennia of silver-lead mining and 20th-century smelting left the town of Lavrion and its soils heavily enriched in lead, arsenic and cadmium.", health: "Children living within 500 m of the former smelter had mean blood-lead around 24 micrograms per decilitre, a severe poisoning problem.", citations: [{ type: "primary", ref: "Hatzakis et al., Sci Total Environ (1994), PubMed 7839127", url: "https://pubmed.ncbi.nlm.nih.gov/7839127/", openAccess: false }] },
+	{ id: "oinofyta-asopos-chromium", name: "Oinofyta / Asopos hexavalent chromium", tier: "anthropogenic", category: "anthropogenic", lat: 38.31, lng: 23.65, r: 25, reachKm: 25, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Decades of industrial discharge into the Asopos river contaminated Oinofyta's drinking wells with hexavalent chromium well above limits.", health: "An ecological study found elevated cancer mortality, including a striking excess of primary liver cancer.", citations: [{ type: "primary", ref: "Linos et al., Environ Health (2011), PMC3123268", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3123268/", openAccess: true }] },
+	{ id: "amiantos-asbestos", name: "Amiantos asbestos mine (Troodos)", tier: "anthropogenic", category: "anthropogenic", lat: 34.92, lng: 32.92, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 4, emissionType: "mixed", desc: "Europe's largest chrysotile asbestos mine operated in the Troodos mountains from 1904 to 1988, leaving vast fibre-laden waste and seasonal airborne asbestos.", health: "Environmental mesothelioma has been documented in non-occupationally exposed villagers living near the Cyprus asbestos source.", citations: [{ type: "review", ref: "Constantopoulos, Regul Toxicol Pharmacol (2008)", url: "https://www.sciencedirect.com/science/article/abs/pii/S0273230007001882", openAccess: false }] },
+	{ id: "dugi-rat-ferrochromium", name: "Dugi Rat ferrochromium smelter", tier: "anthropogenic", category: "anthropogenic", lat: 43.45, lng: 16.69, r: 20, reachKm: 20, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "The long-running ferroalloy works on the Croatian Adriatic coast left surrounding soils and the coastal zone contaminated with chromium and other metals.", health: "Assessments document heavy-metal enrichment of soils around the ex-smelter, a chronic exposure pathway for residents.", citations: [{ type: "primary", ref: "Bogner et al., Environmental contamination near ex-ferrochromium smelter Dugi Rat", url: "https://www.researchgate.net/publication/6793246_Environmental_Contamination_Assessment_of_the_Surroundings_of_the_Ex-Ferrochromium_Smelter_Dugi_Rat_Croatia", openAccess: false }] },
+	{ id: "zenica-steelworks", name: "Zenica steelworks", tier: "anthropogenic", category: "anthropogenic", lat: 44.2, lng: 17.91, r: 25, reachKm: 25, certainty: "established", severity: 4, research: 3, emissionType: "mixed", desc: "The steel plant in the bowl-shaped Zenica valley is Bosnia's largest source of dust, heavy metals and carcinogens such as benzene and benzo[a]pyrene.", health: "Residents face chronic exceedances of carcinogenic air pollutants, with elevated respiratory and cardiovascular disease.", citations: [{ type: "agency", ref: "Arnika, Toxic Hotspot ArcelorMittal Zenica", url: "https://arnika.org/en/hotspots/bosnia/arcelor-mittal-steelworks-20197", openAccess: true }] },
+	{ id: "bor-copper", name: "Bor copper smelter", tier: "anthropogenic", category: "anthropogenic", lat: 44.07, lng: 22.1, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 4, emissionType: "mixed", desc: "The Bor copper mining and smelting complex emits arsenic, lead, cadmium and sulphur dioxide, with airborne arsenic at times far above limits.", health: "Public-health analyses report elevated mortality and a heavy cancer burden from chronic inhalation of smelter emissions.", citations: [{ type: "primary", ref: "Serbula et al., Environ Earth Sci (2014)", url: "https://link.springer.com/article/10.1007/s12665-013-2569-7", openAccess: false }] },
+	{ id: "pljevlja-lignite", name: "Pljevlja lignite power plant", tier: "anthropogenic", category: "anthropogenic", lat: 43.36, lng: 19.36, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "Montenegro's only coal-fired plant, with household coal burning, drives sulphur dioxide and fine-particle levels among the worst in Europe.", health: "PM2.5 runs chronically above WHO and EU limits with SO2 peaks far over thresholds, linked to respiratory damage.", citations: [{ type: "primary", ref: "Vujovic et al., IJERPH (2021), PMC8296430", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8296430/", openAccess: true }] },
+	{ id: "trepca-mitrovica", name: "Trepca lead complex, Mitrovica", tier: "anthropogenic", category: "anthropogenic", lat: 42.89, lng: 20.87, r: 25, reachKm: 25, certainty: "established", severity: 5, research: 5, emissionType: "chemical", desc: "The Trepca lead smelter and mine tailings contaminated Mitrovica, where displaced Roma camps were sited within a few km of the smelter and tailings.", health: "Children in the camps recorded extreme blood-lead levels, causing deaths and lasting neurological harm.", citations: [{ type: "primary", ref: "Brown et al., Eur J Public Health (2010)", url: "https://academic.oup.com/eurpub/article/20/3/288/430610", openAccess: true }] },
+	{ id: "veles-lead-zinc", name: "Veles lead-zinc smelter", tier: "anthropogenic", category: "anthropogenic", lat: 41.72, lng: 21.78, r: 25, reachKm: 25, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "The Zletovo lead-zinc smelter operated within a few hundred metres of homes in Veles, loading topsoils and air with lead, zinc and cadmium.", health: "Elevated ambient lead is a high risk factor for the exposed child population.", citations: [{ type: "primary", ref: "Stafilov et al., J Hazard Mater (2010)", url: "https://www.researchgate.net/publication/40037675_Heavy_metal_contamination_of_topsoils_around_a_lead_and_zinc_smelter_in_the_Republic_of_Macedonia", openAccess: false }] },
+	{ id: "patos-marinza-oil", name: "Patos-Marinza oil field (Fier)", tier: "anthropogenic", category: "anthropogenic", lat: 40.68, lng: 19.62, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "Europe's largest onshore oil field around Patos and Marinza has contaminated air, soil and water with hydrocarbons, sulphur and nitrogen oxides and radioactive scale.", health: "Residents report elevated cancers and blood disorders, with pollutant doses exceeding national and EU standards.", citations: [{ type: "primary", ref: "Xhixha et al., J Environ Radioact (2015)", url: "https://arxiv.org/pdf/1507.07220", openAccess: true }] },
+	{ id: "kohtla-jarve-oil-shale", name: "Kohtla-Jarve oil-shale region", tier: "anthropogenic", category: "anthropogenic", lat: 59.4, lng: 27.27, r: 60, reachKm: 60, certainty: "established", severity: 3, research: 4, emissionType: "mixed", desc: "A century of oil-shale mining, retorting and ash dumping in northeast Estonia loads air and soil with particulates, phenols, formaldehyde and heavy metals.", health: "Residents show elevated respiratory disease, lung cancer and cardiovascular risk, and local children carry higher blood lead.", citations: [{ type: "review", ref: "Orru et al., Front Public Health (2020), PMC7689261", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7689261/", openAccess: true }] },
+	{ id: "kalush-hcb", name: "Kalush toxic waste zone", tier: "anthropogenic", category: "anthropogenic", lat: 49.03, lng: 24.37, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 3, emissionType: "chemical", desc: "A declared ecological emergency in western Ukraine where thousands of tonnes of hexachlorobenzene and brine in the flooding Dombrovsky potash quarry threaten groundwater and the town water supply.", health: "Soil hexachlorobenzene exceeds limits enormously and the Kalush area reports some of Ukraine's highest cancer rates.", citations: [{ type: "review", ref: "Pavlovskyy et al., Environ Sci Pollut Res (2015)", url: "https://link.springer.com/article/10.1007/s11356-015-5184-1", openAccess: false }] },
+	{ id: "nikitovka-mercury", name: "Nikitovka mercury field, Horlivka", tier: "anthropogenic", category: "anthropogenic", lat: 48.33, lng: 38.05, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "The abandoned Nikitovka cinnabar mine, mercury plant and tailings at Horlivka left mercury-enriched soils and waste extending into residential areas of the Donbas.", health: "Mercury-contaminated soils persist with open access, and residents beside the workings show elevated blood and urinary mercury.", citations: [{ type: "primary", ref: "Kolker et al., U.S. Geological Survey, Donbas coals and mine water", url: "https://pubs.usgs.gov/publication/70036738", openAccess: true }] },
+	{ id: "soligorsk-potash", name: "Soligorsk potash salt tips", tier: "anthropogenic", category: "anthropogenic", lat: 52.79, lng: 27.54, r: 30, reachKm: 30, certainty: "established", severity: 2, research: 3, emissionType: "chemical", desc: "Belaruskali's potash works near Soligorsk pile halite tailings into salt hills 50 to 80 metres high that erode and salinize soils and freshwater across the district.", health: "Soluble salts near the plant run far above background, salinizing agricultural soil and drinking-water sources.", citations: [{ type: "review", ref: "Vasilenko et al., Mining (2023)", url: "https://www.mdpi.com/2673-6489/3/2/11", openAccess: true }] },
+	{ id: "copsa-mica", name: "Copsa Mica lead and carbon-black zone", tier: "anthropogenic", category: "anthropogenic", lat: 46.11, lng: 24.24, r: 40, reachKm: 40, certainty: "established", severity: 5, research: 5, emissionType: "chemical", desc: "Decades of emissions from the Sometra non-ferrous smelter and the Carbosin carbon-black plant made this Transylvanian town one of Europe's most lead-contaminated places.", health: "Surveyed young children averaged blood lead near 44 micrograms per decilitre, with most local children showing chronic respiratory disease.", citations: [{ type: "primary", ref: "Blood Lead Levels in Children, Copsa Mica, Springer (2006)", url: "https://link.springer.com/chapter/10.1007/1-4020-4845-9_16", openAccess: false }] },
+	{ id: "geamana-rosia-poieni", name: "Geamana tailings lake, Rosia Poieni", tier: "anthropogenic", category: "anthropogenic", lat: 46.31, lng: 23.13, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "The valley of the drowned village of Geamana holds over 130 million tonnes of pyrite-rich copper tailings generating ongoing acid mine drainage.", health: "The site discharges acidic, metal-laden water that contaminates the Aries river relied on downstream.", citations: [{ type: "primary", ref: "Rosia Poieni mining influence on Aries river water quality", url: "https://www.academia.edu/61270763/Influence_of_Rosia_Poieni_and_Rosia_Montana_mining_areas_on_the_water_quality_of_the_Aries_river", openAccess: true }] },
+	{ id: "baia-mare-metals", name: "Baia Mare smelter and tailings zone", tier: "anthropogenic", category: "anthropogenic", lat: 47.66, lng: 23.58, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "A 150-year non-ferrous smelting legacy plus the 2000 Aurul tailings-dam cyanide spill that poisoned the Somes, Tisza and Danube mark this northern Romanian basin.", health: "Children near the smelter had mean blood lead far above harm thresholds, atop chronic heavy-metal loading.", citations: [{ type: "agency", ref: "UNEP/OCHA, Cyanide Spill at Baia Mare (2000)", url: "https://www.unocha.org/publications/report/romania/cyanide-spill-baia-mare-romania-unepocha-assessment-mission-advance-copy", openAccess: true }] },
+	{ id: "kardzhali-lead-zinc", name: "Kardzhali lead-zinc smelter zone", tier: "anthropogenic", category: "anthropogenic", lat: 41.65, lng: 25.38, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "The lead-zinc complex operating in Kardzhali since 1955 has loaded the town's air and soil with lead and cadmium in southern Bulgaria.", health: "Children near the smelter carry elevated blood and urine lead and cadmium; emission cuts lowered their blood lead.", citations: [{ type: "primary", ref: "Vasileva et al., Int J Hyg Environ Health (2003), PubMed 12621900", url: "https://pubmed.ncbi.nlm.nih.gov/12621900/", openAccess: false }] },
+	{ id: "kola-nickel", name: "Kola Peninsula nickel smelters", tier: "anthropogenic", category: "anthropogenic", lat: 69.41, lng: 30.22, r: 300, reachKm: 300, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Nornickel's Pechenganikel and Severonickel plants emitted huge amounts of sulfur dioxide and nickel-copper aerosols, creating industrial barrens and cross-border acidification into Norway.", health: "Sulphur dioxide exposure is linked to reduced lung function and data suggest excess cancer and cardiovascular mortality near the refineries.", citations: [{ type: "primary", ref: "Smith-Sivertsen et al., Eur Respir J (2001), PubMed 11590874", url: "https://pubmed.ncbi.nlm.nih.gov/11590874/", openAccess: false }] },
+	{ id: "kedainiai-phosphogypsum", name: "Lifosa phosphogypsum stacks, Kedainiai", tier: "anthropogenic", category: "anthropogenic", lat: 55.28, lng: 23.98, r: 25, reachKm: 25, certainty: "established", severity: 2, research: 3, emissionType: "mixed", desc: "Roughly 21 million tonnes of phosphogypsum sits in open 60-metre hills beside the Lifosa fertilizer plant in central Lithuania.", health: "The waste carries uranium-series radionuclides and acids that leach into water, soil and air.", citations: [{ type: "agency", ref: "HELCOM, Phosphogypsum sites background report (2025)", url: "https://helcom.fi/wp-content/uploads/2025/09/Background-report-on-phosphogypsum-sites-and-best-practices_BSEP207.pdf", openAccess: true }] },
+	{ id: "moldova-fluoride", name: "Northern Moldova fluoride groundwater", tier: "established", category: "chemistry", lat: 47.58, lng: 27.71, r: 150, reachKm: 150, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "Groundwater across many Moldovan districts is a natural geochemical fluoride zone, with concentrations in Falesti district far above the norm.", health: "Populations relying on these sources develop dental fluorosis and skeletal osteofluorosis.", citations: [{ type: "primary", ref: "Fluoride content in drinking water, Republic of Moldova", url: "https://www.researchgate.net/publication/265412432_Hygienic_analysis_of_fluoride_content_in_drinking_water_in_some_districts_of_the_Republic_of_Moldova", openAccess: true }] },
+	{ id: "asbest-urals", name: "Asbest chrysotile mine, Urals", tier: "anthropogenic", category: "anthropogenic", lat: 57, lng: 61.46, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 5, emissionType: "mixed", desc: "The town of Asbest in the Urals hosts the world's largest open-pit chrysotile asbestos mine and mills, operating since 1896 amid heavy fiber dust.", health: "The IARC cohort confirmed rising mesothelioma and lung cancer mortality with cumulative fiber exposure.", citations: [{ type: "primary", ref: "Schuz et al., JNCI (2024), Asbest Chrysotile Cohort", url: "https://academic.oup.com/jnci/article/116/6/866/7577290", openAccess: true }] },
+
+	// ===================== EXPANSION 10: PER-COUNTRY SWEEP (ME, C-ASIA, ASIA, OCEANIA) =====================
+	{ id: "lake-urmia-salt-dust", name: "Lake Urmia salt dust", tier: "climate", category: "climate", lat: 37.7, lng: 45.45, r: 250, reachKm: 250, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "The collapse of hypersaline Lake Urmia exposed a vast desiccated bed that lofts saline, arsenic-bearing dust across a basin home to over five million people.", health: "Rising salt and dust storms are linked to higher hypertension, respiratory disorders, reduced lung function in children and elevated skin cancer.", citations: [{ type: "primary", ref: "Maleki et al., Health effects of shrinking Lake Urmia, Environ Health Prev Med (2023)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9884074/", openAccess: true }] },
+	{ id: "kurdistan-bijar-arsenic", name: "Kurdistan-Bijar arsenic belt", tier: "established", category: "chemistry", lat: 35.87, lng: 47.61, r: 150, reachKm: 150, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Volcanic-hosted groundwater in the Bijar and Qorveh districts of Iran's Kurdistan Province carries arsenic far above safe limits.", health: "Chronic arsenic exposure has produced skin lesions, gangrene and elevated cancer risk, a recognized endemic arsenicosis area.", citations: [{ type: "primary", ref: "Skin lesions from arsenic in drinking water, western Iran, Sci Rep (2024)", url: "https://pubmed.ncbi.nlm.nih.gov/?term=arsenic+kurdistan+iran+skin+lesions", openAccess: true }] },
+	{ id: "maku-poldasht-fluorosis", name: "Maku-Poldasht fluorosis zone", tier: "established", category: "chemistry", lat: 39.34, lng: 44.9, r: 80, reachKm: 80, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Rural water around Maku and Poldasht in West Azerbaijan Province carries geogenic fluoride several times the safe limit.", health: "Residents show widespread dental fluorosis and, in some villages, skeletal fluorosis.", citations: [{ type: "primary", ref: "Yousefi et al., Skeletal fluorosis, West Azerbaijan, Sci Rep (2017)", url: "https://www.nature.com/articles/s41598-017-17328-8", openAccess: true }] },
+	{ id: "koohbanan-fluorosis", name: "Koohbanan-Kerman fluorosis belt", tier: "established", category: "chemistry", lat: 31.41, lng: 56.29, r: 120, reachKm: 120, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "An endemic high-fluoride belt around Koohbanan and Zarand in Kerman Province draws fluoride from local geology and coal strata.", health: "The population shows endemic dental and skeletal fluorosis from lifelong fluoride intake.", citations: [{ type: "primary", ref: "Poureslami et al., Fluoride and dental fluorosis in Koohbanan, Fluoride (2013)", url: "https://www.fluorideresearch.org/464/files/FJ2013_v46_n4_p224-229_sfs.pdf", openAccess: true }] },
+	{ id: "basra-rumaila-flaring", name: "Basra-Rumaila gas flaring belt", tier: "anthropogenic", category: "anthropogenic", lat: 30.5, lng: 47.4, r: 150, reachKm: 150, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Decades of routine gas flaring at southern Iraqi oil fields blanket nearby towns with benzene and particulate matter.", health: "Air monitoring and registry data link this pollution to a documented rise in Basra cancers, including childhood leukemia.", citations: [{ type: "primary", ref: "Habib et al., Cancers in Basra, Iraq, Sultan Qaboos Univ Med J (2020)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7574812/", openAccess: true }] },
+	{ id: "ruseifa-phosphate", name: "Ruseifa phosphate mine radioactivity", tier: "anthropogenic", category: "anthropogenic", lat: 32.02, lng: 36.05, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 3, emissionType: "ionizing", desc: "Jordan's oldest phosphate mining site left waste piles now built over for housing, where uranium-series radionuclides elevate gamma dose and indoor radon.", health: "Estimated annual radiation doses to residents far exceed background, raising modeled lifetime cancer risk.", citations: [{ type: "primary", ref: "Al-Hamarneh, Radiation risk from Russifa phosphate mine, Radiat Prot Dosimetry (2013)", url: "https://pubmed.ncbi.nlm.nih.gov/23528328/", openAccess: false }] },
+	{ id: "lebanon-waste-burning", name: "Mount Lebanon open waste burning", tier: "anthropogenic", category: "anthropogenic", lat: 33.89, lng: 35.54, r: 60, reachKm: 60, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Since the 2015 waste-collection collapse, open burning of household garbage across greater Beirut and Mount Lebanon releases dioxins, PAHs and fine particles.", health: "These emissions are associated with elevated cancer risk, respiratory disease and heart disease.", citations: [{ type: "agency", ref: "Human Rights Watch, Burning Waste in Lebanon (2017)", url: "https://www.hrw.org/report/2017/12/01/if-youre-inhaling-your-death/health-risks-burning-waste-lebanon", openAccess: true }] },
+	{ id: "oman-ophiolite-chromium", name: "Oman ophiolite chromium groundwater", tier: "gray", category: "gray", lat: 24.34, lng: 56.71, r: 200, reachKm: 200, certainty: "open", severity: 2, research: 2, emissionType: "chemical", desc: "Weathering of Oman's vast ophiolite belt releases geogenic chromium, including carcinogenic hexavalent chromium, into coastal Batinah aquifers used for drinking and irrigation.", health: "Total and hexavalent chromium exceed limits in some wells, an under-characterized potential carcinogenic risk.", citations: [{ type: "primary", ref: "Abdelhalim et al., Geogenic chromium in Oman waters, EGU (2018)", url: "https://ui.adsabs.harvard.edu/abs/2018EGUGA..20.9768A/abstract", openAccess: true }] },
+	{ id: "ramat-hovav", name: "Ramat Hovav chemical complex", tier: "anthropogenic", category: "anthropogenic", lat: 31.13, lng: 34.79, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Israel's national hazardous-waste and heavy-chemical complex in the northern Negev sits beside Bedouin villages, with decades of effluent leaching toward groundwater.", health: "A study reported cancer and mortality rates higher within about 20 km, and adverse outcomes among adjacent Bedouin residents.", citations: [{ type: "primary", ref: "Karakis et al., Mortality near a regional industrial complex, Environ Health Insights (2009)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3091347/", openAccess: true }] },
+	{ id: "akhtala-lori-mining", name: "Akhtala mining lead belt", tier: "anthropogenic", category: "anthropogenic", lat: 41.15, lng: 44.76, r: 20, reachKm: 20, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "The Lori-region mining town of Akhtala holds large mine-tailings piles within residential areas, contaminating yard soils with lead, arsenic, chromium and cadmium.", health: "Most local children carry blood lead above the reference level, threatening neurodevelopment.", citations: [{ type: "primary", ref: "Grigoryan et al., Children's blood lead in Armenian mining communities, BMC Public Health (2016)", url: "https://bmcpublichealth.biomedcentral.com/articles/10.1186/s12889-016-3613-9", openAccess: true }] },
+	{ id: "mecca-hajj-heat", name: "Mecca Hajj humid heat", tier: "climate", category: "climate", lat: 21.42, lng: 39.83, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 4, desc: "The Hajj concentrates millions outdoors at Mecca, Mina and Arafat when air temperatures exceed 50 C and wet-bulb readings approach human survival limits.", health: "Humid heat drives heat stroke and exhaustion, contributing to over 1,300 reported pilgrim deaths in 2024, with risk rising under warming.", citations: [{ type: "review", ref: "Pradhan et al., Climate-related health risks for Hajj pilgrims, J Travel Med (2024)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11149718/", openAccess: true }] },
+	{ id: "mailuu-suu-uranium", name: "Mailuu-Suu uranium tailings", tier: "anthropogenic", category: "anthropogenic", lat: 41.27, lng: 72.46, r: 80, reachKm: 80, certainty: "established", severity: 4, research: 4, emissionType: "ionizing", desc: "A Kyrgyz town in the Fergana Valley sits among about 2 million cubic metres of Soviet uranium mill waste in 23 leaking tailings dumps above the Mailuu-Suu River.", health: "Residents face elevated indoor radon, uranium in local food and reported excess birth anomalies and miscarriages.", citations: [{ type: "primary", ref: "Stalder et al., Contamination at Mailuu Suu, J Environ Radioact (2014)", url: "https://pubmed.ncbi.nlm.nih.gov/25129324/", openAccess: false }] },
+	{ id: "ulaanbaatar-coal-smoke", name: "Ulaanbaatar winter coal smoke", tier: "established", category: "airborne", lat: 47.92, lng: 106.92, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Coal and raw-coal stoves heating the ger districts in a cold mountain basin push winter PM2.5 to roughly 150 to 250 micrograms per cubic metre.", health: "Chronic winter exposure is linked to respiratory and cardiovascular disease and a sharp seasonal drop in successful conceptions.", citations: [{ type: "primary", ref: "Jung et al., Indoor PM2.5 in Ulaanbaatar gers, IJERPH (2018)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6267369/", openAccess: true }] },
+	{ id: "oskemen-lead-zinc", name: "Oskemen lead-zinc smelter", tier: "anthropogenic", category: "anthropogenic", lat: 49.95, lng: 82.61, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "A nonferrous metallurgy complex has sat directly beside residential districts of this East Kazakhstan city since the late 1940s.", health: "Urban soils show extreme polymetallic loading and residents carry elevated blood lead.", citations: [{ type: "primary", ref: "Lin et al., Trace metals in Oskemen soils, Environ Geochem Health (2018)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5970153/", openAccess: true }] },
+	{ id: "tursunzoda-fluoride", name: "Tursunzoda TALCO aluminium fluoride belt", tier: "anthropogenic", category: "anthropogenic", lat: 38.51, lng: 68.23, r: 50, reachKm: 50, certainty: "established", severity: 4, research: 3, emissionType: "chemical", desc: "Central Asia's largest aluminium smelter near the Uzbek border emits hundreds of tons of hydrogen fluoride a year, fouling air, soil and crops across the border zone.", health: "Chronic fluoride exposure drives skeletal and dental fluorosis plus respiratory and digestive illness.", citations: [{ type: "primary", ref: "Barbieri et al., Soil contamination in industrial zones, SN Appl Sci (2020)", url: "https://link.springer.com/article/10.1007/s42452-020-03813-9", openAccess: true }] },
+	{ id: "atyrau-tengiz-h2s", name: "Atyrau-Tengiz sour gas H2S zone", tier: "anthropogenic", category: "anthropogenic", lat: 47.05, lng: 52.2, r: 150, reachKm: 150, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "One of the world's most sulfurous oilfields produces sour gas with 15 to 17 percent hydrogen sulfide, released by flaring and processing over the populated Atyrau region.", health: "Ambient hydrogen sulfide is associated with raised respiratory and cardiovascular morbidity.", citations: [{ type: "primary", ref: "H2S air pollution and health in Atyrau, Int J Sustain Dev Plan (2023)", url: "https://iieta.org/journals/ijsdp/paper/10.18280/ijsdp.180724", openAccess: true }] },
+	{ id: "ghazni-arsenic", name: "Ghazni arsenic groundwater", tier: "established", category: "chemistry", lat: 33.55, lng: 68, r: 200, reachKm: 200, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "Across Ghazni province in central Afghanistan, a majority of sampled wells exceed the WHO arsenic limit.", health: "Long-term arsenic ingestion causes skin lesions, cardiovascular disease, developmental harm and elevated cancer risk.", citations: [{ type: "primary", ref: "Arsenic in Malistan district, Ghazni, Environ Earth Sci (2025)", url: "https://link.springer.com/article/10.1007/s12665-025-12309-x", openAccess: false }] },
+	{ id: "pavlodar-mercury", name: "Pavlodar mercury (Lake Balkyldak)", tier: "anthropogenic", category: "anthropogenic", lat: 52.43, lng: 76.86, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "A former chlor-alkali plant lost an estimated 2,000 tons of mercury during 1975 to 1993, heavily contaminating Lake Balkyldak and a groundwater plume near the Irtysh River.", health: "Most fish from the lake exceed mercury limits, exposing people who eat them to methylmercury neurotoxicity.", citations: [{ type: "review", ref: "Mercury contaminated sites in Kazakhstan, IJERPH (2020)", url: "https://doi.org/10.3390/ijerph17238936", openAccess: true }] },
+	{ id: "almalyk-smelter", name: "Almalyk mining and smelting complex", tier: "anthropogenic", category: "anthropogenic", lat: 40.84, lng: 69.59, r: 35, reachKm: 35, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "A copper, lead and zinc mining and smelting hub in eastern Uzbekistan loads nearby topsoils with lead, cadmium, zinc, copper, mercury and arsenic far above thresholds.", health: "Stack emissions and contaminated soils expose the adjacent city to chronic lead, cadmium and arsenic uptake.", citations: [{ type: "primary", ref: "Khan et al., Almalyk smelter soils, Sci Total Environ (2014)", url: "https://www.sciencedirect.com/science/article/abs/pii/S0048969714000400", openAccess: false }] },
+	{ id: "digmai-uranium", name: "Digmai-Taboshar uranium tailings", tier: "anthropogenic", category: "anthropogenic", lat: 40.32, lng: 69.55, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 3, emissionType: "ionizing", desc: "Near Khujand in Tajikistan lie Central Asia's largest uranium-milling tailings, about 36 million cubic metres at Digmai plus the unsealed Taboshar dumps beside the Syr Darya.", health: "Open tailings give external gamma and radon doses of tens of mSv per year with metal and radionuclide contamination of soil and water.", citations: [{ type: "primary", ref: "Skipperud et al., U sites Taboshar and Digmai, J Environ Radioact (2013)", url: "https://ui.adsabs.harvard.edu/abs/2013JEnvR.123...50S/abstract", openAccess: false }] },
+	{ id: "boroo-zaamar-mercury", name: "Boroo-Zaamar goldfield mercury", tier: "anthropogenic", category: "anthropogenic", lat: 48.5, lng: 105.5, r: 150, reachKm: 150, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "Tens of thousands of informal miners using mercury amalgamation across northern Mongolia's goldfields have left mercury and arsenic enrichment in soils, rivers and fish.", health: "Mining is Mongolia's main mercury exposure source, with elevated mercury in fish and in residents' blood and urine.", citations: [{ type: "primary", ref: "Battsengel et al., Mercury in the Boroo River, Ecotoxicology (2022)", url: "https://link.springer.com/article/10.1007/s10646-021-02502-6", openAccess: false }] },
+	{ id: "sukinda-chromium", name: "Sukinda Valley hexavalent chromium", tier: "anthropogenic", category: "anthropogenic", lat: 20.97, lng: 85.78, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "India's largest chromite mining belt in Jajpur, Odisha leaches carcinogenic hexavalent chromium into the soil, air and groundwater used by over 200,000 people.", health: "Chronic Cr(VI) exposure drives elevated cancer risk, gastrointestinal and respiratory disease and skin lesions.", citations: [{ type: "primary", ref: "Das & Mishra, Chromite toxicity in Indian miners, Indian J Occup Environ Med (2010)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3143520/", openAccess: true }] },
+	{ id: "xikuangshan-antimony", name: "Xikuangshan antimony district", tier: "anthropogenic", category: "anthropogenic", lat: 27.73, lng: 111.49, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "The world's largest antimony mine and smelter near Lengshuijiang, Hunan has discharged antimony, arsenic, mercury and cadmium into local soils and waters for two centuries.", health: "Residents face very high health risk from antimony and arsenic, with respiratory, cardiovascular and toxic-element body burdens.", citations: [{ type: "primary", ref: "Wang et al., Antimony at Xikuangshan, Environ Geochem Health (2011)", url: "https://link.springer.com/article/10.1007/s10653-010-9284-z", openAccess: false }] },
+	{ id: "guiyu-ewaste", name: "Guiyu e-waste town", tier: "anthropogenic", category: "anthropogenic", lat: 23.3, lng: 116.35, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Decades of primitive e-waste dismantling in Guiyu, Guangdong saturated soil, air and dust with lead, dioxins and other toxicants.", health: "Children show widespread elevated blood lead, impaired hemoglobin synthesis and other neurodevelopmental harms.", citations: [{ type: "primary", ref: "Huo et al., Blood lead of children in Guiyu, Environ Health Perspect (2007)", url: "https://ehp.niehs.nih.gov/doi/full/10.1289/ehp.9697", openAccess: true }] },
+	{ id: "baotou-rare-earth", name: "Baotou rare-earth tailings (Dalahai)", tier: "anthropogenic", category: "anthropogenic", lat: 40.6, lng: 109.78, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 3, emissionType: "ionizing", desc: "The Bayan Obo tailings reservoir near Baotou holds roughly 200 million tons of radioactive thorium-bearing slurry whose wind-blown dust reaches surrounding villages.", health: "Downwind residents report skin lesions, dental and skeletal abnormalities and elevated cancer concern from thorium-enriched soils.", citations: [{ type: "agency", ref: "AFP/phys.org, China and rare earths (2011)", url: "https://phys.org/news/2011-05-china-price-world-rare-earths.html", openAccess: true }] },
+	{ id: "janghang-copper", name: "Janghang copper smelter legacy", tier: "anthropogenic", category: "anthropogenic", lat: 36.01, lng: 126.69, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "A copper smelter operating in Janghang, South Korea from 1936 to 1989 contaminated surrounding soils with arsenic, cadmium and lead that still expose residents.", health: "People living within several km show distance-dependent blood and urinary cadmium, arsenic and lead, with renal tubular dysfunction.", citations: [{ type: "primary", ref: "Kim et al., Exposure near Janghang smelter, J Korean Med Sci (2016)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4810329/", openAccess: true }] },
+	{ id: "map-ta-phut", name: "Map Ta Phut petrochemical complex", tier: "anthropogenic", category: "anthropogenic", lat: 12.69, lng: 101.15, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Thailand's largest petrochemical and refining estate in Rayong releases benzene, 1,3-butadiene, vinyl chloride and other volatile organics into nearby communities.", health: "Modeled lifetime cancer risk exceeds benchmarks nearby, with elevated respiratory disease and cancer reported among residents.", citations: [{ type: "primary", ref: "Tipayarom & Oanh, Map Ta Phut health risk, Environ Res (2016)", url: "https://www.sciencedirect.com/science/article/abs/pii/S0013935116307678", openAccess: false }] },
+	{ id: "klity-creek-lead", name: "Klity Creek lead contamination", tier: "anthropogenic", category: "anthropogenic", lat: 14.85, lng: 98.65, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Lead-mine tailings spilled into Klity Creek in Kanchanaburi, the sole water source for a Karen village, leaving sediment, fish and water heavily contaminated for decades.", health: "Hundreds of villagers, especially children, showed dangerous blood lead, lower IQ and neurological symptoms.", citations: [{ type: "primary", ref: "Klity Creek lead monitoring, Environ Health Perspect (2016)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5047778/", openAccess: true }] },
+	{ id: "marcopper-marinduque", name: "Marcopper mine legacy, Marinduque", tier: "anthropogenic", category: "anthropogenic", lat: 13.45, lng: 121.92, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 3, emissionType: "mixed", desc: "Copper-mine tailings disposal and the 1996 Boac River breach left Marinduque island with lead, cadmium, arsenic and zinc across rivers, bays and farmland.", health: "Communities report heavy-metal poisoning in children, chronic kidney and respiratory problems and loss of safe water.", citations: [{ type: "primary", ref: "Plumlee et al., Marinduque mine wastes, J Health Pollut (2020)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7269319/", openAccess: true }] },
+	{ id: "diwalwal-mercury", name: "Mount Diwata (Diwalwal) ASGM mercury", tier: "anthropogenic", category: "anthropogenic", lat: 7.86, lng: 126.18, r: 25, reachKm: 25, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Artisanal gold processing at Mount Diwata in Mindanao burns mercury amalgam in the open, contaminating air, settlements and downstream waters.", health: "A large share of miners and even non-occupationally exposed residents are mercury intoxicated, with tremor and memory loss.", citations: [{ type: "primary", ref: "Drasch et al., Mt Diwata study, Sci Total Environ (2001)", url: "https://pubmed.ncbi.nlm.nih.gov/11286210/", openAccess: false }] },
+	{ id: "rca-taoyuan", name: "RCA Taoyuan solvent groundwater plume", tier: "anthropogenic", category: "anthropogenic", lat: 24.99, lng: 121.3, r: 20, reachKm: 20, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "An RCA electronics plant in Taoyuan dumped chlorinated solvents into wells from 1968 to 1992, leaving soil and groundwater laced with trichloroethylene and benzene.", health: "More than 1,300 former workers were diagnosed with cancers and over 200 died, a landmark contamination case.", citations: [{ type: "review", ref: "Chen, Taiwan RCA litigation, East Asian Sci Technol Soc (2023)", url: "https://www.tandfonline.com/doi/full/10.1080/18752160.2023.2269019", openAccess: true }] },
+	{ id: "citarum-river", name: "Citarum River industrial contamination", tier: "anthropogenic", category: "anthropogenic", lat: -6.93, lng: 107.52, r: 150, reachKm: 150, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "West Java's Citarum, often called the world's most polluted river, carries lead, mercury, chromium and cadmium from roughly 1,900 mostly untreated factories.", health: "Communities relying on its water face carcinogenic and chronic risks from heavy metals including lead far above limits.", citations: [{ type: "primary", ref: "Groundwater health risk near the Citarum River, ScienceDirect (2025)", url: "https://www.sciencedirect.com/science/article/pii/S266601642500060X", openAccess: true }] },
+	{ id: "lapindo-sidoarjo", name: "Sidoarjo (Lapindo) mud volcano", tier: "anthropogenic", category: "anthropogenic", lat: -7.53, lng: 112.71, r: 20, reachKm: 20, certainty: "established", severity: 4, research: 3, emissionType: "mixed", desc: "A gas-drilling blowout triggered the Lapindo mud volcano in East Java in 2006, which still erupts hot mud emitting hydrogen sulfide and carrying arsenic and fluoride.", health: "Exposure caused thousands of treatments for hydrogen sulfide effects and raised respiratory, fluoride and nitrate risks among displaced residents.", citations: [{ type: "agency", ref: "UNDAC/UNEP, Hot Mud Flow East Java (2006)", url: "https://reliefweb.int/report/indonesia/environmental-assessment-hot-mud-flow-east-java-indonesia", openAccess: true }] },
+	{ id: "hazaribagh-tannery", name: "Hazaribagh tannery chromium zone", tier: "anthropogenic", category: "anthropogenic", lat: 23.74, lng: 90.36, r: 20, reachKm: 20, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Around 150 tanneries in Dhaka's Hazaribagh discharged some 22,000 cubic metres of chromium-laden effluent daily for decades, grossly contaminating soil and water.", health: "Workers and residents, including children, face elevated cancer and non-cancer risk plus skin and respiratory disease.", citations: [{ type: "primary", ref: "Chromium pollution monitoring and health, Environ Sci Pollut Res (2018)", url: "https://pubmed.ncbi.nlm.nih.gov/29547855/", openAccess: false }] },
+	{ id: "dong-mai-lead", name: "Dong Mai battery-recycling lead village", tier: "anthropogenic", category: "anthropogenic", lat: 20.96, lng: 106.05, r: 20, reachKm: 20, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Informal used-battery recycling since 1978 in Dong Mai, Hung Yen province has saturated village soil and dust with lead.", health: "Surveyed children showed universally high blood lead, with about 28 percent above 45 micrograms per decilitre.", citations: [{ type: "primary", ref: "Daniell et al., Lead from battery recycling, Vietnam, BioMed Res Int (2015)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4637436/", openAccess: true }] },
+	{ id: "toroku-arsenic", name: "Toroku arsenic mine disease", tier: "solved", category: "solved", lat: 32.74, lng: 131.34, r: 20, reachKm: 20, certainty: "solved-firm", severity: 3, research: 4, emissionType: "chemical", desc: "An arsenic mine and refinery in Toroku, Miyazaki (1920 to 1962) released arsenic that heavily contaminated nearby air, soil and water.", health: "Survivors developed chronic arsenic poisoning with skin changes, skin and lung cancers and lasting sensory polyneuropathy.", citations: [{ type: "primary", ref: "Ishii et al., Chronic arsenic exposure in Toroku, IJERPH (2021)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8535450/", openAccess: true }] },
+	{ id: "kasur-tannery", name: "Kasur tannery chromium groundwater", tier: "anthropogenic", category: "anthropogenic", lat: 31.12, lng: 74.45, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "Untreated effluent from the leather-tanning cluster in Kasur, Punjab has driven chromium into shallow groundwater and farmland used for drinking and irrigation.", health: "Risk assessment indicates carcinogenic risk from chromium and lead in groundwater, with elevated disease near effluent drains.", citations: [{ type: "primary", ref: "Tanneries and groundwater in Kasur, Environ Monit Assess (2022)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9510162/", openAccess: true }] },
+	{ id: "port-pirie-lead", name: "Port Pirie lead smelter", tier: "anthropogenic", category: "anthropogenic", lat: -33.18, lng: 138.01, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "One of the world's largest lead and zinc smelters has dusted this South Australian town with airborne lead since 1889.", health: "Chronic childhood lead exposure persists, with many young children carrying blood lead above 5 micrograms per decilitre.", citations: [{ type: "primary", ref: "Maynard et al., Blood lead in Port Pirie, Sci Total Environ (2003)", url: "https://pubmed.ncbi.nlm.nih.gov/12568762/", openAccess: false }] },
+	{ id: "mount-isa-lead", name: "Mount Isa lead and copper mining", tier: "anthropogenic", category: "anthropogenic", lat: -20.72, lng: 139.49, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Decades of lead, zinc and copper mining and smelting inside this Queensland city have loaded local soils and dust with heavy metals.", health: "About 40 percent of young children had blood lead at or above 5 micrograms per decilitre, higher among Indigenous children.", citations: [{ type: "primary", ref: "Sullivan et al., Children's blood lead in Mount Isa, IJERPH (2017)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5750985/", openAccess: true }] },
+	{ id: "broken-hill-lead", name: "Broken Hill lead field", tier: "anthropogenic", category: "anthropogenic", lat: -31.96, lng: 141.47, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 5, emissionType: "chemical", desc: "Australia's oldest silver-lead-zinc mining town carries a legacy of lead-rich soil and dust from over a century of extraction plus ongoing operations.", health: "Elevated childhood blood lead is endemic, with 41 to 61 percent of tested children each year at or above 5 micrograms per decilitre.", citations: [{ type: "primary", ref: "Lesjak et al., Blood lead in Broken Hill children, Public Health Res Pract (2022)", url: "https://doi.org/10.17061/phrp31122107", openAccess: true }] },
+	{ id: "nauru-phosphate", name: "Nauru phosphate wasteland", tier: "anthropogenic", category: "anthropogenic", lat: -0.52, lng: 166.93, r: 20, reachKm: 20, certainty: "established", severity: 4, research: 3, emissionType: "chemical", desc: "About 80 percent of Nauru's surface has been strip-mined for phosphate, leaving jagged pinnacled badlands with cadmium-laden dust and ruined groundwater.", health: "Residents face respiratory irritation from phosphate and cadmium dust and degraded water and food security.", citations: [{ type: "agency", ref: "Effects of mining in Nauru (overview)", url: "https://en.wikipedia.org/wiki/Effects_of_mining_in_Nauru", openAccess: true }] },
+	{ id: "banaba-phosphate", name: "Banaba (Ocean Island) phosphate devastation", tier: "anthropogenic", category: "anthropogenic", lat: -0.86, lng: 169.54, r: 20, reachKm: 20, certainty: "established", severity: 4, research: 2, emissionType: "chemical", desc: "Some 90 percent of this Kiribati island was stripped bare by 80 years of phosphate mining, removing roughly 22 million tonnes of land.", health: "The remaining population lacks reliable fresh water and food, with contaminated water caves leaving the island barely habitable.", citations: [{ type: "agency", ref: "Phosphate mining in Banaba and Nauru (overview)", url: "https://en.wikipedia.org/wiki/Phosphate_mining_in_Banaba_and_Nauru", openAccess: true }] },
+	{ id: "panguna-bougainville", name: "Panguna mine tailings, Bougainville", tier: "anthropogenic", category: "anthropogenic", lat: -6.32, lng: 155.48, r: 60, reachKm: 60, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Close to a billion tonnes of copper-rich mine waste were dumped into the Jaba-Kawerong river system before the mine closed in 1989, with sediment copper still very high.", health: "Communities along the contaminated rivers report skin disease and gastrointestinal and respiratory illness.", citations: [{ type: "primary", ref: "Copper in the Jaba-Kawerong river 30 years after Panguna, Environ Earth Sci (2024)", url: "https://link.springer.com/article/10.1007/s12665-024-11920-8", openAccess: false }] },
+	{ id: "williamtown-pfas", name: "Williamtown PFAS plume", tier: "anthropogenic", category: "anthropogenic", lat: -32.8, lng: 151.84, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 5, emissionType: "chemical", desc: "Decades of firefighting-foam use at RAAF Base Williamtown left PFAS in groundwater, surface water and locally grown food across this New South Wales community.", health: "An ANU study found clearly elevated blood serum PFAS and increased psychological distress in exposed residents.", citations: [{ type: "agency", ref: "ANU PFAS Health Study, Blood Serum Report (2021)", url: "https://nceph.anu.edu.au/files/PFAS%20Health%20Study%20Blood%20Serum%20Study%20report_Dec2021.pdf", openAccess: true }] },
+	{ id: "waikato-arsenic", name: "Waikato River geothermal arsenic", tier: "established", category: "chemistry", lat: -38.62, lng: 176.09, r: 300, reachKm: 300, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Natural geothermal inputs from Lake Taupo and the Wairakei field push dissolved arsenic above the drinking-water guideline along most of New Zealand's longest river.", health: "Chronic arsenic exposure risk requires treatment of supplies drawn from the river serving Hamilton and parts of Auckland.", citations: [{ type: "agency", ref: "Arsenic in the Waikato River, Te Ara Encyclopedia of NZ", url: "https://teara.govt.nz/en/map/5439/arsenic-in-the-waikato-river", openAccess: true }] },
+	{ id: "new-caledonia-nickel", name: "New Caledonia nickel mining belt", tier: "anthropogenic", category: "anthropogenic", lat: -21.5, lng: 165.8, r: 200, reachKm: 200, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Open-pit nickel mining of ultramafic soils sheds nickel, chromium and other metals into rivers and the lagoon through erosion and atmospheric deposition.", health: "Biomonitoring found over 60 percent of assessed adults exceeding reference values for urinary chromium.", citations: [{ type: "primary", ref: "Nickel and metals exposure in New Caledonia, Environ Int (2018)", url: "https://pubmed.ncbi.nlm.nih.gov/29864722/", openAccess: false }] },
+	{ id: "vatukoula-gold-fiji", name: "Vatukoula gold mine, Fiji", tier: "anthropogenic", category: "anthropogenic", lat: -17.5, lng: 178.05, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "Long-running gold mining and roasted tailings have contaminated the Nasivi River and local water with arsenic, cadmium, lead and other heavy metals.", health: "Studies report high health risks, especially in children, from arsenic and metals in drinking and irrigation water.", citations: [{ type: "primary", ref: "Heavy metals from Vatukoula goldmine, J Environ Manage (2021)", url: "https://pubmed.ncbi.nlm.nih.gov/34089960/", openAccess: false }] },
+	{ id: "mount-lyell-tasmania", name: "Mount Lyell acid drainage, Queenstown", tier: "anthropogenic", category: "anthropogenic", lat: -42.08, lng: 145.55, r: 40, reachKm: 40, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "A century of copper mining above Queenstown discharged a huge mine-sediment load, leaving the lower King River biologically dead from acid drainage and copper.", health: "Ongoing acid mine drainage and dissolved metals contaminate the catchment and Macquarie Harbour, with effects projected to persist for centuries.", citations: [{ type: "primary", ref: "Mining impact on water at Mount Lyell, Mine Water Environ (2023)", url: "https://link.springer.com/article/10.1007/s10230-023-00943-5", openAccess: false }] },
+	{ id: "ranger-uranium-kakadu", name: "Ranger uranium mine, Kakadu", tier: "anthropogenic", category: "anthropogenic", lat: -12.68, lng: 132.91, r: 40, reachKm: 40, certainty: "established", severity: 3, research: 3, emissionType: "ionizing", desc: "Over 200 leaks and breaches at this uranium mine inside Kakadu, on Mirarr land, contaminated creeks and water, including a 2004 event with uranium far above the safety standard.", health: "Nearby Aboriginal communities showed higher stillbirth and cancer rates over 1994 to 2013, though causation remains formally unconfirmed.", citations: [{ type: "review", ref: "Tatz et al., Health impacts of the Ranger uranium mine, Med J Aust (2021)", url: "https://www.mja.com.au/journal/2021/215/4/investigating-health-impacts-ranger-uranium-mine-aboriginal-people", openAccess: false }] },
+
+	// ===================== EXPANSION 11: PER-COUNTRY SWEEP (AMERICAS, AFRICA) =====================
+	{ id: "san-joaquin-arsenic", name: "San Joaquin Valley arsenic and nitrate", tier: "established", category: "chemistry", lat: 36.2, lng: -119.3, r: 250, reachKm: 250, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Geologic arsenic and agricultural nitrate persistently exceed drinking-water limits in many small, mostly Latino community water systems across California's southern Central Valley.", health: "Long-term exposure is linked to elevated cancer, cardiovascular and adverse reproductive outcomes.", citations: [{ type: "primary", ref: "Balazs et al., arsenic in California's San Joaquin Valley, Environ Health (2012)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3533865/", openAccess: true }] },
+	{ id: "new-england-arsenic", name: "New England bedrock well arsenic", tier: "established", category: "chemistry", lat: 44.31, lng: -69.78, r: 220, reachKm: 220, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Naturally occurring arsenic leaches from bedrock into private drilled wells across Maine and adjacent New England, among the highest groundwater levels in the US.", health: "Chronic ingestion is associated with bladder and other cancers, with blood arsenic detected in most young children in high-prevalence areas.", citations: [{ type: "agency", ref: "Ayotte et al., USGS, arsenic in eastern New England groundwater", url: "https://www.usgs.gov/publications/arsenic-groundwater-eastern-new-england-occurrence-controls-and-human-health", openAccess: true }] },
+	{ id: "louisiana-cancer-alley", name: "Cancer Alley petrochemical corridor", tier: "anthropogenic", category: "anthropogenic", lat: 30.05, lng: -90.55, r: 150, reachKm: 150, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "A dense band of refineries and chemical plants along the Mississippi between Baton Rouge and New Orleans exposes fenceline communities to chloroprene, ethylene oxide and other air toxics.", health: "Modeled lifetime cancer risk near some plants reaches many times the national average, concentrated in predominantly Black communities.", citations: [{ type: "review", ref: "Johns Hopkins, Louisiana Cancer Alley air-toxics study (2025)", url: "https://publichealth.jhu.edu/2025/the-shocking-hazards-of-louisianas-cancer-alley", openAccess: true }] },
+	{ id: "bunker-hill-silver-valley", name: "Bunker Hill / Silver Valley lead", tier: "anthropogenic", category: "anthropogenic", lat: 47.54, lng: -116.12, r: 60, reachKm: 60, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "A century of lead and zinc smelting in northern Idaho left a large Superfund site of lead-contaminated soils and floodplains along the Coeur d'Alene River.", health: "Childhood lead poisoning was epidemic in the 1970s; decades of remediation have since cut levels toward background.", citations: [{ type: "primary", ref: "von Lindern et al., Bunker Hill Superfund blood lead, Sci Total Environ (2003)", url: "https://pubmed.ncbi.nlm.nih.gov/12568769/", openAccess: false }] },
+	{ id: "athabasca-oil-sands", name: "Athabasca oil sands downstream", tier: "anthropogenic", category: "anthropogenic", lat: 57.5, lng: -111.4, r: 300, reachKm: 300, certainty: "established", severity: 3, research: 3, emissionType: "mixed", desc: "Large-scale bitumen mining and upgrading in northern Alberta release polycyclic aromatic hydrocarbons and metals into air and the Athabasca River.", health: "Indigenous communities downstream report elevated rare cancers, with contaminants measured in traditional foods.", citations: [{ type: "review", ref: "McLachlan et al., oil sands and health (2024)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC12448773/", openAccess: true }] },
+	{ id: "sydney-tar-ponds", name: "Sydney Tar Ponds", tier: "solved", category: "solved", lat: 46.14, lng: -60.18, r: 20, reachKm: 20, certainty: "solved-firm", severity: 4, research: 3, emissionType: "mixed", desc: "Decades of coke-oven and steel-plant operation in Sydney, Nova Scotia created one of Canada's worst toxic sites, since capped and remediated.", health: "Surrounding neighborhoods showed elevated arsenic, lead and PAHs and historically higher cancer and congenital-abnormality rates.", citations: [{ type: "primary", ref: "Lambert & Lane, Sydney NS soil contamination (2011)", url: "https://pubmed.ncbi.nlm.nih.gov/21864102/", openAccess: false }] },
+	{ id: "grassy-narrows-mercury", name: "Grassy Narrows mercury", tier: "anthropogenic", category: "anthropogenic", lat: 50.05, lng: -93.93, r: 250, reachKm: 250, certainty: "established", severity: 5, research: 5, emissionType: "chemical", desc: "A Dryden pulp mill dumped roughly 9,000 kg of mercury into the English-Wabigoon river system in the 1960s and 70s, contaminating fish central to the Grassy Narrows people's diet.", health: "A large share of the community shows methylmercury poisoning, with childhood exposure linked to neurological harm and premature mortality.", citations: [{ type: "primary", ref: "Philibert et al., Grassy Narrows mercury and mortality, Lancet Planet Health (2020)", url: "https://www.thelancet.com/journals/lanplh/article/PIIS2542-5196(20)30057-7/fulltext", openAccess: true }] },
+	{ id: "sarnia-chemical-valley", name: "Sarnia Chemical Valley (Aamjiwnaang)", tier: "anthropogenic", category: "anthropogenic", lat: 42.95, lng: -82.4, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "About 60 petrochemical and refining facilities cluster near the Aamjiwnaang reserve at Sarnia, releasing benzene and other pollutants at fenceline.", health: "Researchers documented a skewed birth sex ratio and elevated miscarriage and asthma; a benzene state of emergency was declared in 2024.", citations: [{ type: "primary", ref: "Mackenzie et al., declining sex ratio, Environ Health Perspect (2005)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1281269/", openAccess: true }] },
+	{ id: "giant-mine-yellowknife", name: "Giant Mine arsenic, Yellowknife", tier: "anthropogenic", category: "anthropogenic", lat: 62.51, lng: -114.36, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Gold roasting at Giant Mine released arsenic trioxide over Yellowknife for decades and left about 237,000 tonnes of arsenic trioxide stored underground.", health: "Soils, lakes and berries near the mine carry elevated arsenic, with higher urinary inorganic arsenic in local children.", citations: [{ type: "primary", ref: "Chan et al., Yellowknife health effects monitoring (2020)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7523220/", openAccess: true }] },
+	{ id: "uravan-uranium", name: "Uravan uranium and radium mill", tier: "solved", category: "solved", lat: 38.37, lng: -108.73, r: 30, reachKm: 30, certainty: "solved-firm", severity: 3, research: 3, emissionType: "ionizing", desc: "A company town built around a radium, vanadium and uranium mill on the San Miguel River left tailings and heavy-metal contamination, later demolished and remediated.", health: "A cohort study found excess lung cancer mainly among residents who had also worked in underground uranium mines.", citations: [{ type: "primary", ref: "Boice et al., Uravan mortality, J Radiol Prot (2007)", url: "https://pubmed.ncbi.nlm.nih.gov/17768330/", openAccess: false }] },
+	{ id: "parkersburg-pfoa", name: "Parkersburg C8 / PFOA (Mid-Ohio Valley)", tier: "anthropogenic", category: "anthropogenic", lat: 39.27, lng: -81.56, r: 80, reachKm: 80, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "DuPont's Washington Works plant near Parkersburg discharged PFOA (C8) into the Ohio River and air from 1951, contaminating six public water districts.", health: "The C8 Science Panel linked PFOA to kidney and testicular cancer, thyroid disease, ulcerative colitis and pregnancy-induced hypertension.", citations: [{ type: "primary", ref: "Frisbee et al., C8 Health Project, Environ Health Perspect (2009)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2799461/", openAccess: true }] },
+	{ id: "bone-valley-phosphate", name: "Bone Valley phosphate and phosphogypsum", tier: "anthropogenic", category: "anthropogenic", lat: 27.85, lng: -81.95, r: 120, reachKm: 120, certainty: "established", severity: 3, research: 3, emissionType: "ionizing", desc: "Phosphate mining and fertilizer production across central Florida leave towering phosphogypsum stacks that concentrate uranium, radium and thorium and emit radon.", health: "Phosphogypsum elevates radon and radium exposure, and acidic stack seepage threatens drinking groundwater.", citations: [{ type: "agency", ref: "US EPA, Phosphogypsum radiation overview", url: "https://www.epa.gov/radiation/phosphogypsum", openAccess: true }] },
+	{ id: "torreon-penoles", name: "Torreon Met-Mex Penoles smelter", tier: "anthropogenic", category: "anthropogenic", lat: 25.55, lng: -103.41, r: 15, reachKm: 15, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "A century-old lead-zinc smelter in Torreon, Coahuila released among the highest metal emissions in Mexico before controls after a 1999 mass child lead-poisoning discovery.", health: "Children near the plant carried high blood lead, linked to neurodevelopmental and cognitive harm.", citations: [{ type: "primary", ref: "Soto-Jimenez & Flegal, Torreon lead, Environ Health (2011)", url: "https://ehjournal.biomedcentral.com/articles/10.1186/1476-069X-10-66", openAccess: true }] },
+	{ id: "rio-sonora-spill", name: "Rio Sonora copper-mine spill basin", tier: "anthropogenic", category: "anthropogenic", lat: 30.33, lng: -110.15, r: 120, reachKm: 120, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "The 2014 Buenavista del Cobre tailings failure released acidic copper sulfate carrying arsenic, cadmium and lead down roughly 250 km of the Sonora River.", health: "Biomonitoring found many basin residents with clinically significant blood lead and neurodevelopmental deficits in children.", citations: [{ type: "primary", ref: "Neurodevelopment in Sonora river basin children, PMC (2024)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12714966/", openAccess: true }] },
+	{ id: "zimapan-arsenic", name: "Zimapan arsenic groundwater", tier: "established", category: "chemistry", lat: 20.74, lng: -99.38, r: 15, reachKm: 15, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Arsenic-rich minerals plus historic smelting contaminate the fractured limestone aquifer of Zimapan, Hidalgo, with well arsenic above 1 mg per litre.", health: "Chronic ingestion is associated with elevated cardiovascular disease risk alongside classic arsenicosis.", citations: [{ type: "review", ref: "Armienta & Segovia, arsenic and fluoride in Mexico, Environ Geochem Health (2008)", url: "https://link.springer.com/article/10.1007/s10653-008-9167-8", openAccess: false }] },
+	{ id: "siquirres-pesticides", name: "Siquirres pineapple pesticide aquifer", tier: "anthropogenic", category: "anthropogenic", lat: 10.1, lng: -83.51, r: 12, reachKm: 12, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "Aquifers serving communities in Siquirres, Costa Rica were contaminated by bromacil and other herbicides from pineapple plantations, forcing trucked water since 2007.", health: "Bromacil exposure is linked to thyroid, liver and kidney effects, with chronic skin and respiratory complaints reported.", citations: [{ type: "review", ref: "Bravo et al., banning of bromacil in Costa Rica, Weed Science (2020)", url: "https://www.cambridge.org/core/journals/weed-science/article/abs/banning-of-bromacil-in-costa-rica/6DE371BCD4E59F84C2A05224F0C75F10", openAccess: false }] },
+	{ id: "bajos-de-haina", name: "Bajos de Haina lead smelter legacy", tier: "solved", category: "solved", lat: 18.42, lng: -70.03, r: 6, reachKm: 6, certainty: "solved-firm", severity: 4, research: 4, emissionType: "chemical", desc: "An abandoned informal battery-recycling smelter in Bajos de Haina left soil so leaded the town was dubbed the Dominican Chernobyl, with remediation after 2008.", health: "Surveyed children showed very high blood lead and severe neurodevelopmental harm before levels fell post-cleanup.", citations: [{ type: "primary", ref: "Kaul et al., blood lead near Haina battery plant (1999)", url: "https://pubmed.ncbi.nlm.nih.gov/10633250/", openAccess: false }] },
+	{ id: "san-sebastian-mine-sv", name: "San Sebastian mine acid drainage", tier: "anthropogenic", category: "anthropogenic", lat: 13.69, lng: -87.96, r: 15, reachKm: 15, certainty: "established", severity: 3, research: 2, emissionType: "chemical", desc: "The abandoned San Sebastian gold mine in El Salvador drains acidic water laden with iron, cyanide, arsenic and mercury into the river, helping drive the 2017 metal-mining ban.", health: "Cyanide and iron far above safe levels leave the river unusable for drinking or agriculture.", citations: [{ type: "review", ref: "San Sebastian Gold Mine, El Salvador (overview)", url: "https://en.wikipedia.org/wiki/San_Sebastian_Gold_Mine", openAccess: true }] },
+	{ id: "central-mexico-fluoride", name: "Central Mexico fluoride belt", tier: "established", category: "chemistry", lat: 21.88, lng: -102.29, r: 300, reachKm: 300, certainty: "established", severity: 3, research: 5, emissionType: "chemical", desc: "Deep groundwater across Aguascalientes, San Luis Potosi, Durango and neighboring states carries naturally high fluoride, with city supplies of 4 to 7 mg per litre.", health: "Around five million people are exposed, with very high dental fluorosis prevalence and skeletal and renal risk.", citations: [{ type: "review", ref: "Dental fluorosis in Mexico 2005-2015, Salud Publica Mex (2017)", url: "https://www.scielosp.org/article/spm/2017.v59n3/306-313/en/", openAccess: true }] },
+	{ id: "jamaica-red-mud", name: "Jamaica bauxite red-mud belt", tier: "anthropogenic", category: "anthropogenic", lat: 18, lng: -77.4, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 3, emissionType: "mixed", desc: "Central Jamaica's alumina refining generates vast caustic red-mud lakes whose dust and caustic soda escape into air and seep into karst groundwater.", health: "Communities near mud lakes report chronic asthma and respiratory illness in children, skin and eye irritation and contaminated water.", citations: [{ type: "review", ref: "Samuels-Jones, bauxite mining in Jamaica", url: "https://ecocidelaw.com/wp-content/uploads/2023/08/14-Samuels-Jones-Unearthed-Bauxite-Mining-in-Jamaica-as-Ecocide.pdf", openAccess: true }] },
+	{ id: "coatzacoalcos-petrochemical", name: "Coatzacoalcos petrochemical corridor", tier: "anthropogenic", category: "anthropogenic", lat: 18.13, lng: -94.45, r: 25, reachKm: 25, certainty: "established", severity: 4, research: 4, emissionType: "mixed", desc: "Four petrochemical complexes plus Mexico's oldest refinery made the lower Coatzacoalcos River, Veracruz heavily contaminated with mercury, lead, PCBs and HCB.", health: "Studies document elevated body burdens and genotoxic and hematological effects in exposed children.", citations: [{ type: "primary", ref: "Coatzacoalcos oil-industry impacts, Environ Sci Pollut Res (2014)", url: "https://link.springer.com/article/10.1007/s11356-014-2942-4", openAccess: false }] },
+	{ id: "moa-nickel", name: "Moa nickel-laterite district", tier: "anthropogenic", category: "anthropogenic", lat: 20.65, lng: -74.94, r: 20, reachKm: 20, certainty: "established", severity: 3, research: 3, emissionType: "mixed", desc: "Open-pit nickel and cobalt laterite mining and metallurgy at Moa, eastern Cuba discharge tailings and acidic effluent that load nearby bays and aquifers with metals.", health: "Residents report chronic respiratory problems from nickel and cobalt dust, with metals in coastal sediments and groundwater.", citations: [{ type: "primary", ref: "Heavy metals in Moa bays sediments, Cuba, Environ Geochem Health", url: "https://link.springer.com/article/10.1023/A:1018490103105", openAccess: false }] },
+	{ id: "dorado-pr-plume", name: "Dorado groundwater solvent plume", tier: "solved", category: "solved", lat: 18.46, lng: -66.27, r: 10, reachKm: 10, certainty: "solved-firm", severity: 3, research: 4, emissionType: "chemical", desc: "An EPA Superfund plume of TCE and PCE contaminates the karst aquifer at Dorado, Puerto Rico, a drinking-water source for over 67,000 people.", health: "Chronic PCE and TCE exposure is associated with liver damage and increased cancer risk, prompting well closures.", citations: [{ type: "agency", ref: "US EPA Superfund, Dorado Ground Water Contamination", url: "https://cumulis.epa.gov/supercpad/SiteProfiles/index.cfm?fuseaction=second.cleanup&id=0201872", openAccess: true }] },
+	{ id: "cerro-de-pasco", name: "Cerro de Pasco lead mining", tier: "anthropogenic", category: "anthropogenic", lat: -10.667, lng: -76.256, r: 12, reachKm: 12, certainty: "established", severity: 5, research: 5, emissionType: "chemical", desc: "A high-Andes mining city where an open-pit polymetallic mine in the town center has saturated soils, dust and homes with lead for over a century.", health: "Most tested children show blood lead above safe limits, with documented neurodevelopmental harm and a 2017 health emergency.", citations: [{ type: "primary", ref: "Reuther et al., heavy metals and children in Peru, Sci Rep (2021)", url: "https://www.nature.com/articles/s41598-021-02163-9", openAccess: true }] },
+	{ id: "madre-de-dios-mercury", name: "Madre de Dios ASGM mercury", tier: "anthropogenic", category: "anthropogenic", lat: -12.86, lng: -70.05, r: 120, reachKm: 120, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "An Amazon region where tens of thousands of artisanal gold miners use mercury amalgamation, contaminating rivers, sediments and fish far downstream.", health: "Nearly all assessed residents carry detectable methylmercury, exposing even non-mining Indigenous communities through diet.", citations: [{ type: "primary", ref: "Ashe / Diringer, Madre de Dios mercury (2012-2015)", url: "https://pubmed.ncbi.nlm.nih.gov/25573610/", openAccess: false }] },
+	{ id: "arica-boliden-arsenic", name: "Arica Boliden arsenic waste", tier: "anthropogenic", category: "anthropogenic", lat: -18.49, lng: -70.3, r: 6, reachKm: 6, certainty: "established", severity: 5, research: 4, emissionType: "chemical", desc: "A residential district of Arica, Chile built around roughly 20,000 tonnes of arsenic-rich smelter waste imported from Sweden in 1984 and left exposed for decades.", health: "An estimated 12,000 residents were exposed, with elevated cancers, skin lesions and developmental problems.", citations: [{ type: "agency", ref: "OHCHR, Arica Swedish toxic waste (2021)", url: "https://www.ohchr.org/en/press-releases/2021/06/chile-nearly-40-years-still-no-remedy-victims-swedish-toxic-waste-un-experts", openAccess: true }] },
+	{ id: "quintero-puchuncavi", name: "Quintero-Puchuncavi industrial bay", tier: "anthropogenic", category: "anthropogenic", lat: -32.78, lng: -71.52, r: 15, reachKm: 15, certainty: "established", severity: 4, research: 4, emissionType: "mixed", desc: "A central Chilean coastal sacrifice zone hosting an oil refinery, copper smelter and coal power plants whose chronic emissions blanket nearby towns.", health: "Repeated mass intoxications and elevated heavy metals in soil, dust and seafood drive respiratory and metabolic harm.", citations: [{ type: "review", ref: "Tapia-Gatica et al., Quintero-Puchuncavi pollution, Urban Climate (2024)", url: "https://www.sciencedirect.com/science/article/abs/pii/S2212095524000762", openAccess: false }] },
+	{ id: "potosi-pilcomayo", name: "Cerro Rico de Potosi acid drainage", tier: "anthropogenic", category: "anthropogenic", lat: -19.61, lng: -65.75, r: 120, reachKm: 120, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "A five-century silver and tin mining center whose acid mine drainage and ore-mill effluents pour arsenic, cadmium and lead into the Pilcomayo headwaters.", health: "Riverside Indigenous communities ingest arsenic and other metals far above guideline limits.", citations: [{ type: "primary", ref: "Strosnider / Hudson-Edwards, Potosi acid mine drainage", url: "https://pubmed.ncbi.nlm.nih.gov/15016507/", openAccess: false }] },
+	{ id: "oruro-lake-poopo", name: "Oruro and Lake Poopo mining basin", tier: "anthropogenic", category: "anthropogenic", lat: -18.3, lng: -67.1, r: 60, reachKm: 60, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "An Altiplano mining basin where mine drainage and tailings discharge arsenic, cadmium, zinc and lead into Lakes Uru Uru and Poopo.", health: "Women around Lake Poopo show elevated urinary arsenic, with contaminated water, crops and fish exposing communities.", citations: [{ type: "primary", ref: "Lazaro et al., arsenic around Lake Poopo, Bolivia (2019)", url: "https://www.researchgate.net/publication/333968636_Arsenic_contamination_in_rainwater_harvesting_tanks_around_Lake_Poopo_in_Oruro_Bolivia_An_unrecognized_health_risk", openAccess: false }] },
+	{ id: "segovia-antioquia-mercury", name: "Segovia-Remedios ASGM mercury", tier: "anthropogenic", category: "anthropogenic", lat: 7.08, lng: -74.7, r: 40, reachKm: 40, certainty: "established", severity: 5, research: 4, emissionType: "chemical", desc: "A cluster of Antioquia gold towns where hundreds of ore-processing entables burn mercury amalgam in urban centers, once the world's highest per-capita mercury polluter.", health: "Atmospheric mercury reaches levels feared to rival Minamata, with nearly all residents tested showing high body burdens.", citations: [{ type: "primary", ref: "Cordy et al., Antioquia mercury, Sci Total Environ (2011)", url: "https://www.sciencedirect.com/science/article/abs/pii/S0048969711010059", openAccess: false }] },
+	{ id: "chanaral-tailings", name: "Chanaral marine copper tailings", tier: "anthropogenic", category: "anthropogenic", lat: -26.35, lng: -70.62, r: 20, reachKm: 20, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "A northern Chilean coast where over 220 million tonnes of copper mine tailings were dumped onto beaches since 1938, oxidizing into windblown dust.", health: "Residents are exposed to copper, arsenic and other metals in street dust, with respiratory risk in children.", citations: [{ type: "review", ref: "Mining tailings in Chanaral, Sustainability (2025)", url: "https://www.mdpi.com/2071-1050/17/17/7732", openAccess: true }] },
+	{ id: "nambija-ecuador-mercury", name: "Nambija Amazon gold district", tier: "anthropogenic", category: "anthropogenic", lat: -3.98, lng: -78.55, r: 25, reachKm: 25, certainty: "established", severity: 4, research: 3, emissionType: "chemical", desc: "A long-exploited artisanal gold district in the Ecuadorian Amazon where amalgamation and tailings have loaded soils, sediments and streams with mercury, arsenic and cadmium.", health: "Widespread mercury, cadmium and arsenic pose chronic toxicity risk to residents and downstream water users.", citations: [{ type: "primary", ref: "Tarras-Wahlberg et al., Ecuador gold-mining contamination, Water Air Soil Pollut (2001)", url: "https://link.springer.com/article/10.1023/A:1011965430757", openAccess: false }] },
+	{ id: "orinoco-mining-arc", name: "Orinoco Mining Arc mercury", tier: "anthropogenic", category: "anthropogenic", lat: 6.3, lng: -61.5, r: 250, reachKm: 250, certainty: "established", severity: 5, research: 3, emissionType: "chemical", desc: "A vast loosely governed gold-mining belt in southern Venezuela where uncontrolled mercury amalgamation contaminates rivers, forests and Indigenous territories.", health: "Surveys found about 92 percent of Indigenous women with mercury above the WHO limit, linked to neurological damage.", citations: [{ type: "agency", ref: "Venezuela illegal mining mercury, reporting and OHCHR", url: "https://insideclimatenews.org/news/11012026/venezuela-illegal-mining-impacts-indigenous-people/", openAccess: true }] },
+	{ id: "lake-titicaca-metals", name: "Lake Titicaca heavy-metal basin", tier: "anthropogenic", category: "anthropogenic", lat: -15.8, lng: -69.5, r: 80, reachKm: 80, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "A transboundary high-altitude lake whose tributaries carry mine drainage and runoff, concentrating cadmium, mercury and lead in water, sediment and fish.", health: "Staple lake fish carry dangerous levels of cadmium, mercury and lead, exposing shoreline communities.", citations: [{ type: "primary", ref: "Monroy et al., metals in Lake Titicaca, Sci Total Environ (2014)", url: "https://pubmed.ncbi.nlm.nih.gov/24784748/", openAccess: false }] },
+	{ id: "cubatao-valley", name: "Cubatao industrial valley", tier: "anthropogenic", category: "anthropogenic", lat: -23.895, lng: -46.425, r: 15, reachKm: 15, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "A dense petrochemical, steel and fertilizer complex below the Serra do Mar trapped sulfur dioxide, fluorides and particulates over the town for decades, the Valley of Death.", health: "Children showed elevated respiratory disease, and the area had some of the highest birth-defect and anencephaly rates in the Americas before 1980s controls.", citations: [{ type: "primary", ref: "Spektor et al., Cubatao children's respiratory function, Environ Res (1991)", url: "https://pubmed.ncbi.nlm.nih.gov/1954940/", openAccess: false }] },
+	{ id: "santo-amaro-lead", name: "Santo Amaro da Purificacao lead legacy", tier: "anthropogenic", category: "anthropogenic", lat: -12.547, lng: -38.713, r: 10, reachKm: 10, certainty: "established", severity: 5, research: 5, emissionType: "chemical", desc: "The Plumbum primary lead smelter ran from 1960 to 1993 in Bahia, leaving roughly half a million tonnes of lead- and cadmium-rich slag dispersed through the town.", health: "Children near the plant carried among the highest blood-lead burdens ever documented, with lasting neurological harm.", citations: [{ type: "primary", ref: "Carvalho et al., Santo Amaro lead poisoning, Cad Saude Publica (2003)", url: "https://pubmed.ncbi.nlm.nih.gov/14688915/", openAccess: false }] },
+	{ id: "vale-do-ribeira-lead", name: "Vale do Ribeira lead-zinc mining", tier: "anthropogenic", category: "anthropogenic", lat: -24.66, lng: -48.94, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Decades of lead-zinc mining and a refinery along the Ribeira de Iguape river in Parana and Sao Paulo left tailings and smelter waste until closure in 1996.", health: "Children near the former refinery showed blood lead rising with proximity, alongside cadmium and arsenic.", citations: [{ type: "primary", ref: "Cunha et al., children's lead and cadmium, Brazil mining, Environ Res (2002)", url: "https://pubmed.ncbi.nlm.nih.gov/11908937/", openAccess: false }] },
+	{ id: "santa-catarina-coal", name: "Santa Catarina coal basin acid drainage", tier: "anthropogenic", category: "anthropogenic", lat: -28.677, lng: -49.369, r: 40, reachKm: 40, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Over a century of coal extraction around Criciuma left waste piles and pits generating acid mine drainage that loads regional rivers and aquifers with sulfate, iron and toxic metals.", health: "Surface and groundwater carry elevated cadmium, lead and zinc, unfit for drinking or irrigation in many places.", citations: [{ type: "primary", ref: "Coal mining drainage and health, Santa Catarina, Environ Geochem Health (2011)", url: "https://link.springer.com/article/10.1007/s10653-010-9322-x", openAccess: false }] },
+	{ id: "pocos-de-caldas-uranium", name: "Pocos de Caldas uranium mine", tier: "anthropogenic", category: "anthropogenic", lat: -21.93, lng: -46.62, r: 12, reachKm: 12, certainty: "established", severity: 3, research: 3, emissionType: "ionizing", desc: "Brazil's first uranium mining and milling complex left an open pit and tailings dam whose residual pyrite generates acid rock drainage mobilizing uranium and radionuclides.", health: "Acidified groundwater downstream concentrates uranium isotopes and metals, a radiotoxic risk for water users.", citations: [{ type: "primary", ref: "Fernandes & Franklin, Pocos de Caldas acid drainage, J Environ Radioact (2001)", url: "https://www.sciencedirect.com/science/article/abs/pii/S0265931X00001636", openAccess: false }] },
+	{ id: "tapajos-mercury", name: "Middle Tapajos ASGM mercury (Munduruku)", tier: "anthropogenic", category: "anthropogenic", lat: -5.5, lng: -56.8, r: 150, reachKm: 150, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Intensive artisanal gold mining along the Tapajos and Jamanxim rivers releases mercury that bioaccumulates in the fish that Munduruku communities depend on.", health: "Hair mercury in Munduruku women averages well above WHO limits, threatening fetal and child neurodevelopment.", citations: [{ type: "primary", ref: "Basta et al., Munduruku mercury, IJERPH (2021)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8345402/", openAccess: true }] },
+	{ id: "yanomami-mercury", name: "Yanomami land mercury (Roraima)", tier: "anthropogenic", category: "anthropogenic", lat: 2.3, lng: -63.3, r: 120, reachKm: 120, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Tens of thousands of illegal gold miners on Yanomami territory use mercury that contaminates headwater rivers and the fish forming the Indigenous diet.", health: "Mercury was found in the hair of all sampled Yanomami, with neurodevelopmental deficits in children near mining fronts.", citations: [{ type: "primary", ref: "Vega & Basta et al., Yanomami methylmercury, Toxics (2024)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10975939/", openAccess: true }] },
+	{ id: "french-guiana-mercury", name: "Upper Maroni Wayana mercury", tier: "anthropogenic", category: "anthropogenic", lat: 3.64, lng: -54.03, r: 100, reachKm: 100, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Gold mining in the Maroni basin contaminates the river, and Wayana Amerindian villages absorb mercury through a fish-dominated diet.", health: "More than half of sampled Wayana exceeded the WHO hair-mercury limit, with neurodevelopmental concerns in children.", citations: [{ type: "primary", ref: "Frery et al., French Guiana mercury, Environ Health Perspect (2001)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC1240303/", openAccess: true }] },
+	{ id: "suriname-mercury", name: "Suriname interior gold-mining mercury", tier: "anthropogenic", category: "anthropogenic", lat: 4.9, lng: -55.1, r: 80, reachKm: 80, certainty: "established", severity: 4, research: 3, emissionType: "chemical", desc: "A small-scale gold-mining boom across Suriname's interior releases mercury that accumulates in fish central to Maroon and Amerindian diets.", health: "Hair-mercury in interior women and children exceeds safe levels, especially in fish-dependent communities.", citations: [{ type: "primary", ref: "Mohan et al., Suriname interior mercury, IJERPH (2018)", url: "https://www.mdpi.com/1660-4601/15/5/1007", openAccess: true }] },
+	{ id: "abra-pampa-lead", name: "Abra Pampa lead smelter legacy", tier: "anthropogenic", category: "anthropogenic", lat: -22.72, lng: -65.7, r: 6, reachKm: 6, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "The Metal Huasi lead smelter operated in the center of this Altiplano town until the late 1980s and left heavy-metal slag piled in the urban core.", health: "About 80 percent of local children had blood lead above international limits, with cognitive impairment in those nearest the waste.", citations: [{ type: "primary", ref: "Bovi Mitre et al., Abra Pampa children's lead (CONICET)", url: "https://ri.conicet.gov.ar/handle/11336/108206", openAccess: true }] },
+	{ id: "ituzaingo-anexo", name: "Ituzaingo Anexo pesticide spraying", tier: "anthropogenic", category: "anthropogenic", lat: -31.43, lng: -64.13, r: 6, reachKm: 6, certainty: "established", severity: 4, research: 3, emissionType: "chemical", desc: "This Cordoba neighborhood sits against soy fields aerially sprayed with glyphosate and historically endosulfan, a landmark case of chronic agrochemical drift over residents.", health: "Residents documented cancer rates many times the national average plus elevated birth defects and miscarriages.", citations: [{ type: "primary", ref: "Bernardi et al., glyphosate and glufosinate exposure, Cordoba (2023)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10747456/", openAccess: true }] },
+	{ id: "pilcomayo-chaco", name: "Pilcomayo River heavy metals (Chaco)", tier: "anthropogenic", category: "anthropogenic", lat: -22, lng: -62.8, r: 200, reachKm: 200, certainty: "established", severity: 4, research: 3, emissionType: "chemical", desc: "Centuries of mining around Potosi load the Pilcomayo with arsenic, lead, cadmium and antimony that travel into the Argentine and Paraguayan Chaco lowlands.", health: "Indigenous Weenhayek and Wichi communities show metal exposure linked to reproductive problems and delayed child development.", citations: [{ type: "primary", ref: "Stassen et al., Pilcomayo metals and reproduction, Sci Total Environ (2012)", url: "https://www.b-ware.eu/sites/default/files/publicaties/Stassen-Science-Environment-2012.pdf", openAccess: true }] },
+	{ id: "reggane-nuclear", name: "Reggane French nuclear test zone", tier: "anthropogenic", category: "anthropogenic", lat: 26.71, lng: 0.28, r: 70, reachKm: 70, certainty: "established", severity: 4, research: 4, emissionType: "ionizing", desc: "France detonated four atmospheric atomic bombs near Reggane in 1960 to 1961, leaving residual radionuclides in Saharan sand and soil that remain mobile.", health: "Local populations show elevated cancers, thyroid disorders and congenital malformations attributed to fallout.", citations: [{ type: "primary", ref: "Bressac et al., Algerian Sahara test fallout, Sci Total Environ (2025)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11784833/", openAccess: true }] },
+	{ id: "in-ekker-nuclear", name: "In Ekker underground nuclear test site", tier: "anthropogenic", category: "anthropogenic", lat: 24.05, lng: 5.05, r: 50, reachKm: 50, certainty: "established", severity: 4, research: 3, emissionType: "ionizing", desc: "Thirteen underground French nuclear tests at Tan Afella in 1961 to 1966 included the In Ekker venting accident, with radioactive material still seeping from the mountain.", health: "Residents and Tuareg nomads near the site report chronic radiation-linked illnesses, with contaminated debris left unsecured.", citations: [{ type: "review", ref: "IPPNW Hibakusha Worldwide, In Ekker dossier", url: "https://hibakusha-worldwide.org/en/locations/ekker", openAccess: true }] },
+	{ id: "thar-jath-oilfields", name: "Thar Jath and Unity State oilfields", tier: "anthropogenic", category: "anthropogenic", lat: 9.05, lng: 29.9, r: 45, reachKm: 45, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Poorly managed produced water and drilling waste from the Thar Jath oilfields contaminated shallow drinking-water sources for over 100,000 people in Unity State, South Sudan.", health: "Hair analysis documents chronic lead and barium poisoning linked to anemia, renal failure and neurological damage.", citations: [{ type: "primary", ref: "Pragst et al., lead and barium in hair, Thar Jath, Forensic Sci Int (2017)", url: "https://www.sciencedirect.com/science/article/pii/S0379073816305540", openAccess: false }] },
+	{ id: "sudan-asgm-mercury", name: "Sudan artisanal gold-mining mercury belt", tier: "anthropogenic", category: "anthropogenic", lat: 19.53, lng: 33.32, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Open amalgam burning and cyanide leaching at thousands of informal gold sites release mercury across Sudan's River Nile and Northern mining markets.", health: "Soil and water mercury near burning sites yields high child hazard indices, with miners reporting tremors and numbness.", citations: [{ type: "primary", ref: "Mukhtar et al., Abu Hamad mining mercury, IJERPH (2024)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10892728/", openAccess: true }] },
+	{ id: "touissit-lead", name: "Touissit and Oued El Heimer lead district", tier: "anthropogenic", category: "anthropogenic", lat: 34.46, lng: -1.74, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "The abandoned Touissit-Bou Beker mines and the Zellidja lead smelter in eastern Morocco left tailings and slag that load surrounding soils with thousands of mg/kg of lead.", health: "Chronic ingestion and inhalation of lead-rich dust pose neurological and developmental risks, especially for children.", citations: [{ type: "primary", ref: "Midhat et al., plants on Moroccan lead-zinc mine sites (2024)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11207124/", openAccess: true }] },
+	{ id: "high-moulouya-mining", name: "High Moulouya mining valley", tier: "anthropogenic", category: "anthropogenic", lat: 32.81, lng: -4.97, r: 40, reachKm: 40, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Abandoned lead and zinc mines near Midelt left unrehabilitated tailings that contaminate Moulouya River soils, sediments and water with lead, zinc and cadmium.", health: "Surface soils around Zeida average over 1300 mg/kg lead, driving ingestion risks for residents and grazing communities.", citations: [{ type: "primary", ref: "Soil contamination and health risk, Zeida, Environ Dev Sustain (2022)", url: "https://link.springer.com/article/10.1007/s10668-021-01380-6", openAccess: false }] },
+	{ id: "jebel-ressas", name: "Jebel Ressas lead-zinc-cadmium mine", tier: "anthropogenic", category: "anthropogenic", lat: 36.6, lng: 10.32, r: 20, reachKm: 20, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Flotation tailings exposed since the 1950s southeast of Tunis disperse lead and cadmium by wind and runoff across farmland and the old miners' village.", health: "Soil lead and cadmium far above limits pose ingestion and dust-inhalation risks via dust and crops.", citations: [{ type: "primary", ref: "Boussen et al., Jebel Ressas tailings, Environ Earth Sci (2015)", url: "https://link.springer.com/article/10.1007/s12665-015-5035-x", openAccess: false }] },
+	{ id: "guelb-moghrein", name: "Guelb Moghrein mine tailings (Akjoujt)", tier: "anthropogenic", category: "anthropogenic", lat: 19.74, lng: -14.38, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "The Guelb Moghrein copper-gold mine at Akjoujt, Mauritania has generated about 40 million tonnes of tailings rich in arsenic, copper, cobalt and antimony.", health: "Leaching from the tailings threatens scarce surface and groundwater that desert communities depend on, with arsenic the key concern.", citations: [{ type: "primary", ref: "Guelb Moghrein tailings characterization, Appl Sci (2024)", url: "https://www.mdpi.com/2076-3417/14/4/1591", openAccess: true }] },
+	{ id: "imiter-silver", name: "Imiter silver mine (Anti-Atlas)", tier: "anthropogenic", category: "anthropogenic", lat: 31.51, lng: -5.66, r: 20, reachKm: 20, certainty: "established", severity: 3, research: 2, emissionType: "chemical", desc: "Africa's largest silver mine uses mercury and cyanide for ore processing in the arid Saghro mountains, with wind and evaporation spreading toxics over nearby fields and homes.", health: "Surveys link the extraction to mercury contamination and report local skin, respiratory and cancer complaints.", citations: [{ type: "primary", ref: "Schneider et al., mercury in Morocco via turtles, Environ Sci Pollut Res (2018)", url: "https://link.springer.com/article/10.1007/s11356-017-0643-5", openAccess: false }] },
+	{ id: "edfu-gold", name: "Edfu illegal gold-processing zone", tier: "anthropogenic", category: "anthropogenic", lat: 24.98, lng: 32.87, r: 20, reachKm: 20, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "Eastern Desert ore is hauled to farmland around Edfu on the Nile for water-intensive informal gold processing, loading soils, irrigation water and fish with heavy metals.", health: "Arsenic ingestion hazard rose sharply by 2022, with elevated arsenic also in Nile tilapia, a chronic non-carcinogenic risk.", citations: [{ type: "primary", ref: "Metal pollution from illegal gold mining in Edfu, Sci Rep (2025)", url: "https://www.nature.com/articles/s41598-024-84281-8", openAccess: true }] },
+	{ id: "zamfara-lead", name: "Zamfara lead poisoning belt", tier: "anthropogenic", category: "anthropogenic", lat: 12.1, lng: 5.95, r: 60, reachKm: 60, certainty: "established", severity: 5, research: 5, emissionType: "chemical", desc: "Village-scale processing of lead-rich gold ore contaminated soil and household dust across rural Zamfara State, northwest Nigeria.", health: "Lead poisoning killed more than 400 young children and left over 2,000 with permanent neurological disability.", citations: [{ type: "primary", ref: "Dooyema et al., Zamfara childhood lead poisoning, Environ Health Perspect (2012)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3491928/", openAccess: true }] },
+	{ id: "arlit-uranium", name: "Arlit-Akokan uranium mining zone", tier: "anthropogenic", category: "anthropogenic", lat: 18.74, lng: 7.39, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 4, emissionType: "ionizing", desc: "Decades of uranium mining left radioactive tailings, contaminated scrap and uranium-laden water around the desert towns of Arlit and Akokan in northern Niger.", health: "Air, soil and water radioactivity sit far above background, with drinking-water uranium exceeding WHO limits and elevated radon.", citations: [{ type: "agency", ref: "Greenpeace/CRIIRAD, AREVA radioactive legacy in Niger (2010)", url: "https://www.sortirdunucleaire.org/IMG/pdf/greenpeace-2010-left_in_the_dust-areva_s_radioactive_legacy_in_the_desert_towns_of_niger.pdf", openAccess: true }] },
+	{ id: "thiaroye-lead", name: "Ngagne Diaw lead-battery site (Thiaroye)", tier: "anthropogenic", category: "anthropogenic", lat: 14.74, lng: -17.36, r: 5, reachKm: 5, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Informal used battery breaking and lead recovery saturated a Dakar suburb neighborhood, Senegal, with lead dust.", health: "A cluster of fatal childhood lead encephalopathy killed at least 18 children in 2007-2008, with very high blood lead in survivors.", citations: [{ type: "primary", ref: "Haefliger et al., Dakar lead intoxication, Environ Health Perspect (2009)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2790507/", openAccess: true }] },
+	{ id: "katanga-copperbelt", name: "Katanga Copperbelt cobalt-copper zone", tier: "anthropogenic", category: "anthropogenic", lat: -10.72, lng: 25.47, r: 130, reachKm: 130, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Industrial and artisanal copper-cobalt extraction across the DR Congo Copperbelt pollutes air, water, soil and food crops with cobalt and other trace metals.", health: "Residents, especially children, carry urinary cobalt several-fold above controls with exposure-related DNA damage.", citations: [{ type: "primary", ref: "Banza et al., Katanga cobalt exposure, Environ Res (2009)", url: "https://pubmed.ncbi.nlm.nih.gov/19486963/", openAccess: false }] },
+	{ id: "obuasi-gold-arsenic", name: "Obuasi gold mine arsenic zone", tier: "anthropogenic", category: "anthropogenic", lat: 6.2, lng: -1.67, r: 20, reachKm: 20, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Over a century of sulfide-ore gold mining at Obuasi, Ghana released arsenic to soil, surface water and groundwater.", health: "Groundwater and soil arsenic exceed WHO guidelines across surrounding communities, posing arsenicosis and cancer risk.", citations: [{ type: "primary", ref: "Arsenic in groundwater near Obuasi, Ghana, PMC (2024)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC12664595/", openAccess: true }] },
+	{ id: "abidjan-probo-koala", name: "Abidjan Probo Koala toxic waste sites", tier: "anthropogenic", category: "anthropogenic", lat: 5.35, lng: -4, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "In 2006 caustic petroleum-washing waste from the Probo Koala was dumped at multiple open sites around Abidjan, Cote d'Ivoire, contaminating soil and groundwater.", health: "Hydrogen-sulfide and organochlorine exposures were linked to roughly 15 deaths and over 100,000 people seeking care.", citations: [{ type: "agency", ref: "OHCHR, Cote d'Ivoire toxic waste, ten years on (2016)", url: "https://www.ohchr.org/en/press-releases/2016/08/ten-years-survivors-illegal-toxic-waste-dumping-cote-divoire-remain-dark", openAccess: true }] },
+	{ id: "niger-delta-flaring", name: "Niger Delta gas flaring belt", tier: "anthropogenic", category: "anthropogenic", lat: 4.9, lng: 6.3, r: 130, reachKm: 130, certainty: "established", severity: 4, research: 5, emissionType: "mixed", desc: "Continuous decades-long flaring of associated gas across the Niger Delta releases fine particulates and PAHs into surrounding communities.", health: "Chronic exposure is associated with elevated lung and other cancer risk, respiratory disease and adverse birth outcomes.", citations: [{ type: "review", ref: "Ordinioha & Brisibe, Niger Delta oil pollution health, IJERPH (2016)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4809009/", openAccess: true }] },
+	{ id: "yatenga-arsenic", name: "Yatenga arsenic groundwater zone", tier: "established", category: "chemistry", lat: 13.58, lng: -2.42, r: 50, reachKm: 50, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Tube wells tapping gold-bearing basement rocks in Yatenga province, northern Burkina Faso, deliver geogenic arsenic, with over half exceeding WHO limits.", health: "Long-term consumption produced arsenic-induced skin lesions, with high melanosis and keratosis prevalence among villagers.", citations: [{ type: "primary", ref: "Some et al., arsenic and skin lesions in Yatenga, Burkina Faso, PMC3389508", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3389508/", openAccess: true }] },
+	{ id: "senegal-fluorosis", name: "Senegalese basin endemic fluorosis belt", tier: "established", category: "chemistry", lat: 14.4, lng: -16.2, r: 90, reachKm: 90, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Deep Maastrichtian aquifer groundwater across the central Senegalese basin carries naturally high fluoride, reaching about 13 mg per litre.", health: "Chronic intake causes widespread dental fluorosis and, at the highest exposures, skeletal fluorosis.", citations: [{ type: "primary", ref: "Fluoride and nitrate in Mbour-Fatick groundwater, J Water Resource Prot (2024)", url: "https://www.scirp.org/pdf/jwarp20241611_29405003.pdf", openAccess: true }] },
+	{ id: "moanda-manganese", name: "Moanda manganese mining zone", tier: "anthropogenic", category: "anthropogenic", lat: -1.57, lng: 13.2, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "Manganese mining at Moanda, Gabon, the world's largest such operation, has discharged fine manganese tailings that enriched local soils and river sediments.", health: "Chronic manganese over-exposure is neurotoxic, linked to manganism with parkinsonian and cognitive impairment.", citations: [{ type: "primary", ref: "Manganese enrichment at Moanda, Gabon (2025)", url: "https://pubmed.ncbi.nlm.nih.gov/40875159/", openAccess: false }] },
+	{ id: "kedougou-kenieba-mercury", name: "Kedougou-Kenieba ASGM mercury zone", tier: "anthropogenic", category: "anthropogenic", lat: 12.7, lng: -11.5, r: 80, reachKm: 80, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Rapidly expanding artisanal gold mining across the Kedougou-Kenieba inlier of eastern Senegal and western Mali uses mercury amalgamation, contaminating soils and waterways.", health: "Mercury and methylmercury accumulate in ecosystems, exposing mining communities through air, water and food.", citations: [{ type: "primary", ref: "Gerson et al., Senegal ASGM mercury, Sci Total Environ (2020)", url: "https://www.sciencedirect.com/science/article/abs/pii/S0048969719310903", openAccess: false }] },
+	{ id: "witwatersrand-tailings", name: "Witwatersrand gold tailings and acid mine drainage", tier: "anthropogenic", category: "anthropogenic", lat: -26.2, lng: 27.75, r: 60, reachKm: 60, certainty: "established", severity: 4, research: 5, emissionType: "mixed", desc: "Hundreds of tailings dams holding pyrite waste and residual uranium ring Johannesburg, generating acid mine drainage that loads soil, dust and groundwater with uranium, arsenic and lead.", health: "Residents near dumps carry elevated uranium and heavy-metal burdens linked to kidney, respiratory and developmental harm.", citations: [{ type: "primary", ref: "Kamunda et al., Witwatersrand soil heavy metals, IJERPH (2016)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4962204/", openAccess: true }] },
+	{ id: "prieska-crocidolite", name: "Prieska and Koegas crocidolite asbestos belt", tier: "established", category: "fiber", lat: -29.66, lng: 22.75, r: 90, reachKm: 90, certainty: "established", severity: 5, research: 5, emissionType: "mixed", desc: "Decades of crocidolite (blue asbestos) mining and milling around Prieska and Koegas in the Northern Cape left towns and the district blanketed with fiber-laden tailings and dust.", health: "A cohort study found markedly raised mesothelioma mortality including among women never employed in the industry.", citations: [{ type: "primary", ref: "Hessel & Sluis-Cremer, South African crocidolite mesothelioma, Occup Environ Med (2000)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC1740004/", openAccess: true }] },
+	{ id: "mpumalanga-highveld", name: "Mpumalanga Highveld coal-power air", tier: "anthropogenic", category: "anthropogenic", lat: -26, lng: 29.3, r: 130, reachKm: 130, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "A dense cluster of Eskom coal power stations plus Sasol coal-to-liquids plants makes the Highveld Priority Area one of the most SO2- and particulate-polluted inhabited regions on Earth.", health: "Chronic exposure is tied to elevated asthma, bronchitis, tuberculosis and premature mortality.", citations: [{ type: "primary", ref: "Kistnasamy et al., Highveld adolescent respiratory health, BMC Public Health (2022)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9677637/", openAccess: true }] },
+	{ id: "geita-mercury", name: "Geita and Lake Victoria ASGM mercury", tier: "anthropogenic", category: "anthropogenic", lat: -2.87, lng: 32.23, r: 80, reachKm: 80, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Artisanal gold amalgamation around Geita discharges mercury and ore-derived arsenic into rivers draining to Lake Victoria, contaminating sediments and fish.", health: "Exposure is linked to neuropsychological deficits in children, skin lesions and cardiovascular harm.", citations: [{ type: "primary", ref: "Charles et al., Tanzania ASGM arsenic and mercury, BMC Public Health (2013)", url: "https://link.springer.com/article/10.1186/1471-2458-13-74", openAccess: true }] },
+	{ id: "kadoma-mercury", name: "Kadoma and Shurugwi ASGM mercury", tier: "anthropogenic", category: "anthropogenic", lat: -18.33, lng: 29.92, r: 70, reachKm: 70, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Zimbabwe's densest artisanal gold-mining districts rely on mercury amalgamation and open burning, contaminating air, soil and waterways.", health: "Miners and residents show high mercury with classic chronic intoxication including tremor and neurocognitive deficits.", citations: [{ type: "review", ref: "Steckling et al., Zimbabwe ASGM mercury burden, Environ Health (2014)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4290131/", openAccess: true }] },
+	{ id: "rossing-uranium", name: "Rossing uranium mine, Namib Desert", tier: "gray", category: "gray", lat: -22.48, lng: 15.04, r: 40, reachKm: 40, certainty: "open", severity: 2, research: 4, emissionType: "ionizing", desc: "One of the world's largest open-pit uranium mines near Arandis exposes workers and downwind desert communities to gamma radiation, radon and radioactive dust.", health: "A large worker cohort found no consistent overall cancer excess but inconsistent associations with lung cancer, leaving long-term risk debated.", citations: [{ type: "primary", ref: "Bruske et al., Namibian uranium workers cancer, Radiat Res (2023)", url: "https://pubmed.ncbi.nlm.nih.gov/37590489/", openAccess: false }] },
+	{ id: "arusha-fluorosis", name: "Arusha volcanic-ash and trona fluorosis zone", tier: "established", category: "dietary", lat: -3.37, lng: 36.83, r: 70, reachKm: 70, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Around Mount Meru, fluoride from alkaline volcanic rocks drives borehole fluoride very high, compounded by cooking with high-fluoride trona (magadi) added to food.", health: "Near-universal dental fluorosis and crippling skeletal fluorosis occur, with trona raising total fluoride intake.", citations: [{ type: "primary", ref: "Nielsen & Dahi, trona and fluorosis, northern Tanzania, Sci Total Environ (2005)", url: "https://www.sciencedirect.com/science/article/abs/pii/S004896970500567X", openAccess: false }] },
+	{ id: "zambia-copperbelt", name: "Zambian Copperbelt smelter belt", tier: "anthropogenic", category: "anthropogenic", lat: -12.55, lng: 28.24, r: 90, reachKm: 90, certainty: "established", severity: 4, research: 4, emissionType: "mixed", desc: "Copper smelting and a billion tons of tailings and slag around Mufulira, Kitwe and Chingola load air with sulphur dioxide and soils, water and crops with copper, cobalt, lead and arsenic.", health: "Township residents suffer chronic respiratory irritation from SO2 plus heavy-metal uptake through contaminated water and food.", citations: [{ type: "review", ref: "Mufinda et al., Zambia and DRC trace-metal health, IJERPH (2022)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9277192/", openAccess: true }] },
+	{ id: "zvishavane-asbestos", name: "Zvishavane and Mashava chrysotile tailings", tier: "anthropogenic", category: "anthropogenic", lat: -20.33, lng: 30.07, r: 70, reachKm: 70, certainty: "established", severity: 4, research: 4, emissionType: "mixed", desc: "After the 2010 collapse of Shabanie-Mashaba Mines, over 140 million tons of uncontained chrysotile tailings sit beside homes and schools in Zvishavane and Mashava.", health: "Wind erosion creates chronic community inhalation of chrysotile linked to asbestosis, lung cancer and mesothelioma.", citations: [{ type: "primary", ref: "Cullen & Baloyi, chrysotile and health in Zimbabwe, Am J Ind Med (1991)", url: "https://pubmed.ncbi.nlm.nih.gov/1847001/", openAccess: false }] },
+	{ id: "kalahari-manganese", name: "Kalahari manganese field, Hotazel and Kuruman", tier: "anthropogenic", category: "anthropogenic", lat: -27.22, lng: 22.97, r: 60, reachKm: 60, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "The Kalahari manganese field around Hotazel and Kuruman, holding most of the world's mineable manganese, exposes mine towns to manganese-laden ore dust and smelter emissions.", health: "Manganese deposition shows as elevated brain MRI signal in residents, and workers display parkinsonian motor and cognitive deficits.", citations: [{ type: "primary", ref: "Manganese neurotoxicity MRI, South Africa, NeuroToxicology (2024)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12479054/", openAccess: true }] },
+	{ id: "moatize-coal", name: "Moatize coal basin, Tete", tier: "anthropogenic", category: "anthropogenic", lat: -16.12, lng: 33.73, r: 40, reachKm: 40, certainty: "established", severity: 3, research: 3, emissionType: "mixed", desc: "Open-pit coal mines operating since 2011 directly beside Moatize town subject residents to blasting dust, coal particulates and runoff that settle on homes, food and water.", health: "Constant coal and rock dust plus SO2 drive respiratory complaints, with mining-affected water posing ingestion risks.", citations: [{ type: "primary", ref: "Water quality and health in Moatize, Mozambique, Environ Geochem Health (2026)", url: "https://link.springer.com/article/10.1007/s10653-026-03013-1", openAccess: false }] },
+
+	// ===================== EXPANSION 12: PER-COUNTRY GAP SWEEP 2 =====================
+	{ id: "ronnskar-arsenic", name: "Ronnskar smelter, Skelleftehamn", tier: "anthropogenic", category: "anthropogenic", lat: 64.69, lng: 21.23, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "A large copper, lead and zinc smelter on the Bothnian coast historically processed ore very rich in arsenic, leaving soils contaminated with arsenic, lead, copper and cadmium.", health: "Cohort studies report excess lung cancer and raised childhood cancer risk linked to arsenic and lead.", citations: [{ type: "primary", ref: "Jarup et al., Ronnskar smelter workers, Scand J Work Environ Health (1991)", url: "https://pubmed.ncbi.nlm.nih.gov/1814372/", openAccess: false }] },
+	{ id: "harjavalta-smelter", name: "Harjavalta copper-nickel smelter", tier: "anthropogenic", category: "anthropogenic", lat: 61.31, lng: 22.14, r: 40, reachKm: 40, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "A copper and nickel smelter emitting heavy metals and sulfur since 1945 in southwest Finland, with soils enriched in arsenic, cadmium, copper, nickel and zinc up to 30 km away.", health: "Chronic deposition of arsenic, cadmium, copper and nickel raises long-term inhalation and soil-contact exposure.", citations: [{ type: "primary", ref: "Derome & Nieminen, Harjavalta Cu-Ni smelter, Environ Pollut (1998)", url: "https://pubmed.ncbi.nlm.nih.gov/15093315/", openAccess: false }] },
+	{ id: "odda-sorfjorden", name: "Odda zinc smelter, Sorfjorden", tier: "anthropogenic", category: "anthropogenic", lat: 60.07, lng: 6.54, r: 50, reachKm: 50, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "A zinc smelter that for most of the 20th century made Norway's Sorfjorden one of the most metal-contaminated marine environments before remediation cut zinc, cadmium, lead and mercury.", health: "Legacy soil and sediment cadmium, lead, mercury and zinc remain, with elevated heavy-metal blood levels in smelter populations.", citations: [{ type: "primary", ref: "Heavy metal blood concentrations in Norwegian smelters, Ann Work Expo Health (2025)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC12822786/", openAccess: true }] },
+	{ id: "harboore-tange", name: "Harboore Tange (Cheminova / Hofde 42)", tier: "anthropogenic", category: "anthropogenic", lat: 56.62, lng: 8.13, r: 25, reachKm: 25, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "A Danish coastal peninsula where the Cheminova plant and Hofde 42 depot left roughly 100 tonnes of pesticide and mercury-bearing waste plus authorized discharges of mercury, arsenic and parathion.", health: "A cohort of the Thyboron-Harboore population showed altered patterns of death and hospital contact linked to the site.", citations: [{ type: "primary", ref: "Thyboron-Harboore contaminated-site cohort, Sci Rep (2024)", url: "https://www.nature.com/articles/s41598-024-82307-9", openAccess: true }] },
+	{ id: "faroe-methylmercury", name: "Faroe Islands methylmercury", tier: "established", category: "dietary", lat: 62, lng: -6.79, r: 150, reachKm: 150, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Traditional consumption of pilot whale meat and blubber gives chronic dietary methylmercury and persistent-organic-pollutant exposure well above typical seafood levels.", health: "Birth-cohort studies link prenatal methylmercury to deficits in language, attention and memory persisting into adulthood.", citations: [{ type: "primary", ref: "Debes et al., prenatal methylmercury at 14 years, Neurotoxicol Teratol (2006)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC1543702/", openAccess: true }] },
+	{ id: "avonmouth-cadmium", name: "Avonmouth zinc-lead-cadmium smelter", tier: "anthropogenic", category: "anthropogenic", lat: 51.51, lng: -2.7, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "A primary zinc, lead and cadmium smelter near Bristol that until 2003 was the UK's largest source of atmospheric cadmium, leaving a long soil gradient of cadmium, lead and zinc.", health: "Residents of the contaminated zone showed early signs of cadmium-related kidney tubular damage.", citations: [{ type: "primary", ref: "Early kidney damage near cadmium sources, Environ Health Perspect (2009)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2649217/", openAccess: true }] },
+	{ id: "st-yrieix-arsenic", name: "Saint-Yrieix arsenic district", tier: "established", category: "chemistry", lat: 45.51, lng: 1.2, r: 50, reachKm: 50, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "A gold-mining district in the French Massif Central on a high-grade natural arsenic anomaly, where weathering yields surface waters and soils very rich in arsenic.", health: "Chronic arsenic ingestion above drinking-water limits carries elevated risk of skin, lung and bladder cancers.", citations: [{ type: "primary", ref: "Natural arsenic sources, French Massif Central, Sci Total Environ (2012)", url: "https://www.sciencedirect.com/science/article/abs/pii/S0048969712008054", openAccess: false }] },
+	{ id: "harz-goslar-lead", name: "Harz / Goslar lead-mining legacy", tier: "anthropogenic", category: "anthropogenic", lat: 51.91, lng: 10.43, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "A historic ore-mining region of Lower Saxony where centuries of lead, zinc and silver extraction left residential soils with very high lead.", health: "Biomonitoring found about half of local 5 to 7 year olds exceeded German blood-lead reference values.", citations: [{ type: "primary", ref: "Blood lead in children, former mining area Lower Saxony, Environ Sci Pollut Res (2024)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11058760/", openAccess: true }] },
+	{ id: "bitterfeld-wolfen", name: "Bitterfeld-Wolfen chemical megasite", tier: "anthropogenic", category: "anthropogenic", lat: 51.62, lng: 12.32, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "An eastern German district where a century of chlorine chemistry and lignite mining contaminated soil and vast groundwater with chlorobenzenes, HCH, DDT, BTEX and arsenic.", health: "Persistent organochlorine and arsenic groundwater plumes pose chronic risk to drinking-water sources.", citations: [{ type: "primary", ref: "Bitterfeld/Wolfen multi-source aquifers, J Contam Hydrol (2003)", url: "https://pubmed.ncbi.nlm.nih.gov/12676483/", openAccess: false }] },
+	{ id: "hoboken-umicore", name: "Hoboken Umicore lead smelter", tier: "anthropogenic", category: "anthropogenic", lat: 51.17, lng: 4.34, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 5, emissionType: "chemical", desc: "A non-ferrous smelter in suburban Antwerp whose lead, cadmium and arsenic emissions have been tied to elevated childhood lead exposure since the 1970s.", health: "Children near the plant carried very high blood lead historically, and recent biomonitoring still finds lead above the regional average within 3 km.", citations: [{ type: "primary", ref: "Roels et al., lead pollution in Antwerpen, Sci Total Environ (1984)", url: "https://pubmed.ncbi.nlm.nih.gov/6497319/", openAccess: false }] },
+	{ id: "balangero-asbestos", name: "Balangero chrysotile asbestos mine", tier: "established", category: "fiber", lat: 45.29, lng: 7.75, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 5, desc: "Western Europe's largest open-pit chrysotile asbestos mine, operating near Turin until 1990 and now a national remediation site.", health: "A miner cohort shows mesothelioma and cancer mortality rising with cumulative chrysotile exposure.", citations: [{ type: "primary", ref: "Ferrante et al., Balangero chrysotile miners, Am J Ind Med (2020)", url: "https://pubmed.ncbi.nlm.nih.gov/31821579/", openAccess: false }] },
+	{ id: "panasqueira-tungsten", name: "Panasqueira tungsten mine", tier: "anthropogenic", category: "anthropogenic", lat: 40.17, lng: -7.76, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Western Europe's largest tin-tungsten deposit, mined in central Portugal since 1896, whose arsenopyrite-rich tailings contaminate soils, waters, dust and garden vegetables with arsenic.", health: "Residents and workers carry higher internal arsenic and metal doses with measurable genotoxic effects.", citations: [{ type: "primary", ref: "Coelho et al., genotoxic effects near Panasqueira, Environ Int (2014)", url: "https://pubmed.ncbi.nlm.nih.gov/24036326/", openAccess: false }] },
+	{ id: "cartagena-la-union", name: "Cartagena-La Union mining district", tier: "anthropogenic", category: "anthropogenic", lat: 37.62, lng: -0.87, r: 50, reachKm: 50, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "A historic lead-zinc mining district on Spain's southeast coast where unstabilized wastes spread lead, cadmium, arsenic and zinc into soils, dust and coastal marshes.", health: "Airborne and soil metals exceed European limits, and screening has found children with elevated blood lead near the zone.", citations: [{ type: "review", ref: "Conesa & Schulin, Cartagena-La Union review, Environ Rev (2010)", url: "https://pubmed.ncbi.nlm.nih.gov/20390210/", openAccess: false }] },
+	{ id: "dabaoshan-amd", name: "Dabaoshan mine acid drainage", tier: "anthropogenic", category: "anthropogenic", lat: 24.55, lng: 113.72, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Decades of acid drainage from the Dabaoshan sulphide mine in northern Guangdong loaded the Hengshi River and paddy soils with cadmium, copper and arsenic far above standards.", health: "An ecologic study found elevated all-cancer, stomach, esophageal and lung-cancer mortality downstream.", citations: [{ type: "primary", ref: "Zhuang et al., cancer mortality near Dabaoshan mine, BMC Public Health (2011)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3112132/", openAccess: true }] },
+	{ id: "zhuzhou-cadmium", name: "Zhuzhou Xiangjiang cadmium-lead belt", tier: "anthropogenic", category: "anthropogenic", lat: 27.87, lng: 113.15, r: 60, reachKm: 60, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Nonferrous smelting around Zhuzhou made this reach of the Xiangjiang one of China's most cadmium- and lead-contaminated river corridors, enriching sediments, rice and vegetables.", health: "Residents face high dietary cadmium and lead intake through contaminated rice and vegetables, raising kidney and bone risk.", citations: [{ type: "primary", ref: "Du et al., heavy metals near a large Pb/Zn smelter, IJERPH (2021)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8657013/", openAccess: true }] },
+	{ id: "ashio-watarase", name: "Ashio copper mine and Watarase River", tier: "anthropogenic", category: "anthropogenic", lat: 36.63, lng: 139.44, r: 50, reachKm: 50, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Japan's first major industrial pollution disaster, the Ashio copper mine and smelter poisoned the Watarase basin from the late 1800s, ruining paddy soils and flooding land with copper-laden water.", health: "Residents developed sores and contaminated drinking water, with arsenic, copper, lead and zinc still elevated in basin soils.", citations: [{ type: "review", ref: "IDE-JETRO, Ashio copper mine case", url: "https://d-arch.ide.go.jp/je_archive/english/society/book_jes5_d02.html", openAccess: true }] },
+	{ id: "tuticorin-sterlite", name: "Tuticorin Sterlite copper smelter", tier: "anthropogenic", category: "anthropogenic", lat: 8.8, lng: 78.1, r: 15, reachKm: 15, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "A copper smelter at Thoothukudi, Tamil Nadu, drew sustained complaints of gas leaks and emissions before being permanently shut in 2018 after protest deaths.", health: "A survey of about 80,000 people within 5 km reported elevated asthma, respiratory infections and irritant-linked illness.", citations: [{ type: "review", ref: "Sterlite Copper, health and closure history (overview)", url: "https://en.wikipedia.org/wiki/Sterlite_Copper", openAccess: true }] },
+	{ id: "kodaikanal-mercury", name: "Kodaikanal mercury contamination", tier: "anthropogenic", category: "anthropogenic", lat: 10.24, lng: 77.49, r: 12, reachKm: 12, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "A thermometer factory operating 1984 to 2001 discharged over a tonne of mercury into the Pambar Shola forest and lake of this Tamil Nadu hill resort.", health: "Atmospheric mercury near the site was far above background and ex-workers alleged chronic mercury illness.", citations: [{ type: "agency", ref: "IPEN, Kodaikanal mercury thermometer factory", url: "https://ipen.org/sites/default/files/documents/Kodaikanal%20Mercury%20Thermometer%20Factory.pdf", openAccess: true }] },
+	{ id: "buyat-bay", name: "Buyat Bay submarine tailings", tier: "anthropogenic", category: "anthropogenic", lat: 0.85, lng: 124.77, r: 15, reachKm: 15, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "A North Sulawesi gold mine piped tailings into Buyat Bay from 1996 to 2004, and panels found bay sediment and fish contaminated with mercury and arsenic.", health: "Villagers reported skin disease and miscarriages, with arsenic and mercury above tolerable limits in many residents.", citations: [{ type: "primary", ref: "Mercury from gold mining in Buyat Bay, Water Air Soil Pollut (2009)", url: "https://link.springer.com/article/10.1007/s11270-009-0155-0", openAccess: false }] },
+	{ id: "singrauli-coal", name: "Singrauli coal and power belt", tier: "anthropogenic", category: "anthropogenic", lat: 24.2, lng: 82.67, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 4, emissionType: "mixed", desc: "India's largest coal-fired power cluster around Singrauli has saturated water and soils with mercury, arsenic, lead and cadmium from mining, combustion and ash-dyke breaches.", health: "Most water samples are mercury-contaminated and above arsenic limits, with methylmercury accumulating in locally eaten fish.", citations: [{ type: "primary", ref: "Metals in the Singrauli mining and power zone, Environ Monit Assess (2020)", url: "https://link.springer.com/article/10.1007/s10661-020-8225-2", openAccess: false }] },
+	{ id: "korba-flyash", name: "Korba coal and fly-ash zone", tier: "anthropogenic", category: "anthropogenic", lat: 22.35, lng: 82.68, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 3, emissionType: "mixed", desc: "Chhattisgarh's Korba power and coal hub generates huge volumes of fly ash, with repeated ash-pond breaches contaminating the Hasdeo River with lead, chromium, cadmium, mercury and arsenic.", health: "Chronic fine-particulate and heavy-metal exposure from fly ash is linked to respiratory disease in residents.", citations: [{ type: "primary", ref: "Metal sources in a Chhattisgarh coal area via lead isotopes, Sci Total Environ (2018)", url: "https://www.sciencedirect.com/science/article/abs/pii/S0045653518300225", openAccess: false }] },
+	{ id: "goseong-cadmium", name: "Goseong abandoned-mine cadmium", tier: "anthropogenic", category: "anthropogenic", lat: 34.99, lng: 128.32, r: 12, reachKm: 12, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Itai-itai-like symptoms were reported in 2004 near abandoned copper mines in Goseong, southern Korea, traced to tailings enriching soil, rice and barley with cadmium and copper.", health: "Residents near the mines had blood cadmium about three times control levels with renal-tubular and bone effects.", citations: [{ type: "primary", ref: "Health effects of an abandoned metal mine, J Korean Med Sci (2008)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2526532/", openAccess: true }] },
+	{ id: "fengxiang-lead", name: "Fengxiang Dongling lead smelter", tier: "anthropogenic", category: "anthropogenic", lat: 34.45, lng: 107.4, r: 12, reachKm: 12, certainty: "established", severity: 4, research: 3, emissionType: "chemical", desc: "The Dongling lead and zinc smelter in Fengxiang county, Shaanxi, became a symbol of China's lead crisis after 2009 emissions were linked to mass childhood poisoning.", health: "Authorities found over 800 area children with elevated blood lead, many hospitalized.", citations: [{ type: "primary", ref: "Watts, lead poisoning riots in China, The Lancet (2009)", url: "https://www.thelancet.com/journals/lancet/article/PIIS0140673609616123/fulltext", openAccess: false }] },
+	{ id: "rapu-rapu", name: "Rapu-Rapu polymetallic mine", tier: "anthropogenic", category: "anthropogenic", lat: 13.18, lng: 124.13, r: 15, reachKm: 15, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "A gold-copper mine on Rapu-Rapu island, Albay, Philippines, caused cyanide spills and persistent acid mine drainage feeding Albay Gulf.", health: "Acidic, metal-rich runoff with cadmium, copper and zinc triggered fish kills and livelihood loss for coastal communities.", citations: [{ type: "primary", ref: "Trace metals in Albay Gulf after a tailings spill, Mar Pollut Bull (2008)", url: "https://ui.adsabs.harvard.edu/abs/2008MarPB..56.1657S/abstract", openAccess: false }] },
+	{ id: "kadji-sai-uranium", name: "Kadji-Sai uranium tailings", tier: "anthropogenic", category: "anthropogenic", lat: 42.13, lng: 77.18, r: 12, reachKm: 12, certainty: "established", severity: 3, research: 3, emissionType: "ionizing", desc: "A Soviet-era uranium tailings site on the southern shore of Lake Issyk-Kul in Kyrgyzstan leaves radionuclide- and metal-bearing waste near a major tourist lake.", health: "Uranium in nearby springs, wells and lake water exceeds WHO guidelines, posing chronic kidney and radon-decay risk.", citations: [{ type: "agency", ref: "World Nuclear Association, uranium legacy in Kyrgyzstan", url: "https://world-nuclear.org/information-library/country-profiles/countries-g-n/kyrgyzstan", openAccess: true }] },
+	{ id: "wanshan-mercury", name: "Wanshan mercury mine", tier: "anthropogenic", category: "anthropogenic", lat: 27.52, lng: 109.2, r: 20, reachKm: 20, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Once China's mercury capital, the Wanshan district in Guizhou left mine-waste heaps that contaminate local rice with inorganic mercury and methylmercury.", health: "Residents show elevated hair and urine mercury along a distance gradient, with impaired renal function from chronic exposure.", citations: [{ type: "primary", ref: "Li et al., mercury exposure and renal effects in Wanshan, Environ Res (2015)", url: "https://pubmed.ncbi.nlm.nih.gov/25863593/", openAccess: false }] },
+	{ id: "shimen-realgar", name: "Shimen realgar arsenic mine", tier: "anthropogenic", category: "anthropogenic", lat: 29.7, lng: 111.1, r: 15, reachKm: 15, certainty: "established", severity: 5, research: 4, emissionType: "chemical", desc: "Asia's largest realgar deposit at Shimen county, Hunan, was mined and refined for arsenic for over 1,500 years until 2011, leaving residue that still contaminates creek soils and water.", health: "More than 1,200 of about 3,000 local residents have been diagnosed with arseniasis, with many cancer deaths.", citations: [{ type: "primary", ref: "Tang et al., arsenic-contaminated soils, Shimen realgar mine, J Soils Sediments (2016)", url: "https://link.springer.com/article/10.1007/s11368-015-1345-6", openAccess: false }] },
+	{ id: "koshkar-ata-uranium", name: "Koshkar-Ata uranium tailings", tier: "anthropogenic", category: "anthropogenic", lat: 43.72, lng: 51.25, r: 20, reachKm: 20, certainty: "established", severity: 3, research: 3, emissionType: "ionizing", desc: "A vast tailings pond near Aktau on Kazakhstan's Caspian coast holds roughly 59 million tonnes of radioactive and toxic uranium-processing waste, with dusty exposed sections.", health: "The site exposes the Aktau area to radionuclides, heavy metals and rare earths, with groundwater contamination concerns.", citations: [{ type: "agency", ref: "WISE Uranium, Koshkar-Ata tailings (Kazakhstan)", url: "https://www.wise-uranium.org/udkz.html", openAccess: true }] },
+	{ id: "zarshuran-takab", name: "Zarshuran-Takab arsenic zone", tier: "anthropogenic", category: "anthropogenic", lat: 36.67, lng: 47.13, r: 20, reachKm: 20, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "The Zarshuran gold deposit near Takab in West Azerbaijan, Iran, sits in arsenic-rich black shale, and mining releases arsenic and cyanide into the Sarooq River feeding a reservoir.", health: "Arsenic and heavy-metal contamination of groundwater, soil and surface water threatens downstream drinking-water supplies.", citations: [{ type: "primary", ref: "Cyanide and heavy metals, Takab Kanikaran, J Research Environ Health", url: "https://jreh.mums.ac.ir/article_20745.html?lang=en", openAccess: true }] },
+	{ id: "herculaneum-lead", name: "Herculaneum lead smelter (Missouri)", tier: "anthropogenic", category: "anthropogenic", lat: 38.267, lng: -90.383, r: 10, reachKm: 10, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "A century-old primary lead smelter on the Mississippi blanketed the town in lead dust and contaminated residential soils before its 2013 closure.", health: "Over half of young children within 1.5 miles had elevated blood lead, with neighborhood averages near 12 micrograms per deciliter.", citations: [{ type: "agency", ref: "Missouri DHSS, Herculaneum lead smelter blood-lead study", url: "https://health.mo.gov/living/environment/hazsubstancesites/pdf/Herculaneumbloodfinal.pdf", openAccess: true }] },
+	{ id: "anaconda-smelter", name: "Anaconda smelter (Montana)", tier: "anthropogenic", category: "anthropogenic", lat: 46.128, lng: -112.942, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "More than a century of copper smelting deposited arsenic, lead and cadmium across over 20,000 acres of the Deer Lodge Valley, one of the largest US Superfund sites.", health: "Residential soils and attic dust carry elevated arsenic and lead posing chronic ingestion and inhalation risk.", citations: [{ type: "agency", ref: "ATSDR, Anaconda Co. Smelter health consultation", url: "https://www.atsdr.cdc.gov/HAC/pha/AnacondaCoSmelter/Anaconda_Co_Smelter_HC-508.pdf", openAccess: true }] },
+	{ id: "tacoma-smelter-plume", name: "Tacoma smelter plume (Washington)", tier: "anthropogenic", category: "anthropogenic", lat: 47.296, lng: -122.512, r: 60, reachKm: 60, certainty: "established", severity: 3, research: 5, emissionType: "chemical", desc: "Air emissions from the ASARCO copper smelter at Ruston settled arsenic and lead onto more than 1,000 square miles of soil across the Puget Sound basin.", health: "Persistent arsenic and lead in surface soils create chronic soil-ingestion exposure, prompting ongoing yard cleanups.", citations: [{ type: "agency", ref: "WA Dept of Ecology, Tacoma smelter cleanup", url: "https://ecology.wa.gov/spills-cleanup/contamination-cleanup/cleanup-sites/tacoma-smelter", openAccess: true }] },
+	{ id: "palmerton-zinc", name: "Palmerton zinc smelter (Pennsylvania)", tier: "anthropogenic", category: "anthropogenic", lat: 40.801, lng: -75.611, r: 15, reachKm: 15, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Decades of zinc smelting left a cinder bank of over 30 million tons of metal-laden residue and stripped vegetation from 2,000 acres of Blue Mountain.", health: "Children tested in the area showed elevated blood lead, and soils carry cadmium, lead and zinc.", citations: [{ type: "agency", ref: "US EPA Superfund, Palmerton Zinc Pile", url: "https://cumulis.epa.gov/supercpad/SiteProfiles/index.cfm?fuseaction=second.cleanup&id=0300624", openAccess: true }] },
+	{ id: "rouyn-noranda-horne", name: "Rouyn-Noranda Horne smelter (Quebec)", tier: "anthropogenic", category: "anthropogenic", lat: 48.245, lng: -79.03, r: 12, reachKm: 12, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "The Horne copper smelter has emitted arsenic and cadmium far above provincial norms for decades, exposing the town through air and dust.", health: "Quebec public health found chronic arsenic exposure raised local lung cancer rates.", citations: [{ type: "review", ref: "Horne smelter arsenic emissions and health (overview)", url: "https://en.wikipedia.org/wiki/Horne_Smelter", openAccess: true }] },
+	{ id: "flin-flon-smelter", name: "Flin Flon base-metal smelter (Manitoba)", tier: "anthropogenic", category: "anthropogenic", lat: 54.768, lng: -101.877, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Atmospheric fallout from the HudBay metallurgical complex enriched soils across Flin Flon and Creighton with arsenic, cadmium, lead, copper and mercury.", health: "A provincial risk assessment and child biomonitoring examined chronic exposure to arsenic, lead and mercury from contaminated soils.", citations: [{ type: "agency", ref: "Manitoba, heavy-metal soil studies in Flin Flon and Creighton", url: "https://www.gov.mb.ca/health//publichealth/environmentalhealth/soil.html", openAccess: true }] },
+	{ id: "cidade-dos-meninos", name: "Cidade dos Meninos organochlorine site", tier: "anthropogenic", category: "anthropogenic", lat: -22.657, lng: -43.297, r: 8, reachKm: 8, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "An abandoned 1950s pesticide factory near Rio de Janeiro left roughly 350 tons of HCH plus DDT and dioxins in open soil, an urgent public-health hazard.", health: "About 73 percent of nearly 750 people tested carried organochlorine residues, with doses exceeding minimum risk levels.", citations: [{ type: "primary", ref: "Asmus et al., organochlorine risk at Cidade dos Meninos, Cad Saude Publica (2008)", url: "https://www.scielo.br/j/csp/a/jBfWBCsNNFBmc3LT7FtbJnk/?lang=en", openAccess: true }] },
+	{ id: "la-teja-lead", name: "La Teja lead contamination (Montevideo)", tier: "anthropogenic", category: "anthropogenic", lat: -34.86, lng: -56.23, r: 8, reachKm: 8, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Soil in this industrial Montevideo neighborhood reached high lead concentrations from lead industries and abandoned sites, sparking Uruguay's first lead crisis in 2001.", health: "Children in La Teja showed elevated blood lead averaging around 12 micrograms per deciliter.", citations: [{ type: "primary", ref: "Manay et al., lead contamination in Uruguay, Rev Environ Contam Toxicol (2008)", url: "https://pubmed.ncbi.nlm.nih.gov/18418955/", openAccess: false }] },
+	{ id: "lago-agrio-oil", name: "Lago Agrio oil contamination (Ecuador)", tier: "anthropogenic", category: "anthropogenic", lat: 0.087, lng: -76.894, r: 50, reachKm: 50, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Oil operations from 1964 to 1992 left unlined waste pits and crude contamination across the northern Ecuadorian Amazon around Lago Agrio and Shushufindi.", health: "Communities near contaminated fields show roughly three times the national cancer rate in peer-reviewed studies.", citations: [{ type: "primary", ref: "Hurtig & San Sebastian, cancer and oil production in the Amazon, Cancer Causes Control", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3889987/", openAccess: true }] },
+	{ id: "gabes-phosphate", name: "Gabes phosphate industry (Tunisia)", tier: "anthropogenic", category: "anthropogenic", lat: 33.88, lng: 10.1, r: 15, reachKm: 15, certainty: "established", severity: 4, research: 4, emissionType: "mixed", desc: "A state phosphate complex discharges thousands of tons of phosphogypsum daily into the Gulf of Gabes and emits sulfur dioxide, hydrogen fluoride, cadmium and radionuclides.", health: "Residents report elevated cancer, chronic respiratory disease, kidney failure and bone problems.", citations: [{ type: "primary", ref: "Rabaoui et al., phosphate waste in the Gulf of Gabes, PLOS ONE (2017)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5957445/", openAccess: true }] },
+	{ id: "abu-zaabal-lead", name: "Abu Zaabal lead smelters (Cairo)", tier: "anthropogenic", category: "anthropogenic", lat: 30.27, lng: 31.4, r: 8, reachKm: 8, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Egypt's largest secondary lead smelting cluster northeast of Cairo contaminated soils, groundwater and air with lead and cadmium.", health: "Screening found elevated blood lead in children, women of reproductive age and adult men near the smelter.", citations: [{ type: "primary", ref: "Contamination around the largest lead smelter in Egypt, Field Actions Sci Rep (2014)", url: "https://journals.openedition.org/factsreports/3831", openAccess: true }] },
+	{ id: "phalaborwa-phosphate", name: "Phalaborwa phosphate mining (South Africa)", tier: "anthropogenic", category: "anthropogenic", lat: -23.94, lng: 31.14, r: 15, reachKm: 15, certainty: "established", severity: 3, research: 3, emissionType: "ionizing", desc: "Phosphate mining and processing at Phalaborwa generates phosphogypsum, emits fluoride and concentrates naturally occurring radium and uranium.", health: "Phosphate areas carry the highest soil radium-226 among South African mining types, posing chronic radiological and fluoride risk.", citations: [{ type: "primary", ref: "Mathuthu et al., radiological impact of SA phosphate industry, J Environ Radioact (2020)", url: "https://pubmed.ncbi.nlm.nih.gov/32217246/", openAccess: false }] },
+	{ id: "captains-flat", name: "Captains Flat mine drainage (NSW)", tier: "anthropogenic", category: "anthropogenic", lat: -35.59, lng: 149.45, r: 60, reachKm: 60, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Legacy lead-zinc-copper mining seeps and tailings contaminate the Molonglo River with cadmium, copper, lead and zinc far downstream toward Canberra.", health: "Riverine sediment metals reach dozens of times background, with dust and erosion posing exposure risks now under remediation.", citations: [{ type: "agency", ref: "NSW EPA, Captains Flat contamination", url: "https://www.epa.nsw.gov.au/Working-together/Community-engagement/updates-on-issues/Captains-Flat-contamination", openAccess: true }] },
+	{ id: "rum-jungle-uranium", name: "Rum Jungle uranium mine (NT)", tier: "anthropogenic", category: "anthropogenic", lat: -13.02, lng: 130.99, r: 12, reachKm: 12, certainty: "established", severity: 4, research: 4, emissionType: "ionizing", desc: "An abandoned Cold War uranium and copper mine discharged acid rock drainage and low-level radioactive material into the Finniss River for decades.", health: "Acid drainage and radionuclides left a roughly ten-kilometer stretch of the Finniss River largely devoid of life, with ongoing contamination risk.", citations: [{ type: "primary", ref: "Jeffree et al., Finniss River recovery after Rum Jungle, Environ Pollut", url: "https://pubmed.ncbi.nlm.nih.gov/11478245/", openAccess: false }] },
+	{ id: "mapua-fcc", name: "Mapua pesticide site (New Zealand)", tier: "anthropogenic", category: "anthropogenic", lat: -41.25, lng: 173.1, r: 6, reachKm: 6, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "A pesticide plant operating 1932 to 1988 left soil, groundwater and estuary sediments contaminated with DDT, dieldrin, aldrin and lindane, once New Zealand's most contaminated site.", health: "Persistent organochlorine residues drove a major government-funded remediation with dedicated health monitoring.", citations: [{ type: "agency", ref: "NZ Ministry for the Environment, cleaning up Mapua", url: "https://environment.govt.nz/assets/Publications/Files/cleaning-up-mapua-fcc-story.pdf", openAccess: true }] },
+
+	// ===================== EXPANSION 13: HISTORICAL NUCLEAR (accidents, secret programs, cover-ups) =====================
+	{ id: "vela-incident-1979", name: "Vela Incident (South Atlantic flash)", tier: "anthropogenic", category: "anthropogenic", lat: -47, lng: 40, r: 350, reachKm: 350, certainty: "contested", severity: 2, research: 3, emissionType: "ionizing", desc: "A 1979 US Vela satellite recorded a double flash over the ocean near the Prince Edward Islands widely suspected to have been a covert low-yield nuclear test, possibly Israeli or South African.", health: "No population lives nearby and no contamination was confirmed, so concern is speculative and rests on contested satellite, hydroacoustic and later New Zealand sheep-thyroid iodine data.", citations: [{ type: "review", ref: "Vela incident (overview)", url: "https://en.wikipedia.org/wiki/Vela_incident", openAccess: true }] },
+	{ id: "thule-b52-1968", name: "Thule B-52 crash, Greenland", tier: "anthropogenic", category: "anthropogenic", lat: 76.5, lng: -68.9, r: 40, reachKm: 40, certainty: "acknowledged-late", severity: 4, research: 4, emissionType: "ionizing", desc: "A B-52 carrying four hydrogen bombs crashed and burned on the sea ice near Thule in 1968, rupturing the weapons and scattering plutonium across North Star Bay in a program Denmark long denied.", health: "Danish cleanup workers later reported elevated cancers (a 1995 survey counted 410 cancer deaths among 1,500 workers), though a 2011 Danish review judged doses below limits, leaving evidence mixed.", citations: [{ type: "agency", ref: "US DOE OpenNet, nuclear weapon accident near Thule", url: "https://www.osti.gov/opennet/servlets/purl/1735362.pdf", openAccess: true }] },
+	{ id: "goldsboro-1961", name: "Goldsboro broken arrow, North Carolina", tier: "anthropogenic", category: "anthropogenic", lat: 35.49, lng: -77.86, r: 25, reachKm: 25, certainty: "established", severity: 3, research: 4, emissionType: "ionizing", desc: "Two 3.8-megaton bombs fell when a B-52 broke apart over Faro, North Carolina in 1961, and one weapon completed nearly all of its arming sequence before a single switch stopped detonation.", health: "No yield or major release occurred, but part of one bomb's uranium secondary was never recovered from the waterlogged field and the Air Force keeps a safety easement.", citations: [{ type: "review", ref: "1961 Goldsboro B-52 crash (overview)", url: "https://en.wikipedia.org/wiki/1961_Goldsboro_B-52_crash", openAccess: true }] },
+	{ id: "tybee-island-1958", name: "Tybee Island lost bomb, Georgia", tier: "anthropogenic", category: "anthropogenic", lat: 31.95, lng: -80.93, r: 20, reachKm: 20, certainty: "established", severity: 2, research: 3, emissionType: "ionizing", desc: "A Mark 15 hydrogen bomb was jettisoned after a 1958 midair collision and lost in Wassaw Sound off Tybee Island, Georgia, where surveys indicate it remains buried under silt.", health: "No release is documented and the weapon is believed intact, so concern rests on its highly enriched uranium and conventional explosives.", citations: [{ type: "review", ref: "1958 Tybee Island mid-air collision (overview)", url: "https://en.wikipedia.org/wiki/1958_Tybee_Island_mid-air_collision", openAccess: true }] },
+	{ id: "sl-1-idaho-1961", name: "SL-1 reactor explosion, Idaho", tier: "anthropogenic", category: "anthropogenic", lat: 43.5217, lng: -112.8067, r: 20, reachKm: 20, certainty: "established", severity: 3, research: 4, emissionType: "ionizing", desc: "The US Army's SL-1 experimental reactor at the National Reactor Testing Station went prompt critical and exploded in 1961, the only fatal reactor accident in US history.", health: "Three operators died from the blast and acute radiation, and their bodies and the site were heavily contaminated, all documented in official investigations.", citations: [{ type: "review", ref: "SL-1 (overview)", url: "https://en.wikipedia.org/wiki/SL-1", openAccess: true }] },
+	{ id: "chalk-river-1952", name: "Chalk River NRX accident, Canada", tier: "anthropogenic", category: "anthropogenic", lat: 46.05, lng: -77.36, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 3, emissionType: "ionizing", desc: "A 1952 power excursion and partial meltdown of the NRX reactor at Chalk River, Ontario blew the vessel seal upward and flooded the building with thousands of cubic metres of radioactive water.", health: "No immediate deaths were recorded, but cleanup crews were exposed and some workers later attributed illness to the accident, with mixed documentation.", citations: [{ type: "review", ref: "Chalk River Laboratories NRX accident (overview)", url: "https://en.wikipedia.org/wiki/Chalk_River_Laboratories", openAccess: true }] },
+	{ id: "totskoye-1954", name: "Totskoye nuclear exercise, USSR", tier: "anthropogenic", category: "anthropogenic", lat: 52.64, lng: 52.8, r: 200, reachKm: 200, certainty: "acknowledged-late", severity: 4, research: 3, emissionType: "ionizing", desc: "The Soviet military detonated a 40-kiloton airburst over roughly 45,000 troops and nearby villages near Totskoye in 1954 to rehearse fighting on a nuclear battlefield.", health: "Soviet secrecy hid it for decades; later Russian tooth-enamel dosimetry and regional cancer statistics report elevated lung, thyroid and blood cancers among participants and residents.", citations: [{ type: "review", ref: "Totskoye nuclear exercise (overview)", url: "https://en.wikipedia.org/wiki/Totskoye_nuclear_exercise", openAccess: true }] },
+	{ id: "camp-century-iceworm", name: "Camp Century / Project Iceworm, Greenland", tier: "anthropogenic", category: "anthropogenic", lat: 77.17, lng: -61.13, r: 40, reachKm: 40, certainty: "acknowledged-late", severity: 3, research: 3, emissionType: "ionizing", desc: "The US Army's nuclear-powered Camp Century under the Greenland ice, cover for the secret Project Iceworm missile scheme, was abandoned in 1967 leaving reactor waste, diesel and PCBs entombed in the ice.", health: "No acute exposures are on record, but peer-reviewed modeling warns accelerating ice melt could remobilize the buried radiological and chemical waste this century.", citations: [{ type: "primary", ref: "Colgan et al., Camp Century abandoned base, Geophys Res Lett (2016)", url: "https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2016GL069688", openAccess: true }] },
+	{ id: "dimona-negev", name: "Dimona Negev Nuclear Research Center, Israel", tier: "anthropogenic", category: "anthropogenic", lat: 31.0013, lng: 35.1445, r: 40, reachKm: 40, certainty: "contested", severity: 3, research: 2, emissionType: "ionizing", desc: "The Negev Nuclear Research Center at Dimona has been the undeclared core of Israel's nuclear weapons program since the 1960s, its true purpose officially neither confirmed nor denied.", health: "The state paid roughly 78 million shekels to about 170 workers and families with cancer without admitting guilt, leaving the radiation link compensated but legally contested.", citations: [{ type: "review", ref: "Negev Nuclear Research Center (overview)", url: "https://en.wikipedia.org/wiki/Shimon_Peres_Negev_Nuclear_Research_Center", openAccess: true }] },
+	{ id: "pelindaba", name: "Pelindaba weapons program, South Africa", tier: "anthropogenic", category: "anthropogenic", lat: -25.8006, lng: 27.9339, r: 30, reachKm: 30, certainty: "acknowledged-late", severity: 2, research: 3, emissionType: "ionizing", desc: "Apartheid South Africa secretly built six nuclear weapons at and around the Pelindaba complex near Pretoria, a program denied until President de Klerk admitted and renounced it in 1993.", health: "The weapons were dismantled and the site still processes enriched uranium and stores waste, so documented health effects are limited, but the once-denied program is now acknowledged.", citations: [{ type: "review", ref: "South Africa and weapons of mass destruction (overview)", url: "https://en.wikipedia.org/wiki/South_Africa_and_weapons_of_mass_destruction", openAccess: true }] },
+	{ id: "montebello-islands", name: "Montebello Islands tests, Australia", tier: "anthropogenic", category: "anthropogenic", lat: -20.41, lng: 115.55, r: 350, reachKm: 350, certainty: "established", severity: 4, research: 3, emissionType: "ionizing", desc: "Britain conducted three atmospheric nuclear tests at the Montebello Islands off Western Australia between 1952 and 1956, including the 60-kiloton Mosaic G2, the largest blast ever set off in Australia.", health: "An Australian royal commission found fallout, especially from the dirty G2 shot, spread far across the mainland and raised general cancer risk, with displaced Indigenous people among those harmed.", citations: [{ type: "review", ref: "Operation Mosaic (overview)", url: "https://en.wikipedia.org/wiki/Operation_Mosaic", openAccess: true }] },
+	{ id: "emu-field-totem", name: "Emu Field (Operation Totem), Australia", tier: "anthropogenic", category: "anthropogenic", lat: -28.7, lng: 132.37, r: 200, reachKm: 200, certainty: "contested", severity: 3, research: 2, emissionType: "ionizing", desc: "Britain's 1953 Operation Totem tests at Emu Field in South Australia produced a greasy black mist that drifted over Aboriginal communities around Wallatinna to the northeast.", health: "Anangu eyewitnesses including Yami Lester, who went blind, link the black mist to deaths, blindness and sickness; no monitoring data was collected at the time, so the evidence is largely anecdotal.", citations: [{ type: "review", ref: "Operation Totem (overview)", url: "https://en.wikipedia.org/wiki/Operation_Totem", openAccess: true }] },
+	{ id: "johnston-atoll", name: "Johnston Atoll plutonium, Pacific", tier: "anthropogenic", category: "anthropogenic", lat: 16.7295, lng: -169.5336, r: 40, reachKm: 40, certainty: "established", severity: 3, research: 3, emissionType: "ionizing", desc: "Failed 1962 high-altitude test launches from Johnston Atoll, including the Bluegill Prime pad explosion, destroyed nuclear warheads and scattered plutonium across the island and lagoon.", health: "A later Defense Threat Reduction Agency survey confirmed residual plutonium in soil, structures and the lagoon, with personnel exposure documented in US military reports.", citations: [{ type: "review", ref: "Johnston Atoll and Operation Fishbowl (overview)", url: "https://en.wikipedia.org/wiki/Johnston_Atoll", openAccess: true }] },
+	{ id: "project-rulison", name: "Project Rulison, Colorado", tier: "anthropogenic", category: "anthropogenic", lat: 39.4053, lng: -107.9485, r: 30, reachKm: 30, certainty: "established", severity: 2, research: 3, emissionType: "ionizing", desc: "Project Rulison detonated a 40-kiloton device underground near Parachute, Colorado in 1969 to stimulate natural gas under the Plowshare peaceful-explosion program, like the Gasbuggy shot in New Mexico.", health: "The freed gas was too radioactive to use and was flared off, and the site remains a restricted no-drilling zone with documented subsurface contamination, though offsite health effects are unestablished.", citations: [{ type: "review", ref: "Project Rulison (overview)", url: "https://en.wikipedia.org/wiki/Project_Rulison", openAccess: true }] },
+
+	// ===================== EXPANSION 14: SUPPRESSED / COVER-UP HAZARDS =====================
+	{ id: "lop-nur-downwind-xinjiang", name: "Lop Nur downwind fallout (Xinjiang)", tier: "anthropogenic", category: "anthropogenic", lat: 41.76, lng: 86.15, r: 500, reachKm: 500, certainty: "contested", severity: 4, research: 2, emissionType: "ionizing", desc: "Populated Uyghur oasis cities along the Silk Road lie downwind of the Lop Nur atmospheric tests, where civilian fallout exposure is disputed and Chinese exposure data are not released.", health: "Evidence is contested and circumstantial: physicist Jun Takada modeled tens of thousands of acute deaths and over a million significant doses, while regional cancer claims rest on data China has not published.", citations: [{ type: "review", ref: "Scientific American, did China's nuclear tests kill thousands? (2009)", url: "https://www.scientificamerican.com/article/did-chinas-nuclear-tests/", openAccess: true }] },
+	{ id: "k19-submarine", name: "Soviet submarine K-19 reactor accident", tier: "anthropogenic", category: "anthropogenic", lat: 61, lng: -36, r: 20, reachKm: 20, certainty: "established", severity: 3, research: 4, emissionType: "ionizing", desc: "A loss-of-coolant accident in K-19's reactor in July 1961 off southeast Greenland forced the crew to improvise repairs amid an exposed core.", health: "Well documented: several crewmen received fatal doses making repairs and died of acute radiation sickness, while the Soviet record hid it under a false 'astheno-vegetative syndrome' diagnosis.", citations: [{ type: "review", ref: "Soviet submarine K-19 (overview)", url: "https://en.wikipedia.org/wiki/Soviet_submarine_K-19", openAccess: true }] },
+	{ id: "k278-komsomolets", name: "K-278 Komsomolets wreck (Norwegian Sea)", tier: "anthropogenic", category: "anthropogenic", lat: 73.724, lng: 13.266, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 4, emissionType: "ionizing", desc: "The Soviet submarine Komsomolets sank in 1989 and rests at about 1,680 metres with its nuclear reactor and two nuclear-armed torpedoes on the seabed.", health: "Documented by Norwegian and Russian expeditions: a plume from a ventilation pipe shows intermittent caesium-137 readings far above background near the wreck, though no plutonium leakage is detected.", citations: [{ type: "review", ref: "Soviet submarine K-278 Komsomolets (overview)", url: "https://en.wikipedia.org/wiki/Soviet_submarine_K-278_Komsomolets", openAccess: true }] },
+	{ id: "chazhma-bay-k431", name: "Chazhma Bay K-431 reactor explosion", tier: "anthropogenic", category: "anthropogenic", lat: 42.98, lng: 132.35, r: 30, reachKm: 30, certainty: "acknowledged-late", severity: 3, research: 3, emissionType: "ionizing", desc: "A criticality excursion during refuelling of submarine K-431 at Chazhma Bay near Vladivostok in 1985 blew the reactor lid off and released a radioactive cloud across the Dunay Peninsula.", health: "Documented after long suppression: ten people were killed and 49 suffered radiation injuries, yet the Soviet Navy kept the accident secret for over thirty years.", citations: [{ type: "review", ref: "Soviet submarine K-431 (overview)", url: "https://en.wikipedia.org/wiki/Soviet_submarine_K-431", openAccess: true }] },
+	{ id: "uss-scorpion", name: "USS Scorpion wreck (SW of the Azores)", tier: "anthropogenic", category: "anthropogenic", lat: 32.9, lng: -33, r: 15, reachKm: 15, certainty: "established", severity: 2, research: 3, emissionType: "ionizing", desc: "The US nuclear attack submarine Scorpion sank in 1968 southwest of the Azores and lies on the deep seabed with its reactor and two nuclear torpedoes still aboard.", health: "A monitored hazard: the Navy released records to address public concern, and periodic sampling has so far revealed no measurable leakage.", citations: [{ type: "review", ref: "USS Scorpion (SSN-589) (overview)", url: "https://en.wikipedia.org/wiki/USS_Scorpion_(SSN-589)", openAccess: true }] },
+	{ id: "uk-nuclear-veterans-grapple", name: "UK nuclear-test veterans (Operation Grapple)", tier: "anthropogenic", category: "anthropogenic", lat: -4.03, lng: -154.93, r: 50, reachKm: 50, certainty: "contested", severity: 3, research: 3, emissionType: "ionizing", desc: "British servicemen present at the Operation Grapple thermonuclear tests near Malden and Christmas Islands have for decades sought recognition of radiation harm denied by the Ministry of Defence.", health: "Evidence is disputed: veterans and descendants report elevated cancers and birth defects, but official mortality studies found rates similar to controls and one study found no excess genetic damage in their children.", citations: [{ type: "agency", ref: "UK House of Commons Library, nuclear test veterans (CBP-9903)", url: "https://researchbriefings.files.parliament.uk/documents/CBP-9903/CBP-9903.pdf", openAccess: true }] },
+	{ id: "depleted-uranium-basra", name: "Depleted-uranium contamination (Basra)", tier: "anthropogenic", category: "anthropogenic", lat: 30.55, lng: 47.78, r: 90, reachKm: 90, certainty: "contested", severity: 3, research: 3, emissionType: "ionizing", desc: "Depleted-uranium munitions fired during the 1991 and 2003 Gulf wars left battlefield contamination across southern Iraq, with Basra reporting health surges beyond the Fallujah cluster.", health: "Contested but documented: studies report a roughly sevenfold rise in Basra birth defects from 1994 to 2003, while reviews caution that direct causal attribution to depleted uranium remains uncertain.", citations: [{ type: "review", ref: "Manduca et al., weaponised uranium and health in Iraq, systematic review (PMC7903104)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7903104/", openAccess: true }] },
+	{ id: "hunters-point-shipyard", name: "Hunters Point Naval Shipyard (San Francisco)", tier: "anthropogenic", category: "anthropogenic", lat: 37.725, lng: -122.37, r: 10, reachKm: 10, certainty: "established", severity: 3, research: 4, emissionType: "ionizing", desc: "A former Navy shipyard used to decontaminate vessels from Pacific H-bomb tests and conduct radiological work, where a fraudulent cleanup later put much of the site's certification in doubt.", health: "Adjudicated: the EPA found most soil samples in two areas potentially falsified, two contractor supervisors were imprisoned for fraud, and litigation produced a large settlement.", citations: [{ type: "review", ref: "NBC Bay Area, Hunters Point radiation cleanup faked data", url: "https://www.nbcbayarea.com/news/local/Nearly-Half-of-Hunters-Point-Shipyard-Radiation-Cleanup-in-Question-Contractor-Possibly-Faked-Data-471799074.html", openAccess: true }] },
+	{ id: "camp-lejeune", name: "Camp Lejeune water contamination", tier: "anthropogenic", category: "anthropogenic", lat: 34.6507, lng: -77.3464, r: 30, reachKm: 30, certainty: "acknowledged-late", severity: 5, research: 5, emissionType: "chemical", desc: "Two water systems on this Marine Corps base were contaminated with TCE, PCE, benzene and vinyl chloride from the 1950s to 1985, a hazard the Corps stonewalled for years.", health: "ATSDR now concludes the exposures likely raised risks of kidney cancer, multiple myeloma, leukemias and adverse birth outcomes, reversing its 1997 finding.", citations: [{ type: "agency", ref: "ATSDR, Camp Lejeune water contamination summary", url: "https://www.atsdr.cdc.gov/camp-lejeune/about/summary-of-the-water-contamination-situation.html", openAccess: true }] },
+	{ id: "toms-river", name: "Toms River childhood cancer (New Jersey)", tier: "solved", category: "solved", lat: 39.9537, lng: -74.1979, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Decades of dye and resin waste dumped by Ciba-Geigy plus illegally dumped Union Carbide drums at Reich Farm tainted the aquifer feeding municipal wells.", health: "A state and federal study linked elevated childhood leukemia and brain cancer, especially in young girls, to contaminated drinking water and air emissions.", citations: [{ type: "agency", ref: "NJ DOH, Toms River (Dover Township) childhood cancer investigation", url: "https://www.nj.gov/health/ceohs/environmental-occupational/hazardous-waste-sites/ocean/dovertwp.shtml", openAccess: true }] },
+	{ id: "woburn-wells", name: "Woburn Wells G and H (Massachusetts)", tier: "solved", category: "solved", lat: 42.4793, lng: -71.1523, r: 20, reachKm: 20, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Municipal wells G and H were contaminated with TCE and other solvents from industrial dumping by W.R. Grace and others, the basis of the case in A Civil Action.", health: "A childhood leukemia cluster about four times the expected rate was tied to the contaminated wells, and a jury found W.R. Grace liable.", citations: [{ type: "review", ref: "Harvard Chan School, Woburn leukemia cluster research", url: "https://hsph.harvard.edu/biostatistics/news/proposed-ban-on-chemical-linked-to-woburn-leukemia-cluster-research-chronicled-in-a-civil-action/", openAccess: true }] },
+	{ id: "times-beach-dioxin", name: "Times Beach dioxin (Missouri)", tier: "anthropogenic", category: "anthropogenic", lat: 38.5081, lng: -90.5979, r: 15, reachKm: 15, certainty: "established", severity: 5, research: 5, emissionType: "chemical", desc: "From 1972 to 1976 waste oil laced with dioxin from an Agent Orange precursor plant was sprayed on the town's dirt roads for dust control, contaminating the whole community.", health: "EPA sampling found very high dioxin, triggering a full federal buyout and evacuation of about 2,000 residents in the then-largest US civilian dioxin exposure.", citations: [{ type: "agency", ref: "US EPA, looking back at the Times Beach disaster", url: "https://www.epa.gov/mo/town-flood-and-superfund-looking-back-times-beach-disaster-nearly-40-years-later", openAccess: true }] },
+	{ id: "tonawanda-coke", name: "Tonawanda Coke benzene (New York)", tier: "anthropogenic", category: "anthropogenic", lat: 42.9901, lng: -78.8801, r: 20, reachKm: 20, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "The Tonawanda Coke plant released coke-oven gas heavy with benzene through an unreported pressure-relief valve into surrounding neighborhoods.", health: "The company and its manager were criminally convicted under the Clean Air Act in 2013, and court-ordered funds financed an epidemiological study of up to 38,000 residents.", citations: [{ type: "agency", ref: "US DOJ, Tonawanda Coke sentenced for Clean Air Act violations", url: "https://www.justice.gov/usao-wdny/pr/tonawanda-coke-and-manager-sentenced-violating-clean-air-act-and-resource-conservation", openAccess: true }] },
+	{ id: "decatur-3m-pfas", name: "Decatur 3M PFAS (Alabama)", tier: "anthropogenic", category: "anthropogenic", lat: 34.5771, lng: -86.9621, r: 150, reachKm: 150, certainty: "acknowledged-late", severity: 4, research: 5, emissionType: "chemical", desc: "3M discharged PFAS into the Tennessee River and local landfills for decades from its Decatur plant, contaminating drinking water drawn downstream.", health: "Internal 3M studies from the 1970s confirmed the chemicals' toxicity and presence in workers' blood and river fish, but the company did not warn the public for decades.", citations: [{ type: "review", ref: "The Intercept, PFAS contamination divides an Alabama town", url: "https://theintercept.com/2020/08/23/pfas-3m-decatur-alabama/", openAccess: true }] },
+	{ id: "depue-zinc", name: "DePue zinc and fertilizer site (Illinois)", tier: "anthropogenic", category: "anthropogenic", lat: 41.3239, lng: -89.3073, r: 15, reachKm: 15, certainty: "contested", severity: 3, research: 3, emissionType: "chemical", desc: "A zinc smelter and fertilizer complex operating from 1903 to 1989 left the entire village contaminated with lead, arsenic, cadmium and dozens of other metals.", health: "Fifty-seven metals were found throughout the community and a residential slag pile remains, but cleanup stalled in disputes and health risks remain under-assessed.", citations: [{ type: "agency", ref: "US EPA, DePue New Jersey Zinc/Mobil Chemical Superfund profile", url: "https://cumulis.epa.gov/supercpad/cursites/csitinfo.cfm?id=0500396", openAccess: true }] },
+	{ id: "dunn-county-erionite", name: "Dunn County erionite road gravel (North Dakota)", tier: "gray", category: "gray", lat: 47.3667, lng: -102.7502, r: 150, reachKm: 150, certainty: "contested", severity: 3, research: 4, desc: "More than 300 miles of roads were surfaced with locally quarried gravel containing erionite, an asbestos-like fiber chemically indistinguishable from the Turkish erionite that causes mesothelioma.", health: "Airborne fiber levels and animal studies indicate a real hazard, though no statistical mesothelioma increase has yet been confirmed given the long latency.", citations: [{ type: "primary", ref: "Carbone et al., erionite in North Dakota and Turkey, PNAS (2011)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3158231/", openAccess: true }] },
+	{ id: "fallon-leukemia", name: "Fallon childhood leukemia cluster (Nevada)", tier: "gray", category: "gray", lat: 39.4735, lng: -118.7774, r: 30, reachKm: 30, certainty: "contested", severity: 4, research: 4, emissionType: "mixed", desc: "Sixteen children were diagnosed with leukemia between 1997 and 2002 in a town with elevated environmental tungsten, cobalt, arsenic and jet fuel near a naval air station.", health: "Tree-ring and air studies documented an unusual tungsten rise coinciding with the cluster, but researchers remain divided over whether any exposure caused the leukemias.", citations: [{ type: "primary", ref: "Sheppard et al., tungsten and cobalt in Fallon, Nevada (PMC2367666)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2367666/", openAccess: true }] },
+	{ id: "el-dorado-hills-noa", name: "El Dorado Hills naturally occurring asbestos (California)", tier: "gray", category: "gray", lat: 38.6857, lng: -121.0822, r: 25, reachKm: 25, certainty: "contested", severity: 3, research: 4, desc: "Naturally occurring tremolite asbestos in ultramafic rock along the Bear Mountains fault is disturbed by suburban development across parks, trails and school grounds.", health: "EPA activity-based sampling found tremolite in nearly all park and schoolyard samples, a finding an industry-funded report disputed as overstated.", citations: [{ type: "agency", ref: "US EPA Region 9, naturally occurring asbestos in El Dorado County", url: "https://archive.epa.gov/region9/toxic/web/html/intro1.html", openAccess: true }] },
+	{ id: "boulder-city-noa", name: "Southern Nevada naturally occurring asbestos", tier: "gray", category: "gray", lat: 35.9786, lng: -114.8325, r: 150, reachKm: 150, certainty: "anecdotal", severity: 3, research: 3, desc: "Fibrous actinolite asbestos occurs naturally in Miocene plutons around Boulder City and the McCullough Range, becoming airborne through wind and recreation in an arid, growing region.", health: "Researchers report that mesothelioma in unusually young people and in women across southern Nevada is likely related to this natural asbestos, though the link is still under study.", citations: [{ type: "primary", ref: "Baumann et al., natural asbestos and mesothelioma, southern Nevada (PMC4406807)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4406807/", openAccess: true }] },
+
+	// ===================== EXPANSION 15: AZERBAIJAN DEEP-DIVE =====================
+	{ id: "gedabek-gold-cyanide", name: "Gedabek gold-copper mine cyanide leaching", tier: "anthropogenic", category: "anthropogenic", lat: 40.57, lng: 45.78, r: 40, reachKm: 40, certainty: "contested", severity: 3, research: 3, emissionType: "chemical", desc: "An open-pit operation in western Azerbaijan uses cyanide heap leaching and stores arsenic- and cyanide-bearing sludge in tailings ponds near villages.", health: "Residents protested in 2023 over alleged water and air pollution, and an audit detected low-level cyanide in some water samples, so the hazard is documented but the health impact is disputed.", citations: [{ type: "review", ref: "France 24 Observers, UK-based gold mine in Azerbaijan accused of pollution (2024)", url: "https://observers.france24.com/en/europe/20240203-in-azerbaijan-uk-based-gold-mine-accused-of-pollution", openAccess: true }] },
+	{ id: "dashkesan-iron-cobalt", name: "Dashkesan iron-cobalt mining district", tier: "anthropogenic", category: "anthropogenic", lat: 40.52, lng: 46.08, r: 40, reachKm: 40, certainty: "acknowledged-late", severity: 3, research: 2, emissionType: "chemical", desc: "A long-running iron-ore and cobalt mining and beneficiation district whose dust, gas and waste disperse heavy metals across the surrounding highlands.", health: "Moss-biomonitoring and precipitation surveys document elevated cobalt, nickel, lead, vanadium and chromium deposition, measured environmental evidence rather than direct epidemiology.", citations: [{ type: "primary", ref: "Heavy metals in atmospheric precipitation, Dashkesan and Gedabek districts (2021)", url: "https://www.sciencegate.app/document/10.33619/2414-2948/67/08", openAccess: true }] },
+	{ id: "zaylik-alunite", name: "Zaylik alunite mine waste", tier: "anthropogenic", category: "anthropogenic", lat: 40.45, lng: 46.13, r: 30, reachKm: 30, certainty: "anecdotal", severity: 2, research: 2, emissionType: "chemical", desc: "Europe's largest alunite deposit, mined since 1960 in the Dashkesan region, whose beneficiation generated about 1.5 million tonnes of vanadium- and gallium-bearing waste per year.", health: "The large dust- and metal-bearing waste streams are established in the mining literature, but direct population health data are sparse, so the exposure is largely anecdotal.", citations: [{ type: "review", ref: "Waste generation in Azerbaijan's mining ore industry (2024)", url: "https://www.researchgate.net/publication/381422275_Waste_Generation_and_Prospects_for_Utilization_in_Azerbaijan's_Mining_Ore_Industry", openAccess: true }] },
+	{ id: "ganja-alumina-red-mud", name: "Ganja alumina red mud and Ganjachay river", tier: "anthropogenic", category: "anthropogenic", lat: 40.68, lng: 46.36, r: 40, reachKm: 40, certainty: "contested", severity: 3, research: 2, emissionType: "chemical", desc: "Alumina production from alunite and bauxite at Ganja generated large volumes of caustic red mud alongside heavy pollution of the Ganjachay river running through the city.", health: "Environmentalists and residents flag the Ganjachay river as a major public-health threat from industrial and urban discharge, evidence reported but not yet quantified epidemiologically.", citations: [{ type: "review", ref: "Institute for War and Peace Reporting, Azerbaijan's abused river", url: "https://iwpr.net/global-voices/azerbaijans-abused-river", openAccess: true }] },
+	{ id: "naftalan-oil-baths", name: "Naftalan medicinal crude-oil baths", tier: "gray", category: "gray", lat: 40.51, lng: 46.82, r: 25, reachKm: 25, certainty: "contested", severity: 2, research: 3, emissionType: "chemical", desc: "Spa resorts in Naftalan immerse patients in naphthalene-rich crude oil to treat psoriasis and joint pain, exposing skin to polycyclic aromatic hydrocarbons.", health: "Naphthalene and PAHs are IARC-listed carcinogens and Western clinicians warn of cancer and photocarcinogenicity risk, while some trials reported no carcinogenicity, leaving the question genuinely contested.", citations: [{ type: "review", ref: "Naftalan oil, composition and carcinogenicity debate (overview)", url: "https://en.wikipedia.org/wiki/Naftalan_oil", openAccess: true }] },
+	{ id: "absheron-oilfield-norm", name: "Absheron oilfield NORM radium", tier: "established", category: "radiation", lat: 40.42, lng: 49.95, r: 50, reachKm: 50, certainty: "established", severity: 3, research: 4, emissionType: "ionizing", desc: "About 150 years of oil production on the Absheron Peninsula left radium-bearing scale and sludge and produced-water lakes where radium-226 and radium-228 co-precipitate with barium.", health: "Radiometric surveys and a radium-isotope study of an oil-field produced lake near Baku document concentrated naturally occurring radioactive material and radon well above background.", citations: [{ type: "primary", ref: "Radium isotopes in an oil-field produced lake near Baku, J Environ Protection", url: "https://file.scirp.org/Html/1-6703055_69615.htm", openAccess: true }] },
+	{ id: "baku-iodine-bromine-norm", name: "Baku iodine-bromine plant radioactive charcoal", tier: "established", category: "radiation", lat: 40.44, lng: 49.99, r: 40, reachKm: 40, certainty: "acknowledged-late", severity: 3, research: 4, emissionType: "ionizing", desc: "Soviet-era iodine-bromine plants near Baku extracted iodine from oilfield water onto activated charcoal, leaving open-air piles of radium-concentrated radioactive coal after closure.", health: "The IAEA and World Bank documented the NORM-contaminated charcoal near settlements as a threat to residents, and roughly 400,000 cubic metres of waste were later remediated.", citations: [{ type: "agency", ref: "IAEA, a rich and radioactive past haunts a factory town", url: "https://www.iaea.org/newscenter/news/rich-and-radioactive-past-haunts-factory-town", openAccess: true }] },
+	{ id: "kura-aras-metals", name: "Kura-Aras transboundary heavy metals", tier: "anthropogenic", category: "anthropogenic", lat: 39.15, lng: 46.55, r: 300, reachKm: 300, certainty: "contested", severity: 3, research: 3, emissionType: "chemical", desc: "Copper-molybdenum mining discharges from upstream operations feed the Okhchu and Aras tributaries, carrying heavy metals into Azerbaijan's main Kura-Aras drinking and irrigation water system.", health: "Multi-year monitoring measured silver, arsenic, cadmium, chromium, cobalt, copper, mercury, lead and zinc in the system, giving measured contamination data, though attribution remains politically contested.", citations: [{ type: "primary", ref: "Contamination of the transboundary river Kura, European Water 58 (2017)", url: "https://www.ewra.net/ew/pdf/EW_2017_58_54.pdf", openAccess: true }] },
+
+	// ===================== EXPANSION 16: CENTRAL + SOUTH EU DEEP-DIVE =====================
+	{ id: "ajka-red-mud", name: "Ajka red mud disaster, Hungary", tier: "anthropogenic", category: "anthropogenic", lat: 47.08, lng: 17.52, r: 50, reachKm: 50, certainty: "established", severity: 5, research: 5, emissionType: "chemical", desc: "The 2010 collapse of an alumina-plant tailings dam released about a million cubic metres of caustic red mud across Kolontar and Devecser, drying into respirable alkaline dust.", health: "Ten people died and over a hundred suffered sodium-hydroxide burns, and the dried sludge can emit very high amounts of respirable alkaline particles, a chronic inhalation and irritation hazard.", citations: [{ type: "primary", ref: "Gelencser et al., Ajka red mud fugitive dust, Environ Sci Technol (2011)", url: "https://pubs.acs.org/doi/abs/10.1021/es104005r", openAccess: false }] },
+	{ id: "straz-pod-ralskem-uranium", name: "Straz pod Ralskem in-situ-leach uranium, Czechia", tier: "anthropogenic", category: "anthropogenic", lat: 50.696, lng: 14.804, r: 30, reachKm: 30, certainty: "established", severity: 4, research: 4, emissionType: "mixed", desc: "About 32 years of acid in-situ-leach uranium mining injected roughly 3.7 million tonnes of sulphuric acid into the Cenomanian aquifer, leaving a vast contaminated-groundwater plume.", health: "Remediation reporting documents over 380 million cubic metres of affected groundwater carrying sulphate, ammonium and mobilized radionuclides, threatening regional drinking water.", citations: [{ type: "primary", ref: "Muzak, remediation of chemical uranium leaching, IMWA (2008)", url: "http://imwa.de/docs/imwa_2008/IMWA2008_036_Muzak.pdf", openAccess: true }] },
+	{ id: "miasteczko-slaskie-zinc", name: "Miasteczko Slaskie zinc smelter, Poland", tier: "anthropogenic", category: "anthropogenic", lat: 50.51, lng: 18.93, r: 25, reachKm: 25, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "Poland's largest operating zinc smelter has emitted metal-bearing dust for decades, leaving soils around schools with high lead and elevated cadmium, arsenic and thallium.", health: "Local children showed mean blood lead near 14 micrograms per decilitre tied to distance from the smelter, with significant non-dietary lead exposure risk.", citations: [{ type: "primary", ref: "Kalinowska et al., blood lead in Polish industrial sites, Int J Occup Med Environ Health (2017)", url: "https://pubmed.ncbi.nlm.nih.gov/29072712/", openAccess: false }] },
+	{ id: "jelsava-lubenik-magnesite", name: "Jelsava-Lubenik magnesite dust, Slovakia", tier: "anthropogenic", category: "anthropogenic", lat: 48.63, lng: 20.24, r: 30, reachKm: 30, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "About ninety years of magnesite mining and clinker production blanketed soils with alkaline magnesium dust, pushing soil pH above 8 and adding chromium, manganese and arsenic above limits.", health: "Research links the heavy mineral dust to pulmonary disease among residents and documents soil chromium, manganese and arsenic several times over toxicity thresholds.", citations: [{ type: "primary", ref: "Hronec et al., heavy metals near Jelsava-Lubenik magnesite, Sustainability (2021)", url: "https://doi.org/10.3390/su13084508", openAccess: true }] },
+	{ id: "jachymov-radium", name: "Jachymov radium and uranium district, Czechia", tier: "established", category: "radiation", lat: 50.37, lng: 12.91, r: 25, reachKm: 25, certainty: "established", severity: 5, research: 5, emissionType: "ionizing", desc: "The Jachymov ore field, source of the radium Marie Curie studied, produced uranium into 1964 and left high radon in mines plus radioactive waste reused in local building materials.", health: "The historic Jachymov miners disease was identified as radon-progeny lung carcinoma, and a 1990s investigation found elevated indoor gamma and radon in houses built with radioactive material.", citations: [{ type: "review", ref: "Nuclear Risks / Hibakusha Worldwide, Jachymov profile", url: "https://www.nuclear-risks.org/en/hibakusha-worldwide/jachymov.html", openAccess: true }] },
+	{ id: "most-litvinov-lignite", name: "Most-Litvinov lignite basin, Czechia", tier: "anthropogenic", category: "anthropogenic", lat: 50.5, lng: 13.64, r: 150, reachKm: 150, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "The North Bohemian brown-coal basin around Most and Litvinov was among Europe's most air-polluted regions, burning high-sulphur lignite with severe SO2 and particulate loads.", health: "The government Teplice Program documented childhood respiratory disease several times the national average, and later analyses confirmed mortality and morbidity from the region's air pollution.", citations: [{ type: "primary", ref: "Brabec et al., air pollution and health in the Czech Republic, IJERPH (2020)", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7558327/", openAccess: true }] },
+	{ id: "belchatow-lignite", name: "Belchatow lignite mine and power station, Poland", tier: "anthropogenic", category: "anthropogenic", lat: 51.27, lng: 19.32, r: 250, reachKm: 250, certainty: "established", severity: 4, research: 4, emissionType: "mixed", desc: "Europe's largest lignite power plant emits huge volumes of CO2 plus particulates, sulphur dioxide, heavy metals and mercury, with mercury releases spiking in the mid 2010s.", health: "Health-sector analyses rank Belchatow as the EU's most health-harming coal plant, attributing hundreds of premature deaths per year to its emissions.", citations: [{ type: "review", ref: "Health and Environment Alliance, Belchatow coal plant closure", url: "https://www.env-health.org/announcement-of-belchatow-coal-plant-closure-is-turning-point-for-health/", openAccess: true }] },
+	{ id: "bytom-tarnowskie-gory", name: "Bytom and Tarnowskie Gory lead-zinc legacy, Poland", tier: "anthropogenic", category: "anthropogenic", lat: 50.4, lng: 18.88, r: 40, reachKm: 40, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Centuries of silver, lead and zinc mining and smelting around Bytom and Tarnowskie Gory left a megasite of contaminated soil and groundwater with elevated lead, cadmium, zinc and arsenic.", health: "Cereals and potatoes grown there are contaminated with cadmium, lead and zinc, and the megasite is one of Poland's most serious soil and groundwater priorities.", citations: [{ type: "primary", ref: "Harmful elements in Upper Silesian smelting-polluted soil, Minerals (2024)", url: "https://www.mdpi.com/2075-163X/14/5/475", openAccess: true }] },
+	{ id: "nizna-slana-iron", name: "Nizna Slana iron mine acid drainage, Slovakia", tier: "anthropogenic", category: "anthropogenic", lat: 48.75, lng: 20.45, r: 40, reachKm: 40, certainty: "established", severity: 3, research: 3, emissionType: "chemical", desc: "The siderite iron mine carries arsenic, manganese, lead and zinc impurities, and a 2022 mine-water discharge sent extremely mineralized acidic drainage into the Slana River.", health: "Soil studies document acidification and metallization, and the 2022 event measured arsenic around 15 mg/L and manganese near 592 mg/L, severely affecting the river.", citations: [{ type: "primary", ref: "Demkova et al., soil quality at Nizna Slana iron mines, Sustainability (2020)", url: "https://www.mdpi.com/2071-1050/12/6/2549", openAccess: true }] },
+	{ id: "tarnobrzeg-sulfur", name: "Tarnobrzeg Frasch sulfur mining, Poland", tier: "anthropogenic", category: "anthropogenic", lat: 50.52, lng: 21.66, r: 40, reachKm: 40, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Decades of Frasch-process sulfur extraction around Tarnobrzeg and Jeziorko left soils contaminated with elemental sulfur, acidified and prone to acid mine drainage.", health: "Reclamation studies describe anthropogenic sulfur soil contamination on an unprecedented scale, with severe acidification, subsidence and acid mine drainage.", citations: [{ type: "primary", ref: "Likus-Cieslik et al., reclaimed sulfur-mine soil at Jeziorko, Sustainability (2018)", url: "https://www.mdpi.com/2071-1050/10/7/2442", openAccess: true }] },
+	{ id: "turow-lignite", name: "Turow lignite mine and power plant, Poland", tier: "anthropogenic", category: "anthropogenic", lat: 50.92, lng: 14.9, r: 150, reachKm: 150, certainty: "contested", severity: 3, research: 3, emissionType: "mixed", desc: "The Turow open-pit and power plant near the Polish, Czech and German tripoint generate lignite air pollution and draw down groundwater across the border into Czechia.", health: "The Czech Republic sued Poland at the EU Court of Justice over groundwater drawdown and air pollution, winning an interim halt order and a settlement, though health quantification is disputed.", citations: [{ type: "review", ref: "Columbia Climate Law Blog, Czechia-Poland Turow dispute (2022)", url: "https://blogs.law.columbia.edu/climatechange/2022/08/11/guest-commentary-czech-republic-polands-dispute-over-the-turow-mine/", openAccess: true }] },
+	{ id: "brixlegg-copper", name: "Brixlegg copper smelting area, Austria", tier: "anthropogenic", category: "anthropogenic", lat: 47.43, lng: 11.88, r: 25, reachKm: 25, certainty: "acknowledged-late", severity: 2, research: 3, emissionType: "chemical", desc: "Brixlegg in the Inn Valley hosts Austria's only copper producer atop millennia of fahlore smelting, leaving soils enriched in copper, arsenic and antimony plus modern dioxin emissions.", health: "A peat-core study documents long-term smelting contamination of the local environment, and Austrian milk near a copper smelter has shown elevated dioxin.", citations: [{ type: "primary", ref: "Breitenlechner et al., mining impact at Brixlegg fen, Veget Hist Archaeobot (2013)", url: "https://link.springer.com/article/10.1007/s00334-012-0379-6", openAccess: false }] },
+	{ id: "casale-monferrato-eternit", name: "Casale Monferrato Eternit asbestos", tier: "anthropogenic", category: "anthropogenic", lat: 45.135, lng: 8.452, r: 12, reachKm: 12, certainty: "established", severity: 5, research: 5, emissionType: "mixed", desc: "The Eternit asbestos-cement plant operated from 1907 to 1986 and left the town saturated with fibers used in roads, courtyards and homes.", health: "Roughly 50 mesothelioma cases are diagnosed each year here, most in residents who never worked at the plant but were exposed environmentally or domestically.", citations: [{ type: "review", ref: "Mensi et al., Casale Monferrato asbestos community, Ann Glob Health (2019)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6634471/", openAccess: true }] },
+	{ id: "broni-fibronit", name: "Broni Fibronit asbestos", tier: "anthropogenic", category: "anthropogenic", lat: 45.066, lng: 9.262, r: 8, reachKm: 8, certainty: "established", severity: 4, research: 4, emissionType: "mixed", desc: "The Fibronit asbestos-cement factory ran from 1932 to 1993, contaminating the town of Broni in Lombardy with asbestos affecting workers, families and neighbors.", health: "A forensic series of 188 asbestos-related deaths found about 75 percent linked to familial or environmental rather than occupational exposure.", citations: [{ type: "primary", ref: "Mensi et al., Fibronit Broni exposure, J Public Health Res (2018)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6321947/", openAccess: true }] },
+	{ id: "terra-dei-fuochi", name: "Terra dei Fuochi (Land of Fires)", tier: "anthropogenic", category: "anthropogenic", lat: 40.97, lng: 14.3, r: 45, reachKm: 45, certainty: "acknowledged-late", severity: 4, research: 4, emissionType: "mixed", desc: "Decades of illegal dumping and open burning of toxic and industrial waste between Naples and Caserta released contaminants into soil, air and the food chain.", health: "Studies reported excess all-cause and cancer mortality and an 83 percent higher risk of certain congenital malformations in high-pollution municipalities.", citations: [{ type: "review", ref: "Senior & Mazza et al., the land of fires, Campania (2022)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9792804/", openAccess: true }] },
+	{ id: "priolo-augusta-melilli", name: "Augusta-Priolo-Melilli petrochemical area", tier: "anthropogenic", category: "anthropogenic", lat: 37.17, lng: 15.18, r: 20, reachKm: 20, certainty: "acknowledged-late", severity: 4, research: 4, emissionType: "chemical", desc: "One of Europe's largest petrochemical complexes on the Sicilian coast has emitted PAHs and mercury, contaminating Augusta Bay sediments and surrounding soils.", health: "Surveillance in Siracusa province found significant excesses of congenital malformations, particularly hypospadias and digestive anomalies, plausibly linked to the pollutants.", citations: [{ type: "review", ref: "Pasetto et al., Gela and Priolo cleanup cost-benefit, Environ Health (2011)", url: "https://link.springer.com/article/10.1186/1476-069X-10-68", openAccess: true }] },
+	{ id: "brescia-caffaro", name: "Brescia Caffaro PCB and dioxin", tier: "anthropogenic", category: "anthropogenic", lat: 45.539, lng: 10.198, r: 8, reachKm: 8, certainty: "established", severity: 4, research: 5, emissionType: "chemical", desc: "The Caffaro plant produced PCBs from 1938 to 1984, contaminating soil, water and locally produced food across a mixed urban and agricultural area of northern Italy.", health: "A cohort with serum PCB measurements found dose-response associations with hypertension and elevated risk of dementia and Parkinson disease.", citations: [{ type: "primary", ref: "Raffetti et al., PCBs and disease in Brescia, Environ Int (2018)", url: "https://pubmed.ncbi.nlm.nih.gov/30103120/", openAccess: false }] },
+	{ id: "flix-ebro", name: "Flix reservoir, Ebro River", tier: "anthropogenic", category: "anthropogenic", lat: 41.23, lng: 0.55, r: 35, reachKm: 35, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "A chlor-alkali plant left roughly 700,000 cubic metres of reservoir sediment contaminated with mercury, organochlorine pesticides, PCBs, hexachlorobenzene and radionuclides.", health: "Mercury bioaccumulates through the food web and a 2002 episode raised mercury in tap water delivered to the Tarragona region, with legacy pollution reaching the Ebro delta.", citations: [{ type: "primary", ref: "Carrasco et al., mercury in the Flix reservoir food web, Environ Int (2011)", url: "https://pubmed.ncbi.nlm.nih.gov/21477904/", openAccess: false }] },
+	{ id: "rio-tinto-mines", name: "Rio Tinto mines acid drainage", tier: "anthropogenic", category: "anthropogenic", lat: 37.69, lng: -6.59, r: 40, reachKm: 40, certainty: "established", severity: 3, research: 4, emissionType: "chemical", desc: "Millennia of sulfide mining in the Iberian Pyrite Belt generate intensely acidic, metal-laden drainage that turns the Tinto River red at pH near 2 and carries metals to the Huelva estuary.", health: "The Tinto and Odiel rivers transport thousands of tonnes a year of dissolved iron, zinc and copper to the estuary, one of the most acid-mine-drainage-impacted systems in the world.", citations: [{ type: "primary", ref: "Sarmiento et al., Rio Tinto persistent acid and metals, Minerals (2023)", url: "https://www.mdpi.com/2075-163X/13/4/456", openAccess: true }] },
+	{ id: "portman-bay", name: "Portman Bay mine tailings", tier: "anthropogenic", category: "anthropogenic", lat: 37.585, lng: -0.85, r: 10, reachKm: 10, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Between 1957 and 1990 about 60 million tonnes of sulfide-ore tailings were dumped directly into this Mediterranean bay near Cartagena, advancing the shoreline hundreds of metres seaward.", health: "Sediments reach very high lead, arsenic and zinc, one of the most metal-contaminated coastal areas worldwide, with resuspension releasing metals into seawater.", citations: [{ type: "primary", ref: "Romero-Freire et al., Portman Bay tailings resuspension, Environ Pollut (2022)", url: "https://www.sciencedirect.com/science/article/abs/pii/S0269749122002354", openAccess: false }] },
+	{ id: "sao-domingos-mine", name: "Sao Domingos mine acid drainage, Portugal", tier: "anthropogenic", category: "anthropogenic", lat: 37.67, lng: -7.5, r: 20, reachKm: 20, certainty: "acknowledged-late", severity: 3, research: 3, emissionType: "chemical", desc: "An Iberian Pyrite Belt mine active from 1857 to 1966 and closed without remediation, whose tailings generate extremely acidic drainage leaching toxic metals downstream.", health: "Sulphide oxidation produces acid mine drainage with high toxic metals and metalloids that degrade soils and reach the Chanza and Guadiana rivers.", citations: [{ type: "primary", ref: "Alvarez-Valero et al., Sao Domingos environmental impact, Environ Geol (2008)", url: "https://link.springer.com/article/10.1007/s00254-007-1131-x", openAccess: false }] },
+	{ id: "ptolemaida-kozani", name: "Ptolemaida-Kozani lignite basin", tier: "anthropogenic", category: "anthropogenic", lat: 40.45, lng: 21.75, r: 35, reachKm: 35, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Greece's main lignite mining and power hub in Western Macedonia long produced particulates, sulfur dioxide and fly ash often exceeding European thresholds.", health: "Studies link lignite combustion pollution to higher acute coronary syndrome and atrial fibrillation admissions, and elevated rhinitis and bronchitis in children.", citations: [{ type: "primary", ref: "Lignite air pollution and cardiac admissions, W. Macedonia, IJERPH (2026)", url: "https://doi.org/10.3390/ijerph23010113", openAccess: true }] },
+	{ id: "obiliq-kosovo-coal", name: "Obiliq coal power and ash, Kosovo", tier: "anthropogenic", category: "anthropogenic", lat: 42.69, lng: 21.07, r: 30, reachKm: 30, certainty: "acknowledged-late", severity: 4, research: 4, emissionType: "chemical", desc: "The Kosova A and B lignite power plants at Obiliq, among the most polluting in Europe, emit large volumes of dust and ash and feed open ash dumps near homes.", health: "A UNDP assessment attributed a crude death rate of about 6 per 1000 a year to dust pollution, and local children face air pollution far above WHO levels.", citations: [{ type: "agency", ref: "UNICEF, air quality and child health in Kosovo's most polluted district", url: "https://www.unicef.org/eca/stories/how-poor-air-quality-triggering-poor-health-birth-kosovos-most-polluted-district", openAccess: true }] },
+	{ id: "tuzla-coal", name: "Tuzla coal power and ash, Bosnia", tier: "anthropogenic", category: "anthropogenic", lat: 44.54, lng: 18.68, r: 25, reachKm: 25, certainty: "established", severity: 4, research: 4, emissionType: "chemical", desc: "Bosnia's largest coal power plant has operated near Tuzla for decades, with ash and slag pumped to disposal sites that scatter dust into neighborhoods.", health: "Modeling found PM2.5 caused 136 premature adult deaths in Tuzla in 2018, about 16 to 23 percent of all-cause mortality in Tuzla and Lukavac.", citations: [{ type: "primary", ref: "Premature mortality from PM2.5 in Tuzla and Lukavac, Atmosphere (2020)", url: "https://www.mdpi.com/2073-4433/11/10/1107", openAccess: true }] },
+	{ id: "elbasan-metallurgical", name: "Elbasan steel and ferrochrome complex, Albania", tier: "anthropogenic", category: "anthropogenic", lat: 41.11, lng: 20.08, r: 15, reachKm: 15, certainty: "acknowledged-late", severity: 3, research: 3, emissionType: "chemical", desc: "Albania's largest metallurgical complex operated from 1970 and left large volumes of ferronickel and ferrochrome waste polluting the Shkumbin River and surrounding soils.", health: "Agricultural soils near the plant show chromium and nickel around four times EU limits, topping Albania's high-risk inventory for heavy-metal pollution.", citations: [{ type: "primary", ref: "Shallari et al., heavy metals in soils near Elbasan metallurgy (2019)", url: "https://www.researchgate.net/publication/337760901_Heavy_metals_concentration_in_agricultural_soils_around_the_metallurgic_Elbasan_Albania", openAccess: false }] },
+	{ id: "skouriotissa-copper", name: "Skouriotissa copper mine, Cyprus", tier: "anthropogenic", category: "anthropogenic", lat: 35.1, lng: 32.89, r: 12, reachKm: 12, certainty: "acknowledged-late", severity: 3, research: 3, emissionType: "chemical", desc: "Long-worked copper mining in the Solea district on the Troodos foothills leaves acidic pit lakes and tailings that mobilize heavy metals through runoff and groundwater.", health: "Acid mine drainage contaminates soil, vegetation, irrigation water and the Xeros reservoir, with regional studies finding non-negligible cancer and non-cancer risks from lead and cadmium.", citations: [{ type: "review", ref: "Heavy metal contamination and remediation in Cyprus, IntechOpen (2019)", url: "https://www.intechopen.com/chapters/69993", openAccess: true }] },
+
+	// ===================== EXPANSION 8: EUROPE / ANATOLIA GAPS =====================
+	{ id: 'anatolia-asbestos', name: 'Anatolian environmental asbestos', tier: 'established', category: 'fiber', lat: 39.3, lng: 38.0, r: 250, reachKm: 400, certainty: 'established', severity: 5, research: 4, desc: 'For generations rural villages across central and eastern Anatolia used tremolite-bearing "white soil" (ak toprak) as whitewash and plaster, exposing whole communities to asbestos.', health: 'High rates of pleural disease, lung cancer and mesothelioma from environmental tremolite fibres.', citations: [{ type: 'primary', ref: 'Lung cancer and mesothelioma, environmental asbestos, Eastern Anatolia (2005)', url: 'https://pubmed.ncbi.nlm.nih.gov/16133524/', openAccess: false }] },
+	{ id: 'turkey-fluorosis', name: 'Tendurek endemic fluorosis', tier: 'established', category: 'chemistry', lat: 39.55, lng: 44.08, r: 70, reachKm: 90, certainty: 'established', severity: 3, research: 4, emissionType: 'chemical', desc: 'Volcanic groundwater around the Tendurek volcano near Dogubayazit and Igdir carries 2.5 to 12.5 ppm fluoride.', health: 'Endemic dental and crippling skeletal fluorosis in people and livestock.', citations: [{ type: 'review', ref: 'High fluoride waters in Turkey, an overview, Env. Geochem. Health (2009)', url: 'https://link.springer.com/article/10.1007/s10653-008-9160-2', openAccess: false }] },
+	{ id: 'pannonian-arsenic', name: 'Pannonian Basin arsenic', tier: 'established', category: 'chemistry', lat: 46.9, lng: 20.6, r: 200, reachKm: 280, certainty: 'established', severity: 4, research: 4, emissionType: 'chemical', desc: 'Naturally elevated arsenic in deep groundwater across the Great Hungarian Plain (and into Romania, Serbia and Croatia) exposes roughly a million people.', health: 'Chronic arsenic exposure: skin lesions, cardiovascular disease and elevated cancer risk.', citations: [{ type: 'primary', ref: 'Arsenic in groundwater of the Pannonian Basin (Hungary and Romania), 2011', url: 'https://www.sciencedirect.com/science/article/abs/pii/S0883292710002271', openAccess: false }] },
+	{ id: 'sardinia-mining', name: 'Sulcis-Iglesiente mining district', tier: 'anthropogenic', category: 'anthropogenic', lat: 39.31, lng: 8.54, r: 50, reachKm: 70, certainty: 'established', severity: 3, research: 4, emissionType: 'chemical', desc: 'One of Europe\'s oldest polymetallic mining districts left southwest Sardinia\'s soils, dumps and waters laden with lead, zinc, cadmium and arsenic long after mining ceased.', health: 'Heavy-metal and arsenic exposure, including elevated metals in local children.', citations: [{ type: 'primary', ref: 'Metals in hair of children near Sulcis-Iglesiente mines, Environ. Research (2014)', url: 'https://www.sciencedirect.com/science/article/abs/pii/S0013935114002734', openAccess: false }] },
+	{ id: 'groningen-seismicity', name: 'Groningen induced earthquakes', tier: 'anthropogenic', category: 'anthropogenic', lat: 53.3, lng: 6.8, r: 45, reachKm: 55, certainty: 'established', severity: 2, research: 4, desc: 'Decades of gas extraction from the Groningen field triggered hundreds of shallow induced earthquakes, damaging thousands of homes.', health: 'Building damage and injury risk, plus documented chronic stress and anxiety in residents.', citations: [{ type: 'agency', ref: 'Groningen gas field, induced seismicity (overview)', url: 'https://en.wikipedia.org/wiki/Groningen_gas_field', openAccess: true }] },
+
+	// ===================== EXPANSION 7: CLIMATE / ENVIRONMENTAL =====================
+	{ id: 'persian-gulf-heat', name: 'Persian Gulf humid heat', tier: 'climate', category: 'climate', lat: 26.5, lng: 51.5, r: 300, reachKm: 600, certainty: 'established', severity: 5, research: 4, desc: 'The southern Gulf coast already nears the wet-bulb survivability limit; warm sea surface drives humid heat that the human body cannot shed by sweating.', health: 'Lethal humid heat: heatstroke and death once wet-bulb temperature approaches 35C, even in the shade.', citations: [{ type: 'agency', ref: 'MIT, Persian Gulf could experience deadly heat (2015)', url: 'https://news.mit.edu/2015/study-persian-gulf-deadly-heat-1026', openAccess: true }] },
+	{ id: 'jacobabad-heat', name: 'Jacobabad / Indus heat', tier: 'climate', category: 'climate', lat: 28.28, lng: 68.44, r: 200, reachKm: 350, certainty: 'established', severity: 5, research: 4, desc: 'One of the hottest inhabited places on Earth, in the Indus valley, which has briefly breached the wet-bulb survivability threshold.', health: 'Extreme heat stress and heatstroke in a dense, largely un-airconditioned population.', citations: [{ type: 'agency', ref: 'UNU, What is wet-bulb temperature?', url: 'https://unu.edu/ehs/article/what-wet-bulb-temperature-and-why-does-it-matter', openAccess: true }] },
+	{ id: 'ganges-heat', name: 'Ganges valley humid heat', tier: 'climate', category: 'climate', lat: 26.0, lng: 82.0, r: 300, reachKm: 500, certainty: 'established', severity: 4, research: 4, desc: 'The Indo-Gangetic plain pairs rising humid heat with some of the highest population densities on Earth.', health: 'Heatstroke and excess mortality during humid heatwaves.', citations: [{ type: 'agency', ref: 'UNU, What is wet-bulb temperature?', url: 'https://unu.edu/ehs/article/what-wet-bulb-temperature-and-why-does-it-matter', openAccess: true }] },
+	{ id: 'jakarta-subsidence', name: 'Jakarta subsidence', tier: 'climate', category: 'climate', lat: -6.2, lng: 106.85, r: 60, reachKm: 70, certainty: 'established', severity: 4, research: 5, desc: 'One of the fastest-sinking megacities, dropping up to 25 cm a year from groundwater extraction as the sea rises; parts will be below sea level.', health: 'Chronic tidal flooding, contaminated water and displacement of millions.', citations: [{ type: 'agency', ref: 'Subsidence in Jakarta (overview)', url: 'https://en.wikipedia.org/wiki/Subsidence_in_Jakarta', openAccess: true }] },
+	{ id: 'bangladesh-sea-level', name: 'Bangladesh delta sea-level', tier: 'climate', category: 'climate', lat: 22.5, lng: 90.3, r: 250, reachKm: 300, certainty: 'established', severity: 4, research: 4, desc: 'A vast low-lying delta facing sea-level rise, cyclone storm surge and saltwater intrusion, threatening tens of millions.', health: 'Displacement, drowning in surges, and hypertension from salinated drinking water.', citations: [{ type: 'agency', ref: 'Climate change in Bangladesh (overview)', url: 'https://en.wikipedia.org/wiki/Climate_change_in_Bangladesh', openAccess: true }] },
+	{ id: 'pacific-atolls', name: 'Pacific atoll nations', tier: 'climate', category: 'climate', lat: -8.5, lng: 179.2, r: 500, reachKm: 900, certainty: 'established', severity: 5, research: 4, desc: 'Low coral-atoll nations such as Tuvalu and Kiribati face existential sea-level rise and the loss of their freshwater lenses.', health: 'Loss of habitable land and fresh water; forced migration of entire populations.', citations: [{ type: 'agency', ref: 'Climate change and small island countries (overview)', url: 'https://en.wikipedia.org/wiki/Effects_of_climate_change_on_small_island_countries', openAccess: true }] },
+	{ id: 'horn-of-africa-drought', name: 'Horn of Africa drought', tier: 'climate', category: 'climate', lat: 5.5, lng: 45.0, r: 500, reachKm: 700, certainty: 'established', severity: 4, research: 4, desc: 'Repeated failed rains drive recurrent drought and famine across Somalia, Ethiopia and Kenya.', health: 'Acute malnutrition, water scarcity and famine mortality.', citations: [{ type: 'agency', ref: 'Droughts in the Horn of Africa (overview)', url: 'https://en.wikipedia.org/wiki/Droughts_in_the_Horn_of_Africa', openAccess: true }] },
+	{ id: 'us-southwest-drought', name: 'US Southwest megadrought', tier: 'climate', category: 'climate', lat: 36.5, lng: -111.0, r: 500, reachKm: 700, certainty: 'established', severity: 3, research: 4, desc: 'The driest two decades in over a millennium across the Colorado River basin, straining water for tens of millions.', health: 'Water insecurity, dust exposure and compounding extreme heat.', citations: [{ type: 'agency', ref: '2020s North American megadrought (overview)', url: 'https://en.wikipedia.org/wiki/2020s_North_American_megadrought', openAccess: true }] },
+	{ id: 'california-wildfire', name: 'California wildfire smoke', tier: 'climate', category: 'climate', lat: 39.0, lng: -121.0, r: 350, reachKm: 450, certainty: 'established', severity: 3, research: 4, desc: 'Lengthening fire seasons blanket the region in fine-particle wildfire smoke for weeks at a time.', health: 'Respiratory and cardiovascular harm from PM2.5 smoke, plus burn and displacement risk.', citations: [{ type: 'agency', ref: 'US EPA, Wildfire smoke and health', url: 'https://www.epa.gov/wildfire-smoke-course', openAccess: true }] },
+	{ id: 'australia-bushfire', name: 'SE Australia bushfire smoke', tier: 'climate', category: 'climate', lat: -36.0, lng: 148.5, r: 350, reachKm: 450, certainty: 'established', severity: 3, research: 4, desc: 'Intensifying bushfire seasons (such as 2019-20) smother southeastern cities in hazardous smoke.', health: 'Respiratory and cardiac effects from prolonged smoke exposure.', citations: [{ type: 'agency', ref: '2019-20 Australian bushfire season (overview)', url: 'https://en.wikipedia.org/wiki/2019%E2%80%9320_Australian_bushfire_season', openAccess: true }] },
+	{ id: 'bay-of-bengal-cyclones', name: 'Bay of Bengal cyclones', tier: 'climate', category: 'climate', lat: 18.0, lng: 88.0, r: 500, reachKm: 700, certainty: 'established', severity: 4, research: 4, desc: 'The deadliest tropical-cyclone basin on Earth, where storm surge meets low, densely populated coasts.', health: 'Mass drowning in storm surges, injury and displacement.', citations: [{ type: 'agency', ref: 'North Indian Ocean tropical cyclones (overview)', url: 'https://en.wikipedia.org/wiki/Tropical_cyclones_in_the_Bay_of_Bengal', openAccess: true }] },
+	{ id: 'philippines-typhoons', name: 'Philippine typhoon belt', tier: 'climate', category: 'climate', lat: 13.0, lng: 123.0, r: 400, reachKm: 500, certainty: 'established', severity: 4, research: 4, desc: 'The Philippines is struck by the most tropical cyclones of any country, with intensifying super-typhoons.', health: 'Death and injury from wind, surge and flooding; repeated displacement.', citations: [{ type: 'agency', ref: 'Tropical cyclones in the Philippines (overview)', url: 'https://en.wikipedia.org/wiki/Tropical_cyclones_in_the_Philippines', openAccess: true }] },
+	{ id: 'maracaibo-lightning', name: 'Catatumbo lightning', tier: 'climate', category: 'climate', lat: 9.4, lng: -71.3, r: 80, reachKm: 90, certainty: 'established', severity: 2, research: 3, desc: 'Lake Maracaibo has the highest lightning-strike density on Earth, with near-nightly storms for much of the year.', health: 'Elevated risk of lightning strike injury and death.', citations: [{ type: 'agency', ref: 'Catatumbo lightning (overview)', url: 'https://en.wikipedia.org/wiki/Catatumbo_lightning', openAccess: true }] },
+	{ id: 'siberia-permafrost', name: 'Siberian permafrost thaw', tier: 'climate', category: 'climate', lat: 67.0, lng: 130.0, r: 800, reachKm: 1000, certainty: 'established', severity: 3, research: 3, desc: 'Rapid permafrost thaw is buckling infrastructure, releasing carbon, and exposing long-frozen pathogens.', health: 'Infrastructure collapse, re-emergent pathogens (such as anthrax from thawed carcasses) and contaminated water.', citations: [{ type: 'agency', ref: 'Permafrost (overview)', url: 'https://en.wikipedia.org/wiki/Permafrost', openAccess: true }] },
+	{ id: 'himalaya-glacier', name: 'Himalayan glacier loss', tier: 'climate', category: 'climate', lat: 30.0, lng: 81.0, r: 600, reachKm: 800, certainty: 'established', severity: 3, research: 4, desc: 'Retreating high-mountain glaciers threaten the dry-season water supply of hundreds of millions downstream, with glacial-lake outburst flood risk.', health: 'Long-term water insecurity and sudden glacial-lake outburst floods.', citations: [{ type: 'agency', ref: 'Retreat of glaciers since 1850 (overview)', url: 'https://en.wikipedia.org/wiki/Retreat_of_glaciers_since_1850', openAccess: true }] },
+	{ id: 'gulf-mexico-deadzone', name: 'Gulf of Mexico dead zone', tier: 'climate', category: 'climate', lat: 28.6, lng: -91.5, r: 200, reachKm: 250, certainty: 'established', severity: 2, research: 4, desc: 'Nutrient runoff from the Mississippi feeds a vast low-oxygen dead zone each summer, collapsing fisheries.', health: 'Loss of fisheries livelihoods and seafood; linked harmful algal blooms.', citations: [{ type: 'agency', ref: 'NOAA, Gulf of Mexico dead zone', url: 'https://www.noaa.gov/news-release/gulf-of-mexico-dead-zone-larger-than-average', openAccess: true }] },
+
+	// ===================== HISTORICAL NUCLEAR EVENT =====================
+	{ id: 'hiroshima-nagasaki', name: 'Hiroshima and Nagasaki (1945 bombings)', tier: 'anthropogenic', category: 'anthropogenic', lat: 34.39, lng: 132.45, r: 15, reachKm: 18, certainty: 'null-finding', severity: 3, research: 5, emissionType: 'ionizing', desc: 'The 1945 atomic bombings caused catastrophic acute death and, for those exposed in the womb, microcephaly and intellectual disability; ground radiation fell back to background within a few years and the cities are not radioactive today.', health: 'Acute radiation deaths and in-utero microcephaly in 1945, but large long-term studies of survivors later children found no statistically significant increase in birth defects or heritable disease despite persistent public fear.', citations: [{ type: 'agency', ref: 'RERF, Birth defects among children of atomic-bomb survivors', url: 'https://www.rerf.or.jp/en/programs/roadmap_e/health_effects-en/geneefx-en/birthdef/', openAccess: true }, { type: 'review', ref: 'Long-term radiation health effects in A-bomb survivors, PMC3907953', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3907953/', openAccess: true }] },
+
+	{ id: 'trinity-site', name: 'Trinity Site downwinders', tier: 'anthropogenic', category: 'anthropogenic', lat: 33.68, lng: -106.48, r: 200, reachKm: 250, certainty: 'acknowledged-late', severity: 3, research: 4, emissionType: 'ionizing', desc: 'The world\'s first nuclear test (1945) spread fallout across the Tularosa Basin of New Mexico, exposing nearby ranching and Hispanic and Indigenous communities who were never warned.', health: 'Downwind communities report elevated cancers across generations and only recently won partial recognition for radiation exposure.', citations: [{ type: 'agency', ref: 'Trinity (nuclear test) and downwinders (overview)', url: 'https://en.wikipedia.org/wiki/Trinity_(nuclear_test)', openAccess: true }] },
+	{ id: 'novaya-zemlya', name: 'Novaya Zemlya test site', tier: 'anthropogenic', category: 'anthropogenic', lat: 73.4, lng: 54.8, r: 250, reachKm: 300, certainty: 'established', severity: 3, research: 3, emissionType: 'ionizing', desc: 'The Soviet Arctic nuclear test site (1955 to 1990), where 224 detonations including the Tsar Bomba left residual contamination across the archipelago.', health: 'Atmospheric and underground testing released fallout, with long-term radiological exposure concerns for the Arctic environment and Indigenous Nenets.', citations: [{ type: 'agency', ref: 'Novaya Zemlya (overview)', url: 'https://en.wikipedia.org/wiki/Novaya_Zemlya', openAccess: true }] },
+	{ id: 'pokhran', name: 'Pokhran test range', tier: 'anthropogenic', category: 'anthropogenic', lat: 27.07, lng: 71.72, r: 30, reachKm: 35, certainty: 'contested', severity: 2, research: 2, emissionType: 'ionizing', desc: 'India\'s nuclear test site in the Thar Desert of Rajasthan, used for the 1974 and 1998 underground tests.', health: 'Nearby villages have reported clusters of illness and birth defects, a claim that remains contested and under-studied.', citations: [{ type: 'agency', ref: 'Pokhran (overview)', url: 'https://en.wikipedia.org/wiki/Pokhran', openAccess: true }] },
+	{ id: 'chagai', name: 'Chagai / Ras Koh test site', tier: 'anthropogenic', category: 'anthropogenic', lat: 28.83, lng: 64.6, r: 30, reachKm: 35, certainty: 'established', severity: 2, research: 2, emissionType: 'ionizing', desc: 'Pakistan\'s underground nuclear test site in the Ras Koh hills of Balochistan, used for the 1998 tests.', health: 'Local communities raise concerns about water contamination and health effects, with little independent monitoring available.', citations: [{ type: 'agency', ref: 'Chagai-I (overview)', url: 'https://en.wikipedia.org/wiki/Chagai-I', openAccess: true }] },
+	{ id: 'punggye-ri', name: 'Punggye-ri test site', tier: 'anthropogenic', category: 'anthropogenic', lat: 41.28, lng: 129.09, r: 40, reachKm: 45, certainty: 'contested', severity: 3, research: 2, emissionType: 'ionizing', desc: 'North Korea\'s underground nuclear test site under Mount Mantap, used for six tests from 2006 to 2017 amid fears of radioactive leakage.', health: 'Defectors from nearby areas report unexplained illness, and experts warn of possible groundwater radionuclide spread, both poorly verified.', citations: [{ type: 'agency', ref: 'Punggye-ri Nuclear Test Site (overview)', url: 'https://en.wikipedia.org/wiki/Punggye-ri_Nuclear_Test_Site', openAccess: true }] },
+	{ id: 'amchitka', name: 'Amchitka underground tests', tier: 'anthropogenic', category: 'anthropogenic', lat: 51.45, lng: 179.1, r: 25, reachKm: 30, certainty: 'established', severity: 2, research: 3, emissionType: 'ionizing', desc: 'A remote Aleutian island where the US conducted three underground nuclear tests, including the megaton Cannikin shot in 1971.', health: 'Long-term monitoring tracks possible leakage of radionuclides such as tritium and plutonium into groundwater and the marine food chain.', citations: [{ type: 'agency', ref: 'Amchitka (overview)', url: 'https://en.wikipedia.org/wiki/Amchitka', openAccess: true }] },
+
+	// ===================== ACTIVE / RECENT ARMED CONFLICT (illustrative, ~2024-2025) =====================
+	{
+		id: 'conflict-ukraine',
+		name: 'Ukraine war',
+		tier: 'conflict',
+		category: 'conflict',
+		lat: 48.4,
+		lng: 37.5,
+		r: 160,
+		desc: 'Full-scale war since 2022, with heavy fighting across eastern and southern Ukraine and wide civilian harm. Illustrative; front lines shift.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'CFR Global Conflict Tracker',
+				url: 'https://www.cfr.org/global-conflict-tracker',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'conflict-gaza',
+		name: 'Gaza / Israel-Palestine',
+		tier: 'conflict',
+		category: 'conflict',
+		lat: 31.4,
+		lng: 34.4,
+		r: 30,
+		desc: 'Acute armed conflict and humanitarian crisis in Gaza since 2023, with regional spillover. Illustrative and fast-changing.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'CFR Global Conflict Tracker',
+				url: 'https://www.cfr.org/global-conflict-tracker',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'conflict-sudan',
+		name: 'Sudan civil war',
+		tier: 'conflict',
+		category: 'conflict',
+		lat: 15.5,
+		lng: 32.5,
+		r: 200,
+		desc: 'War between rival military factions since 2023 has displaced millions and triggered famine conditions across Sudan.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'CFR Global Conflict Tracker',
+				url: 'https://www.cfr.org/global-conflict-tracker',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'conflict-myanmar',
+		name: 'Myanmar civil war',
+		tier: 'conflict',
+		category: 'conflict',
+		lat: 21.0,
+		lng: 96.0,
+		r: 200,
+		desc: 'Nationwide armed resistance and military offensives since the 2021 coup, with widespread displacement.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'CFR Global Conflict Tracker',
+				url: 'https://www.cfr.org/global-conflict-tracker',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'conflict-sahel',
+		name: 'Central Sahel insurgency',
+		tier: 'conflict',
+		category: 'conflict',
+		lat: 14.5,
+		lng: 0.0,
+		r: 250,
+		desc: 'Jihadist insurgencies and instability across Mali, Burkina Faso and Niger, with severe civilian impact.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'CFR Global Conflict Tracker',
+				url: 'https://www.cfr.org/global-conflict-tracker',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'conflict-drc',
+		name: 'Eastern DRC conflict',
+		tier: 'conflict',
+		category: 'conflict',
+		lat: -1.5,
+		lng: 28.8,
+		r: 120,
+		desc: 'Long-running armed-group violence in the eastern Democratic Republic of the Congo, including the M23 offensive.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'CFR Global Conflict Tracker',
+				url: 'https://www.cfr.org/global-conflict-tracker',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'conflict-yemen',
+		name: 'Yemen conflict',
+		tier: 'conflict',
+		category: 'conflict',
+		lat: 15.5,
+		lng: 44.2,
+		r: 150,
+		desc: 'Years of civil war and regional intervention have caused one of the worst humanitarian crises, with fragile and shifting front lines.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'CFR Global Conflict Tracker',
+				url: 'https://www.cfr.org/global-conflict-tracker',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'conflict-somalia',
+		name: 'Somalia conflict',
+		tier: 'conflict',
+		category: 'conflict',
+		lat: 5.0,
+		lng: 46.0,
+		r: 160,
+		desc: 'Persistent insurgency and instability across Somalia, compounded by drought and displacement.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'CFR Global Conflict Tracker',
+				url: 'https://www.cfr.org/global-conflict-tracker',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'conflict-syria',
+		name: 'Syria conflict',
+		tier: 'conflict',
+		category: 'conflict',
+		lat: 35.0,
+		lng: 38.0,
+		r: 130,
+		desc: 'A long civil war with continued instability and population displacement across Syria.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'CFR Global Conflict Tracker',
+				url: 'https://www.cfr.org/global-conflict-tracker',
+				openAccess: true
+			}
+		]
+	},
+	{
+		id: 'conflict-haiti',
+		name: 'Haiti gang crisis',
+		tier: 'conflict',
+		category: 'conflict',
+		lat: 18.6,
+		lng: -72.3,
+		r: 40,
+		desc: 'Widespread armed-gang control and collapse of public order around Port-au-Prince, with acute humanitarian fallout.',
+		citations: [
+			{
+				type: 'agency',
+				ref: 'CFR Global Conflict Tracker',
+				url: 'https://www.cfr.org/global-conflict-tracker',
+				openAccess: true
+			}
+		]
+	}
+];

@@ -1,0 +1,216 @@
+import type { Zone } from "../zones/types";
+
+// Estimated real-world reach of each phenomenon, in kilometres. This replaces
+// the old arbitrary sqrt(r) scale. Values are grounded where known and honest
+// guesswork otherwise (the user asked for a best estimate of how far impacts
+// reach). A zone's own reachKm wins; then this override; then a category default.
+
+const BY_CATEGORY: Record<string, number> = {
+  radiation: 60,
+  altitude: 250,
+  fiber: 30,
+  chemistry: 180,
+  airborne: 400,
+  dietary: 250,
+  gray: 250,
+  solved: 70,
+  anthropogenic: 40,
+  conflict: 1600, // clipped to country anyway; large enough to cover it
+  climate: 600,
+};
+
+// Per-zone reach in km (estimated). Grouped for readability.
+const OVERRIDE: Record<string, number> = {
+  // Airborne: dust corridors are continental; volcanic vents are local.
+  "saharan-source": 2500,
+  "saharan-atlantic": 2500,
+  "saharan-amazon": 2000,
+  "saharan-canaries": 350,
+  "asian-dust": 1800,
+  aralkum: 600,
+  sistan: 350,
+  "hawaii-vog": 120,
+  "iceland-volcanic-gas": 600,
+  "owens-lake": 60,
+  "lake-nyos": 25,
+  "lake-monoun": 20,
+  "dieng-co2": 20,
+  "campi-flegrei": 20,
+  rotorua: 18,
+  etna: 60,
+  nyiragongo: 40,
+  "salton-sea": 80,
+  "yellowstone-gas": 90,
+  "lake-kivu": 60,
+  // Gray, often diffuse and large.
+  saa: 2800,
+  "geomagnetic-auroral": 2500,
+  "photoperiod-nordic": 1500,
+  "alaska-photoperiod": 1500,
+  "lithium-andes": 250,
+  "soft-water": 400,
+  "manganese-bangladesh": 200,
+  "co2-mofette": 60,
+  "high-altitude-uv": 500,
+  "uddanam-ckdu": 80,
+  "sri-lanka-ckdu": 150,
+  "mesoamerican-nephropathy": 250,
+  "punjab-uranium": 200,
+  "azerbaijan-mud-volcanoes": 60,
+  "caucasus-mineral-waters-radon": 50,
+  // Radon-prone terrains are regional.
+  "radon-cornwall": 200,
+  "fennoscandia-radon": 900,
+  "iberia-radon": 500,
+  "radon-us-midwest": 900,
+  "radon-us-appalachia": 800,
+  "radon-us-rockies": 600,
+  "radon-us-newengland": 500,
+  "radon-us-piedmont": 450,
+  "radon-canada-prairies": 900,
+  "radon-erzgebirge": 300,
+  "radon-france": 600,
+  // UV belts.
+  "australia-uv": 1800,
+  "nz-uv": 1200,
+  "punta-arenas-uv": 300,
+  "uv-us-southeast": 1000,
+  "uv-us-southwest": 1000,
+  "uv-tropics-africa": 2000,
+  // Altitude regions.
+  altiplano: 600,
+  tibet: 1200,
+  "ethiopian-highlands": 400,
+  "la-rinconada": 15,
+  leadville: 20,
+  // Radiation areas.
+  ramsar: 15,
+  "kerala-monazite": 60,
+  guarapari: 12,
+  yangjiang: 60,
+  mamuju: 60,
+  // Chemistry: deltas and belts.
+  "bengal-arsenic": 400,
+  "chile-arsenic": 150,
+  "eafrica-fluoride": 1500,
+  "keshan-ne": 500,
+  "keshan-sw": 350,
+  "enshi-selenosis": 60,
+  "himalaya-iodine-w": 400,
+  "alpine-iodine": 300,
+  "chaco-arsenic": 400,
+  "guizhou-fluorosis": 250,
+  "mekong-arsenic": 250,
+  "hetao-arsenic": 250,
+  "india-fluorosis": 500,
+  "lagunera-arsenic": 150,
+  "red-river-arsenic": 200,
+  "drc-goiter": 400,
+  almaden: 40,
+  idrija: 25,
+  // Fiber.
+  cappadocia: 25,
+  biancavilla: 12,
+  metsovo: 12,
+  wittenoom: 25,
+  "us-west-erionite": 400,
+  "auckland-erionite": 25,
+  "new-idria": 40,
+  "new-caledonia-asbestos": 200,
+  "libby-montana": 20,
+  // Dietary belts.
+  "guam-bmaa": 18,
+  "konzo-drc": 400,
+  "konzo-moz": 300,
+  "aflatoxin-wafrica": 700,
+  "aflatoxin-seasia": 700,
+  ciguatera: 600,
+  neurolathyrism: 350,
+  // Solved.
+  blackfoot: 40,
+  "balkan-nephropathy": 120,
+  "kashin-beck": 700,
+  podoconiosis: 120,
+  "cameroon-podoconiosis": 100,
+  pellagra: 400,
+  "colorado-brown-stain": 40,
+  "tropical-ataxic": 150,
+  "haff-disease": 40,
+  mseleni: 40,
+  // Anthropogenic: fallout reaches far; point sources are local.
+  chernobyl: 150,
+  fukushima: 60,
+  semipalatinsk: 300,
+  "nevada-downwinders": 400,
+  "marshall-islands": 150,
+  maralinga: 120,
+  "lop-nur": 500,
+  mururoa: 150,
+  mayak: 150,
+  hanford: 120,
+  "sellafield-seascale": 25,
+  "santa-susana": 20,
+  "navajo-churchrock": 120,
+  jadugoda: 25,
+  goiania: 10,
+  fallujah: 30,
+  "balkan-syndrome": 120,
+  vieques: 20,
+  bhopal: 20,
+  minamata: 18,
+  seveso: 16,
+  enewetak: 60,
+  kiritimati: 40,
+  "three-mile-island": 16,
+  "kuwait-oil-fires": 200,
+  "love-canal": 6,
+  centralia: 8,
+  norilsk: 40,
+  kabwe: 25,
+  "la-oroya": 18,
+  agbogbloshie: 10,
+  dzerzhinsk: 20,
+  "itai-itai": 25,
+  flint: 12,
+  ogoniland: 60,
+  palomares: 10,
+  tokaimura: 12,
+  "rocky-flats": 18,
+  sumgayit: 18,
+  picher: 14,
+  hinkley: 12,
+  anniston: 14,
+  karabash: 16,
+  linfen: 40,
+  mariana: 120,
+  brumadinho: 60,
+  "agent-orange-vietnam": 40,
+  sudbury: 40,
+  "ok-tedi": 120,
+  "kingston-coal-ash": 14,
+  "berkeley-pit": 12,
+  gabala: 30,
+  skrunda: 25,
+  alaverdi: 16,
+  kajaran: 16,
+  chiatura: 18,
+  kazreti: 14,
+  "baku-absheron-oil": 40,
+};
+
+/** Estimated reach of a zone's impact, in kilometres. */
+export function reachKm(z: Zone): number {
+  return (
+    z.reachKm ??
+    OVERRIDE[z.id] ??
+    BY_CATEGORY[z.category] ??
+    BY_CATEGORY[z.tier] ??
+    150
+  );
+}
+
+/** Reach as a great-circle radius in degrees (clamped so even local sites
+ * render a readable glow, while large phenomena keep their true reach). */
+export function zoneRadiusDeg(z: Zone): number {
+  return Math.min(30, Math.max(2, reachKm(z) / 111));
+}

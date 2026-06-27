@@ -1,0 +1,221 @@
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
+	import { zones } from '$lib/data/zones/zones';
+	import { cities, countryLabels } from '$lib/data/generated/places';
+	import { ui, flyToLocation } from '$lib/state/state.svelte';
+	import Icon from './Icon.svelte';
+
+	interface Item {
+		name: string;
+		sub: string;
+		lat: number;
+		lng: number;
+		type: 'zone' | 'city' | 'country';
+		id?: string;
+	}
+
+	const index: Item[] = [
+		...zones.map((z) => ({ name: z.name, sub: z.tier, lat: z.lat, lng: z.lng, type: 'zone' as const, id: z.id })),
+		...cities.map((c) => ({ name: c.name, sub: 'city', lat: c.lat, lng: c.lng, type: 'city' as const })),
+		...countryLabels.map((c) => ({ name: c.name, sub: 'country', lat: c.lat, lng: c.lng, type: 'country' as const }))
+	];
+
+	let q = $state('');
+	let open = $state(false);
+	let active = $state(0);
+	let root: HTMLElement | undefined = $state();
+
+	const results = $derived.by(() => {
+		const s = q.trim().toLowerCase();
+		if (s.length < 2) return [];
+		const starts: Item[] = [];
+		const contains: Item[] = [];
+		for (const it of index) {
+			const n = it.name.toLowerCase();
+			if (n.startsWith(s)) starts.push(it);
+			else if (n.includes(s)) contains.push(it);
+			if (starts.length >= 8) break;
+		}
+		return [...starts, ...contains].slice(0, 8);
+	});
+
+	function choose(it: Item) {
+		// Zoom level by kind; zones get framed by the zone route itself.
+		const dist = it.type === 'country' ? 2.6 : it.type === 'city' ? 1.9 : undefined;
+		flyToLocation(it.lat, it.lng, dist);
+		q = it.name;
+		open = false;
+		if (it.type === 'zone' && it.id) goto(resolve('/zone/[id]', { id: it.id }));
+		else ui.probe = { lat: it.lat, lng: it.lng };
+	}
+
+	function onKeydown(e: KeyboardEvent) {
+		if (e.key === 'Escape') {
+			open = false;
+			return;
+		}
+		if (!open || !results.length) {
+			if (e.key === 'ArrowDown') open = true;
+			return;
+		}
+		switch (e.key) {
+			case 'ArrowDown':
+				e.preventDefault();
+				active = Math.min(results.length - 1, active + 1);
+				break;
+			case 'ArrowUp':
+				e.preventDefault();
+				active = Math.max(0, active - 1);
+				break;
+			case 'Enter':
+				e.preventDefault();
+				if (results[active]) choose(results[active]);
+				break;
+		}
+	}
+
+	function onWindowPointer(e: PointerEvent) {
+		if (open && root && !root.contains(e.target as Node)) open = false;
+	}
+</script>
+
+<svelte:window onpointerdown={onWindowPointer} />
+
+<div class="search" bind:this={root}>
+	<div class="field">
+		<span class="ic"><Icon name="search" size={15} /></span>
+		<input
+			type="text"
+			placeholder="Search a city, country, or zone..."
+			aria-label="Search a city, country, or zone"
+			role="combobox"
+			aria-autocomplete="list"
+			aria-controls="search-results"
+			aria-expanded={open && results.length > 0}
+			aria-activedescendant={open && results.length ? `search-opt-${active}` : undefined}
+			bind:value={q}
+			onfocus={() => (open = true)}
+			oninput={() => {
+				open = true;
+				active = 0;
+			}}
+			onkeydown={onKeydown}
+		/>
+	</div>
+	{#if open && results.length}
+		<ul class="results" id="search-results" role="listbox" aria-label="Search results">
+			{#each results as it, i (it.type + it.name + it.lat)}
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
+				<!-- Keyboard handled on the combobox input via aria-activedescendant. -->
+				<li
+					id="search-opt-{i}"
+					role="option"
+					aria-selected={i === active}
+					class:active={i === active}
+					onpointerenter={() => (active = i)}
+					onclick={() => choose(it)}
+				>
+					<span class="rname">{it.name}</span>
+					<span class="rsub">{it.sub}</span>
+				</li>
+			{/each}
+		</ul>
+	{:else if open && q.trim().length >= 2}
+		<div class="noresults">No matches for "{q.trim()}"</div>
+	{/if}
+</div>
+
+<style>
+	.search {
+		position: absolute;
+		top: 16px;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 35;
+		width: min(380px, 64vw);
+	}
+	@media (max-width: 620px) {
+		.search {
+			width: calc(100vw - 120px);
+			top: 12px;
+		}
+	}
+	.field {
+		position: relative;
+	}
+	.ic {
+		position: absolute;
+		left: 13px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: var(--muted);
+		pointer-events: none;
+	}
+	.noresults {
+		margin-top: 6px;
+		padding: 10px 14px;
+		font-size: 12px;
+		color: var(--muted);
+		background: var(--panel);
+		border: 1px solid var(--line);
+		border-radius: 12px;
+		backdrop-filter: blur(var(--blur));
+		-webkit-backdrop-filter: blur(var(--blur));
+	}
+	input {
+		width: 100%;
+		padding: 11px 15px 11px 38px;
+		font-size: 13px;
+		color: var(--text);
+		background: var(--panel);
+		border: 1px solid var(--line);
+		border-radius: 12px;
+		box-shadow: var(--shadow-sm);
+		backdrop-filter: blur(var(--blur));
+		-webkit-backdrop-filter: blur(var(--blur));
+		transition:
+			border-color 0.15s ease,
+			box-shadow 0.15s ease;
+	}
+	input:focus {
+		outline: none;
+		border-color: var(--accent);
+		box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow-sm);
+	}
+	input::placeholder {
+		color: var(--muted);
+	}
+	.results {
+		list-style: none;
+		margin: 6px 0 0;
+		padding: 4px;
+		background: var(--panel);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+		backdrop-filter: blur(8px);
+		max-height: 320px;
+		overflow-y: auto;
+	}
+	.results li {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 10px;
+		color: var(--text);
+		text-align: left;
+		padding: 7px 9px;
+		border-radius: 7px;
+		cursor: pointer;
+		font-size: 12.5px;
+	}
+	.results li.active {
+		background: rgba(255, 255, 255, 0.07);
+	}
+	.rsub {
+		color: var(--muted);
+		font-size: 10px;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+</style>
