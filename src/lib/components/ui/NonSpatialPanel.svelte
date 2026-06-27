@@ -32,6 +32,7 @@
 {:else}
 	<div class="wrap" transition:scale={{ duration: 260, start: 0.93, opacity: 0, easing: cubicOut }}>
 		<div class="lhead">
+			<span class="ltitle">Controls</span>
 			<button class="min" onclick={() => (minimized = true)} aria-label="Hide controls">
 				<Icon name="minus" size={14} />
 			</button>
@@ -129,8 +130,21 @@
 	}
 	.lhead {
 		display: flex;
-		justify-content: flex-end;
-		margin-bottom: 6px;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 8px;
+		padding: 5px 7px 5px 12px;
+		background: var(--panel);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+		backdrop-filter: blur(8px);
+	}
+	.ltitle {
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--muted);
 	}
 	.min {
 		display: inline-flex;
@@ -139,14 +153,17 @@
 		width: 26px;
 		height: 26px;
 		color: var(--muted);
-		background: var(--panel);
-		border: 1px solid var(--line);
-		border-radius: 8px;
+		background: transparent;
+		border: none;
+		border-radius: 7px;
 		cursor: pointer;
-		backdrop-filter: blur(8px);
+		transition:
+			color var(--dur) var(--ease),
+			background var(--dur) var(--ease);
 	}
 	.min:hover {
 		color: var(--text);
+		background: var(--line);
 	}
 	.toggle {
 		width: 100%;
