@@ -1,42 +1,41 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import {
-		ANTHRO_SUBCATS,
-		anthroSubOf,
-		categoryColor,
-		CATEGORIES,
-		CERTAINTY_LABEL,
-		TIERS
-	} from '$lib/data/scales/categories';
-	import { countryByIso3 } from '$lib/data/places/countries';
-	import { dots, researchOf, severityOf } from '$lib/data/scales/severity';
-	import { statusOf } from '$lib/data/scales/status';
-	import { zoneRadiusDeg } from '$lib/data/scales/reach';
-	import { METRICS, METRIC_BY_KEY, metricColor } from '$lib/data/places/metrics';
-	import { cities } from '$lib/data/generated/places';
-	import { air, aqiColor, ensureAirData } from '$lib/state/air-quality.svelte';
-	import type { Tier, Zone } from '$lib/data/zones/types';
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Select from '$lib/components/ui/Select.svelte';
-	import {
-		geoArea,
-		geoCentroid,
-		geoGraticule10,
-		geoMercator,
-		geoPath,
-		geoCircle,
-		geoContains
-	} from 'd3-geo';
-	import { angularDistanceDeg } from '$lib/utils/geo';
+	import { cities } from '$lib/data/generated/places';
 	import type { CountryFeature } from '$lib/data/places/countries';
+	import { countryByIso3 } from '$lib/data/places/countries';
+	import { METRICS, METRIC_BY_KEY, metricColor } from '$lib/data/places/metrics';
+	import {
+	  ANTHRO_SUBCATS,
+	  CATEGORIES,
+	  CERTAINTY_LABEL,
+	  TIERS,
+	  anthroSubOf,
+	  categoryColor
+	} from '$lib/data/scales/categories';
+	import { zoneRadiusDeg } from '$lib/data/scales/reach';
+	import { dots, researchOf, severityOf } from '$lib/data/scales/severity';
+	import { statusOf } from '$lib/data/scales/status';
+	import type { Tier, Zone } from '$lib/data/zones/types';
+	import { air, aqiColor, ensureAirData } from '$lib/state/air-quality.svelte';
+	import { angularDistanceDeg } from '$lib/utils/geo';
+	import {
+	  geoArea,
+	  geoCentroid,
+	  geoCircle,
+	  geoContains,
+	  geoGraticule10,
+	  geoMercator,
+	  geoPath
+	} from 'd3-geo';
 
 	const W = 960;
 	const H = 620;
 
 	const info = $derived(countryByIso3(page.params.id ?? ''));
 
-	// Plain-language gloss for each shading metric, so the color has meaning.
 	const METRIC_DESC: Record<string, string> = {
 		life: 'Average years a newborn is expected to live.',
 		hdi: 'UN Human Development Index: health, schooling and income combined, 0 to 1.',
@@ -46,8 +45,7 @@
 		calm: 'Composite of good-society indicators, minus a penalty for nearby mapped hazards.'
 	};
 
-	// Local view controls (independent of the globe so toggling here never mutates
-	// the user's global filters).
+
 	let tierOn = $state<Record<Tier, boolean>>({
 		established: true,
 		gray: true,
@@ -56,14 +54,18 @@
 		conflict: true,
 		climate: true
 	});
+
 	const establishedCats = CATEGORIES.filter((c) => c.tier === 'established');
+
 	let catOn = $state<Record<string, boolean>>(
 		Object.fromEntries([...establishedCats, ...ANTHRO_SUBCATS].map((c) => [c.key, true]))
 	);
+
 	let showReach = $state(false);
 	let showAir = $state(false);
 	let metric = $state<string>('none');
-	const metricOptions = [
+
+		const metricOptions = [
 		{ value: 'none', label: 'No shading' },
 		...METRICS.map((m) => ({ value: m.key, label: m.label }))
 	];
@@ -72,32 +74,29 @@
 		if (showAir) ensureAirData();
 	});
 
-	// Frame to the main landmass. For countries with distant territories (US with
-	// Alaska/Hawaii, France with overseas departments), fitting the whole
-	// multipolygon shrinks the mainland to a dot; a country profile does not need
-	// the true geographic spread, so we fit to the largest polygon and let the far
-	// pieces clip out of view.
+
 	function framingFeature(feat: CountryFeature): CountryFeature {
 		const g = feat.geometry;
 		if (g.type !== 'MultiPolygon' || g.coordinates.length < 2) return feat;
+
 		const polys = g.coordinates.map((poly) => {
 			const f = { type: 'Polygon' as const, coordinates: poly };
 			return { poly, area: geoArea(f), c: geoCentroid(f) };
 		});
+
 		polys.sort((a, b) => b.area - a.area);
 		const main = polys[0];
-		// Keep the main landmass plus any island clustered near it (so an
-		// archipelago like Japan stays whole), but drop far-flung outliers (US
-		// Alaska/Hawaii, French overseas departments) that would otherwise shrink
-		// the mainland to a dot.
+
 		const NEAR_DEG = 14;
 		const kept = polys.filter(
 			(p) => p === main || angularDistanceDeg(main.c[1], main.c[0], p.c[1], p.c[0]) <= NEAR_DEG
 		);
+
 		return { ...feat, geometry: { type: 'MultiPolygon', coordinates: kept.map((k) => k.poly) } };
 	}
 
 	const frame = $derived(info ? framingFeature(info.feature) : null);
+
 	const projection = $derived.by(() => {
 		if (!frame) return null;
 		return geoMercator().fitExtent(
@@ -108,6 +107,7 @@
 			frame
 		);
 	});
+
 	const path = $derived(projection ? geoPath(projection) : null);
 	const shape = $derived(path && frame ? (path(frame) ?? '') : '');
 	const grat = $derived(path ? (path(geoGraticule10()) ?? '') : '');
@@ -121,27 +121,28 @@
 	}
 	const visibleZones = $derived(info ? info.zones.filter(zoneVisible) : []);
 
-	// Push overlapping markers apart so co-located exposures (e.g. the cluster
-	// around Baku) stay individually visible and clickable instead of stacking
-	// into a blob. A few relaxation passes are plenty for the handful of marks a
-	// country has. Works the same for every country, no per-country tuning.
+
 	function spreadMarks<T extends { x: number; y: number }>(pts: T[]): T[] {
 		const out = pts.map((p) => ({ ...p }));
 		const MIN = 14;
+
 		for (let iter = 0; iter < 80; iter++) {
 			let moved = false;
+
 			for (let i = 0; i < out.length; i++) {
+
 				for (let j = i + 1; j < out.length; j++) {
 					let dx = out[j].x - out[i].x;
 					let dy = out[j].y - out[i].y;
 					let d = Math.hypot(dx, dy);
+
 					if (d < 0.01) {
-						// Identical points: fan them out along the golden angle (deterministic).
 						const a = j * 2.399;
 						dx = Math.cos(a);
 						dy = Math.sin(a);
 						d = 1;
 					}
+
 					if (d < MIN) {
 						const push = (MIN - d) / 2;
 						const ux = dx / d;
@@ -154,28 +155,34 @@
 					}
 				}
 			}
+
 			if (!moved) break;
 		}
+
 		for (const p of out) {
 			p.x = Math.max(10, Math.min(W - 10, p.x));
 			p.y = Math.max(10, Math.min(H - 10, p.y));
 		}
+
 		return out;
 	}
 
 	const marks = $derived.by(() => {
 		const proj = projection;
 		if (!proj) return [];
+
 		const raw = visibleZones.flatMap((z) => {
 			const p = proj([z.lng, z.lat]);
 			return p ? [{ z, x: p[0], y: p[1], color: categoryColor(z) }] : [];
 		});
+
 		return spreadMarks(raw);
 	});
 
 	const reachPaths = $derived.by(() => {
 		const p = path;
 		if (!p || !showReach) return [];
+
 		return visibleZones.flatMap((z) => {
 			const d = p(geoCircle().center([z.lng, z.lat]).radius(zoneRadiusDeg(z))());
 			return d ? [{ id: z.id, d, color: categoryColor(z) }] : [];
@@ -185,6 +192,7 @@
 	const cityMarks = $derived.by(() => {
 		const proj = projection;
 		if (!info || !proj) return [];
+
 		const ranked = cities
 			.map((c, i) => ({ c, i }))
 			.filter(({ c }) => geoContains(info.feature, [c.lng, c.lat]))
@@ -193,11 +201,11 @@
 					(b.c.significant ? 1e9 : 0) + (b.c.capital ? 5e8 : 0) + b.c.pop -
 					((a.c.significant ? 1e9 : 0) + (a.c.capital ? 5e8 : 0) + a.c.pop)
 			);
-		// Show more cities, but declutter to one per screen cell and drop any that
-		// project outside the framed view (e.g. cities in dropped territories).
+
 		const out: { name: string; x: number; y: number; capital: boolean; idx: number }[] = [];
 		const occupied = new Set<string>();
-		for (const { c, i } of ranked) {
+
+			for (const { c, i } of ranked) {
 			const p = proj([c.lng, c.lat]);
 			if (!p || p[0] < 0 || p[0] > W || p[1] < 0 || p[1] > H) continue;
 			const cell = `${Math.round(p[0] / 66)},${Math.round(p[1] / 26)}`;
@@ -206,12 +214,13 @@
 			out.push({ name: c.name, x: p[0], y: p[1], capital: !!c.capital, idx: i });
 			if (out.length >= 26) break;
 		}
+
 		return out;
 	});
 
 	const metricMeta = $derived(metric !== 'none' ? (METRIC_BY_KEY[metric] ?? null) : null);
 	const metricValue = $derived(info && metricMeta ? metricMeta.map[info.iso3] : undefined);
-	// Position of this country's value on the worse-to-better legend (0 = worse).
+
 	const shadeT = $derived.by(() => {
 		if (!metricMeta || metricValue == null) return null;
 		const [lo, hi] = metricMeta.domain;
@@ -219,6 +228,7 @@
 		t = Math.max(0, Math.min(1, t));
 		return metricMeta.higherBetter ? t : 1 - t;
 	});
+
 	const landFill = $derived(
 		metricMeta && metricValue != null ? metricColor(metricMeta, metricValue) : '#16273f'
 	);

@@ -2,11 +2,11 @@ import { Vector3 } from "three";
 
 /**
  * Convert geographic coordinates to a point on a sphere.
- *
  * The mapping is aligned with an equirectangular texture where longitude runs
  * left to right and latitude bottom to top, so the same convention is reused by
  * the field texture and by hit testing.
  */
+
 export function latLngToVector3(
   latDeg: number,
   lngDeg: number,
@@ -20,7 +20,6 @@ export function latLngToVector3(
   return new Vector3(x, y, z);
 }
 
-/** Inverse of latLngToVector3: a unit direction back to latitude/longitude. */
 export function vector3ToLatLng(v: Vector3): { lat: number; lng: number } {
   const n = v.clone().normalize();
   const lat = 90 - (Math.acos(n.y) * 180) / Math.PI;
@@ -35,7 +34,6 @@ function normalizeLng(lng: number): number {
   return l;
 }
 
-/** Great-circle (angular) distance in degrees between two lat/lng points. */
 export function angularDistanceDeg(
   lat1: number,
   lng1: number,
@@ -48,5 +46,6 @@ export function angularDistanceDeg(
   const dLng = (lng2 - lng1) * toRad;
   const cosD =
     Math.sin(a1) * Math.sin(a2) + Math.cos(a1) * Math.cos(a2) * Math.cos(dLng);
+
   return (Math.acos(Math.min(1, Math.max(-1, cosD))) * 180) / Math.PI;
 }

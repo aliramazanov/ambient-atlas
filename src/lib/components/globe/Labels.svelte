@@ -1,21 +1,17 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { Vector3 } from 'three';
-	import { cities, countryLabels } from '$lib/data/generated/places';
 	import { cityLifeExpectancy } from '$lib/data/generated/city-life-expectancy';
+	import { cities, countryLabels } from '$lib/data/generated/places';
 	import { METRIC_BY_KEY, metricColor } from '$lib/data/places/metrics';
-	import { latLngToVector3 } from '$lib/utils/geo';
+	import { flyToLocation, ui } from '$lib/state/state.svelte';
 	import { view } from '$lib/state/viewport.svelte';
-	import { ui, flyToLocation } from '$lib/state/state.svelte';
+	import { latLngToVector3 } from '$lib/utils/geo';
+	import { onMount } from 'svelte';
+	import { Vector3 } from 'three';
 
 	function openCountry(iso3: string | undefined, lat: number, lng: number) {
 		if (!iso3) return;
-		// Fly the globe toward the country first, then route, so the jump to its
-		// page reads as a continuous zoom-in instead of an abrupt swap. Dist 1.8
-		// frames the country without diving into the surface; the country page
-		// fades and scales in on arrival to complete the handoff.
 		flyToLocation(lat, lng, 1.8);
 		setTimeout(() => goto(resolve('/country/[id]', { id: iso3 })), 600);
 	}
@@ -48,7 +44,7 @@
 			pop: 0,
 			significant: false,
 			capital: false,
-			sort: 0, // countries claim cells last, as background context
+			sort: 0,
 			le: null,
 			iso3: c.iso3
 		});
@@ -70,7 +66,6 @@
 		});
 	}
 
-	// Processing order for declutter: significant cities, big cities, then countries.
 	const order = labels.map((_, i) => i).sort((a, b) => labels[b].sort - labels[a].sort);
 
 	let els: HTMLDivElement[] = $state([]);
@@ -82,24 +77,22 @@
 		return c + (d - c) * t;
 	}
 
-	// Country and city labels show the active metric value and color when one is
-	// selected. Cities use sub-national life expectancy for the 'life' metric;
-	// otherwise only countries carry a value.
 	function applyMetric(el: HTMLDivElement, l: L) {
 		const key = ui.countryMetric;
 		let value: number | undefined;
+
 		if (key !== 'none') {
 			if (l.kind === 'country' && l.iso3) value = METRIC_BY_KEY[key]?.map[l.iso3];
 			else if (l.kind === 'city' && key === 'life') value = l.le ?? undefined;
 		}
+
 		const want = value != null ? `${key}:${value}` : '0';
 		if (el.dataset.metric === want) return;
 		el.dataset.metric = want;
+
 		if (value != null) {
 			const m = METRIC_BY_KEY[key];
 			el.textContent = `${l.text} ${m.format(value)}`;
-			// Filled pastel pill with dark text: the ramp reads as a clear scale this
-			// way, where small pastel-colored text on the dark globe washed out.
 			el.style.color = '#0b1320';
 			el.style.background = metricColor(m, value);
 			el.style.padding = '1px 7px';
@@ -124,24 +117,24 @@
 		let last = 0;
 		const tick = (now: number) => {
 			raf = requestAnimationFrame(tick);
-			if (now - last < 33) return; // throttle label projection to ~30fps
+
+			if (now - last < 33) return;
 			last = now;
-			// Hide all text while the reader is open (globe frozen) or while the camera
-			// is moving (labels flicker around the cursor focus as the view shifts).
+
 			if (ui.selected || view.moving) {
 				for (const el of els) if (el) el.style.display = 'none';
 				return;
 			}
+
 			const cam = view.camera;
 			const w = view.width;
 			const h = view.height;
+
 			if (!cam || !w || !h) return;
 
 			camDir.copy(cam.position).normalize();
 			const dist = cam.position.length();
-			// Closer camera reveals smaller cities; far view shows only the largest.
 			const popThreshold = lerp(dist, 1.55, 3.6, 40e3, 5e6);
-			// Reveal labels around where the user is pointing (or the center when idle).
 			const fx = view.hasFocus ? view.focusX : w / 2;
 			const fy = view.hasFocus ? view.focusY : h / 2;
 			const focusR = Math.min(150, Math.max(90, Math.min(w, h) * 0.18));
@@ -154,6 +147,7 @@
 
 				const facing = l.dir.dot(camDir);
 				let show = facing > 0.22;
+
 				if (show && l.kind === 'city') {
 					const eligible = l.significant || l.capital || l.pop >= popThreshold;
 					if (!eligible) show = false;
@@ -161,6 +155,7 @@
 
 				if (show) {
 					tmp.copy(l.pos).project(cam);
+
 					if (tmp.z > 1 || tmp.x < -1 || tmp.x > 1 || tmp.y < -1 || tmp.y > 1) {
 						show = false;
 					} else {
@@ -185,10 +180,13 @@
 						}
 					}
 				}
+
 				if (!show) el.style.display = 'none';
 			}
 		};
+
 		raf = requestAnimationFrame(tick);
+
 		return () => cancelAnimationFrame(raf);
 	});
 </script>

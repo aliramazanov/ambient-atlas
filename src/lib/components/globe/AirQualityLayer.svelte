@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { air, aqiColor, ensureAirData } from '$lib/state/air-quality.svelte';
 	import { cities } from '$lib/data/generated/places';
-	import { latLngToVector3 } from '$lib/utils/geo';
+	import { air, aqiColor, ensureAirData } from '$lib/state/air-quality.svelte';
 	import { ui } from '$lib/state/state.svelte';
 	import { view } from '$lib/state/viewport.svelte';
+	import { latLngToVector3 } from '$lib/utils/geo';
 	import { onMount } from 'svelte';
 	import { Vector3 } from 'three';
 
@@ -16,7 +16,6 @@
 	const tmp = new Vector3();
 	const camDir = new Vector3();
 
-	// Fetch when the layer is first enabled.
 	$effect(() => {
 		if (ui.layers.airQuality) ensureAirData();
 	});
@@ -24,64 +23,78 @@
 	onMount(() => {
 		let raf = 0;
 		let last = 0;
+
 		const tick = (now: number) => {
 			raf = requestAnimationFrame(tick);
-			if (now - last < 33) return; // throttle AQI projection to ~30fps
+
+			if (now - last < 33) return;
+
 			last = now;
+
 			const cam = view.camera;
 			const w = view.width;
 			const h = view.height;
 			const on = ui.layers.airQuality && air.status === 'ready' && !ui.selected && !view.moving;
+
 			if (!cam || !w || !h || !on) {
 				for (const el of els) if (el) el.style.display = 'none';
 				return;
 			}
+
 			camDir.copy(cam.position).normalize();
-			// Reveal AQI only around the cursor focus, so it reads as a clean,
-			// premium probe rather than a global confetti of dots. Uses the same
-			// focus radius as the city labels so the two reveal together at every
-			// zoom level, instead of AQI flooding the whole hemisphere up close.
+
 			const fx = view.hasFocus ? view.focusX : w / 2;
 			const fy = view.hasFocus ? view.focusY : h / 2;
 			const focusR = Math.min(150, Math.max(90, Math.min(w, h) * 0.18));
 			const occupied = new Set<string>();
-			for (let i = 0; i < pts.length; i++) {
+
+				for (let i = 0; i < pts.length; i++) {
 				const el = els[i];
 				const v = air.aqi[i];
+
 				if (!el) continue;
+
 				if (v == null || pts[i].dir.dot(camDir) < 0.25) {
 					el.style.display = 'none';
 					continue;
 				}
+
 				tmp.copy(pts[i].pos).project(cam);
+
 				if (tmp.z > 1 || tmp.x < -1 || tmp.x > 1 || tmp.y < -1 || tmp.y > 1) {
 					el.style.display = 'none';
 					continue;
 				}
+
 				const x = (tmp.x * 0.5 + 0.5) * w;
 				const y = (-tmp.y * 0.5 + 0.5) * h;
 				const fd = Math.hypot(x - fx, y - fy);
+
 				if (fd > focusR) {
 					el.style.display = 'none';
 					continue;
 				}
-				// Declutter: at most one pill per screen cell so numbers stay legible.
+
 				const cell = `${Math.round(x / 46)},${Math.round(y / 22)}`;
+
 				if (occupied.has(cell)) {
 					el.style.display = 'none';
 					continue;
 				}
+
 				occupied.add(cell);
 				const col = aqiColor(v);
+
 				el.textContent = `${Math.round(v)}`;
-				// Sit just above the city point so it stays near the label, not on top of it.
 				el.style.transform = `translate(${x}px, ${y - 15}px) translate(-50%, -50%)`;
 				el.style.background = col;
 				el.style.opacity = String(Math.min(1, (1 - fd / focusR) * 1.8));
 				el.style.display = 'block';
 			}
 		};
+
 		raf = requestAnimationFrame(tick);
+
 		return () => cancelAnimationFrame(raf);
 	});
 </script>

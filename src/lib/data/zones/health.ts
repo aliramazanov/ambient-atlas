@@ -1,21 +1,27 @@
-// Concise human-health effects per zone id. The reader uses zone.health first,
-// then this map, so every zone shows an explicit "Health effects" line.
 const ARSENIC =
   "Skin lesions and skin, bladder and lung cancer; cardiovascular and developmental effects.";
+
 const RADON =
   "Lung cancer from elevated indoor radon (the low-dose regional gradient is debated).";
+
 const UV =
   "Melanoma and other skin cancers, plus eye damage (pterygium, cataract).";
+
 const DUST =
   "Respiratory and allergic disease; dust is linked to asthma and meningitis-belt epidemics.";
+
 const FLUOROSIS =
   "Dental mottling and, at higher intake, crippling skeletal fluorosis.";
+
 const KESHAN =
   "Keshan disease, an often-fatal cardiomyopathy from selenium deficiency.";
+
 const KONZO =
   "Konzo: sudden, irreversible spastic paralysis of the legs from cassava cyanide.";
+
 const AFLA =
   "Liver cancer (synergistic with hepatitis B) and links to child stunting.";
+
 const CONFLICT =
   "Death, injury, displacement and collapse of health care and sanitation.";
 

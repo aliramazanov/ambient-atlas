@@ -1,28 +1,26 @@
 <script lang="ts">
-	import { Canvas } from '@threlte/core';
-	import { fade } from 'svelte/transition';
-	import { onMount } from 'svelte';
-	import { WebGPURenderer } from 'three/webgpu';
 	import { ui } from '$lib/state/state.svelte';
+	import { Canvas } from '@threlte/core';
+	import { onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
+	import { WebGPURenderer } from 'three/webgpu';
 	import Scene from './Scene.svelte';
 
 	let backend = $state<'pending' | 'webgpu' | 'webgl'>('pending');
 	let ready = $state(false);
 	let pageVisible = $state(true);
 
-	// Render the globe continuously only when it is actually in front and visible:
-	// freeze it while the reader modal is open or the tab is hidden, so the heavy
-	// render loop never starves UI interactions like the close button. Stays
-	// 'manual' until the renderer is ready.
 	const renderMode = $derived(ready && !ui.selected && pageVisible ? 'always' : 'manual');
 
 	onMount(() => {
 		const onVis = () => (pageVisible = document.visibilityState === 'visible');
 		const onBlur = () => (pageVisible = false);
 		const onFocus = () => (pageVisible = true);
+
 		document.addEventListener('visibilitychange', onVis);
 		window.addEventListener('blur', onBlur);
 		window.addEventListener('focus', onFocus);
+
 		return () => {
 			document.removeEventListener('visibilitychange', onVis);
 			window.removeEventListener('blur', onBlur);
@@ -36,14 +34,12 @@
 		{renderMode}
 		createRenderer={(canvas) => {
 			const renderer = new WebGPURenderer({ canvas, antialias: true, forceWebGL: false });
-			// Cap pixel ratio: the additive glow layer is fragment-heavy, so rendering
-			// it at 2x+ retina resolution is the dominant GPU cost. Capping at 1.0 cuts
-			// fragment/overdraw work several-fold with no loss of any feature.
+
 			renderer.setPixelRatio(1);
 			renderer
 				.init()
 				.then(() => {
-					ready = true; // the render-mode effect takes over from here
+					ready = true;
 					// @ts-expect-error backend flag is present after init
 					backend = renderer.backend?.isWebGPUBackend ? 'webgpu' : 'webgl';
 				})

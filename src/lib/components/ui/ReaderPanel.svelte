@@ -3,9 +3,9 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { categoryColor, CERTAINTY_LABEL } from '$lib/data/scales/categories';
-	import { HEALTH } from '$lib/data/zones/health';
 	import { dots, researchOf, severityOf } from '$lib/data/scales/severity';
 	import { statusOf } from '$lib/data/scales/status';
+	import { HEALTH } from '$lib/data/zones/health';
 	import type { EmissionType } from '$lib/data/zones/types';
 	import { ui } from '$lib/state/state.svelte';
 	import { fade, scale } from 'svelte/transition';
@@ -14,7 +14,7 @@
 	let closeBtn: HTMLButtonElement | undefined = $state();
 	let panelEl: HTMLElement | undefined = $state();
 	let lastFocused: HTMLElement | null = null;
-	// Move focus into the dialog on open, and return it to the trigger on close.
+
 	$effect(() => {
 		if (ui.selected) {
 			if (!lastFocused) lastFocused = document.activeElement as HTMLElement;
@@ -25,17 +25,19 @@
 		}
 	});
 
-	// Keep Tab focus inside the open dialog.
 	function trapTab(e: KeyboardEvent) {
 		if (e.key !== 'Tab' || !panelEl) return;
+
 		const els = Array.from(
 			panelEl.querySelectorAll<HTMLElement>(
 				'a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'
 			)
 		).filter((el) => el.offsetParent !== null);
+
 		if (!els.length) return;
 		const first = els[0];
 		const last = els[els.length - 1];
+
 		if (e.shiftKey && document.activeElement === first) {
 			e.preventDefault();
 			last.focus();
@@ -53,8 +55,6 @@
 	};
 
 	function close() {
-		// Clear selection immediately so the panel closes instantly, then navigate
-		// back to the globe route (avoids any routing-timing race re-opening it).
 		ui.selected = null;
 		if (page.route.id?.startsWith('/zone')) goto(resolve('/'));
 	}

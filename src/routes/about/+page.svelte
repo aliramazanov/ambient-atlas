@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { zones } from '$lib/data/zones/zones';
 	import Icon from '$lib/components/ui/Icon.svelte';
+	import { zones } from '$lib/data/zones/zones';
 
 	const zoneCount = zones.length;
 </script>

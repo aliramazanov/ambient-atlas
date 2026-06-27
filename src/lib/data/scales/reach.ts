@@ -1,9 +1,9 @@
 import type { Zone } from "../zones/types";
 
-// Estimated real-world reach of each phenomenon, in kilometres. This replaces
-// the old arbitrary sqrt(r) scale. Values are grounded where known and honest
-// guesswork otherwise (the user asked for a best estimate of how far impacts
-// reach). A zone's own reachKm wins; then this override; then a category default.
+/**
+ * Estimated real-world reach of each phenomenon, in kilometres.
+ * Values are grounded where known and honest guesswork otherwise.
+ * A zone's own reachKm wins; then this override; then a category default. */
 
 const BY_CATEGORY: Record<string, number> = {
   radiation: 60,
@@ -15,11 +15,10 @@ const BY_CATEGORY: Record<string, number> = {
   gray: 250,
   solved: 70,
   anthropogenic: 40,
-  conflict: 1600, // clipped to country anyway; large enough to cover it
+  conflict: 1600,
   climate: 600,
 };
 
-// Per-zone reach in km (estimated). Grouped for readability.
 const OVERRIDE: Record<string, number> = {
   // Airborne: dust corridors are continental; volcanic vents are local.
   "saharan-source": 2500,
@@ -42,6 +41,7 @@ const OVERRIDE: Record<string, number> = {
   "salton-sea": 80,
   "yellowstone-gas": 90,
   "lake-kivu": 60,
+
   // Gray, often diffuse and large.
   saa: 2800,
   "geomagnetic-auroral": 2500,
@@ -58,6 +58,7 @@ const OVERRIDE: Record<string, number> = {
   "punjab-uranium": 200,
   "azerbaijan-mud-volcanoes": 60,
   "caucasus-mineral-waters-radon": 50,
+
   // Radon-prone terrains are regional.
   "radon-cornwall": 200,
   "fennoscandia-radon": 900,
@@ -70,6 +71,7 @@ const OVERRIDE: Record<string, number> = {
   "radon-canada-prairies": 900,
   "radon-erzgebirge": 300,
   "radon-france": 600,
+
   // UV belts.
   "australia-uv": 1800,
   "nz-uv": 1200,
@@ -77,18 +79,21 @@ const OVERRIDE: Record<string, number> = {
   "uv-us-southeast": 1000,
   "uv-us-southwest": 1000,
   "uv-tropics-africa": 2000,
+
   // Altitude regions.
   altiplano: 600,
   tibet: 1200,
   "ethiopian-highlands": 400,
   "la-rinconada": 15,
   leadville: 20,
+
   // Radiation areas.
   ramsar: 15,
   "kerala-monazite": 60,
   guarapari: 12,
   yangjiang: 60,
   mamuju: 60,
+
   // Chemistry: deltas and belts.
   "bengal-arsenic": 400,
   "chile-arsenic": 150,
@@ -108,6 +113,7 @@ const OVERRIDE: Record<string, number> = {
   "drc-goiter": 400,
   almaden: 40,
   idrija: 25,
+
   // Fiber.
   cappadocia: 25,
   biancavilla: 12,
@@ -118,6 +124,7 @@ const OVERRIDE: Record<string, number> = {
   "new-idria": 40,
   "new-caledonia-asbestos": 200,
   "libby-montana": 20,
+
   // Dietary belts.
   "guam-bmaa": 18,
   "konzo-drc": 400,
@@ -126,6 +133,7 @@ const OVERRIDE: Record<string, number> = {
   "aflatoxin-seasia": 700,
   ciguatera: 600,
   neurolathyrism: 350,
+
   // Solved.
   blackfoot: 40,
   "balkan-nephropathy": 120,
@@ -137,6 +145,7 @@ const OVERRIDE: Record<string, number> = {
   "tropical-ataxic": 150,
   "haff-disease": 40,
   mseleni: 40,
+
   // Anthropogenic: fallout reaches far; point sources are local.
   chernobyl: 150,
   fukushima: 60,

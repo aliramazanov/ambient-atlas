@@ -1,14 +1,16 @@
 <script lang="ts">
-	import { slide, scale } from 'svelte/transition';
-	import { cubicOut } from 'svelte/easing';
-	import { questions } from '$lib/data/zones/questions';
 	import { METRICS, METRIC_BY_KEY } from '$lib/data/places/metrics';
-	import { ui, flyToLocation } from '$lib/state/state.svelte';
+	import { questions } from '$lib/data/zones/questions';
+	import { flyToLocation, ui } from '$lib/state/state.svelte';
+	import { cubicOut } from 'svelte/easing';
+	import { scale, slide } from 'svelte/transition';
 	import Icon from './Icon.svelte';
 	import Select from './Select.svelte';
 
 	let minimized = $state(false);
+
 	const pinCount = $derived(Object.keys(ui.pinned).length);
+
 	const metricOptions = [
 		{ value: 'none', label: 'None' },
 		...METRICS.map((m) => ({ value: m.key, label: m.label }))

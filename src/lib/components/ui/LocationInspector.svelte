@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition';
 	import { resolve } from '$app/paths';
-	import { ui } from '$lib/state/state.svelte';
-	import { inspectLocation } from '$lib/interaction/inspect';
 	import { CATEGORIES } from '$lib/data/scales/categories';
+	import { inspectLocation } from '$lib/interaction/inspect';
+	import { ui } from '$lib/state/state.svelte';
+	import { fly } from 'svelte/transition';
 	import Icon from './Icon.svelte';
 
 	const colorOf = (cat: string) => CATEGORIES.find((c) => c.key === cat)?.color ?? '#999';

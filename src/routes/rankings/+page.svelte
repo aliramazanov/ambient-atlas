@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { cityData } from '$lib/data/generated/citydata';
-	import { METRIC_BY_KEY } from '$lib/data/places/metrics';
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Select from '$lib/components/ui/Select.svelte';
 	import Slider from '$lib/components/ui/Slider.svelte';
+	import { cityData } from '$lib/data/generated/citydata';
+	import { METRIC_BY_KEY } from '$lib/data/places/metrics';
 
 	const SHOW_OPTIONS = [
 		{ value: '25', label: 'Top 25' },
@@ -58,6 +58,7 @@
 		if (hi === lo) return 0.5;
 		return Math.max(0, Math.min(1, (v - lo) / (hi - lo)));
 	}
+
 	function score(c: (typeof cityData)[number]) {
 		const parts: [number, number][] = [];
 		const le = norm(c.le, lifeDom);
@@ -76,6 +77,7 @@
 		if (!ws) return 0;
 		return Math.round((100 * parts.reduce((a, [v, x]) => a + v * x, 0)) / ws);
 	}
+
 	const disqualified = (f: number) => CONDS.some((c) => dq[c.key] && f & c.bit);
 	const residual = (f: number) => CONDS.filter((c) => f & c.bit).map((c) => c.label);
 
@@ -85,6 +87,7 @@
 			.map((c) => ({ c, s: score(c), res: residual(c.f) }))
 			.sort((a, b) => b.s - a.s)
 	);
+
 	const ranked = $derived(limit === 'all' ? rankedAll : rankedAll.slice(0, +limit));
 	const passCount = $derived(rankedAll.length);
 

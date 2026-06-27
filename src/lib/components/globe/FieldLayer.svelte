@@ -1,38 +1,35 @@
 <script lang="ts">
-	import { T, useTask } from '@threlte/core';
-	import { onDestroy } from 'svelte';
-	import {
-		AdditiveBlending,
-		BufferGeometry,
-		CanvasTexture,
-		Color,
-		Float32BufferAttribute,
-		Group,
-		Material,
-		Mesh,
-		MeshBasicMaterial,
-		SphereGeometry,
-		SRGBColorSpace,
-		Vector3
-	} from 'three';
-	import { zones } from '$lib/data/zones/zones';
+	import { anthroSubOf, categoryColor, certaintyOpacity } from '$lib/data/scales/categories';
 	import { zoneRadiusDeg } from '$lib/data/scales/reach';
-	import { categoryColor, certaintyOpacity, anthroSubOf } from '$lib/data/scales/categories';
-	import { latLngToVector3 } from '$lib/utils/geo';
+	import type { Tier } from '$lib/data/zones/types';
+	import { zones } from '$lib/data/zones/zones';
 	import { clipFor } from '$lib/interaction/conflict-clip';
 	import { ui } from '$lib/state/state.svelte';
 	import { view } from '$lib/state/viewport.svelte';
-	import type { Tier } from '$lib/data/zones/types';
+	import { latLngToVector3 } from '$lib/utils/geo';
+	import { T, useTask } from '@threlte/core';
+	import { onDestroy } from 'svelte';
+	import {
+	  AdditiveBlending,
+	  BufferGeometry,
+	  CanvasTexture,
+	  Color,
+	  Float32BufferAttribute,
+	  Group,
+	  Material,
+	  Mesh,
+	  MeshBasicMaterial,
+	  SphereGeometry,
+	  SRGBColorSpace,
+	  Vector3
+	} from 'three';
 
-	// Reach glows are context at globe scale; up close they become huge flat discs
-	// that swamp the surface, so fade them out as the camera nears the surface.
 	function zoomFade(d: number): number {
 		const c = Math.max(0, Math.min(1, (d - 1.15) / (2.2 - 1.15)));
 		return 0.05 + 0.95 * (c * c * (3 - 2 * c));
 	}
 
-	// Dots scale super-linearly with camera distance: clearly bigger and findable
-	// when zoomed out, smaller as you move in so they never balloon into blobs.
+
 	function dotZoom(d: number): number {
 		return Math.max(0.4, Math.min(3.4, Math.pow(d / 3.0, 1.4)));
 	}
@@ -56,6 +53,7 @@
 		areaNodes: { visible: boolean }[];
 		dot: Mesh;
 	}
+
 	const entries: Entry[] = [];
 
 	const ordered = zones
@@ -64,16 +62,18 @@
 
 	for (const { z } of ordered) {
 		const color = new Color(categoryColor(z));
+
 		const center = latLngToVector3(z.lat, z.lng, 1).normalize();
 		const radiusRad = zoneRadiusDeg(z) * DEG2RAD;
+
 		const { u, v } = basis(center);
+
 		const clip = clipFor(z.id);
+
 		const areaNodes: { visible: boolean }[] = [];
 		const fades: Entry['fades'] = [];
 
-		// Glowing filled area (additive gradient cap), shown on hover/pin/show-all.
-		// Kept moderate so the hue-carrying boundary ring and dot stay readable
-		// where many fields overlap (additive fills sum toward white).
+
 		const fillBase = clip ? 0.4 : 0.45;
 		const capGeo = buildCap(center, u, v, radiusRad, FILL_R, clip ? 36 : 24, clip ? 72 : 96, clip);
 		const capMat = new MeshBasicMaterial({
@@ -86,12 +86,12 @@
 		});
 		const cap = new Mesh(capGeo, capMat);
 		cap.renderOrder = 2;
+
 		group.add(cap);
 		areaNodes.push(cap);
 		fades.push({ mat: capMat, base: fillBase, kind: 'fill' });
 		disposables.push(capGeo, capMat);
 
-		// Defined boundary ring at the reach (skip for clipped conflict; its edge is the border).
 		if (!clip) {
 			const halfW = Math.min(0.6 * DEG2RAD, Math.max(0.08 * DEG2RAD, radiusRad * 0.03));
 			const edgeGeo = buildBand(center, u, v, radiusRad, halfW, EDGE_R, 128);
@@ -109,7 +109,6 @@
 			disposables.push(edgeGeo, edgeMat);
 		}
 
-		// Epicenter dot.
 		const dotGeo = new SphereGeometry(0.0016, 24, 24);
 		const dotMat = new MeshBasicMaterial({ color: color.clone().lerp(new Color('#ffffff'), 0.2) });
 		const dot = new Mesh(dotGeo, dotMat);
@@ -130,53 +129,56 @@
 		});
 	}
 
-	// Visibility by tier; opacity by intensity, certainty, and hover focus (hovered
-	// zone brightens, the rest fade) to keep the map uncluttered at rest.
-	// Dots always show (by tier). The reach area shows only on hover, when pinned,
-	// or when "show all areas" is on.
+
 	$effect(() => {
 		const showAll = ui.showAllAreas;
 		const hoveredId = ui.hovered?.id ?? null;
 		const intensity = ui.fieldIntensity;
 		const moving = view.moving;
 		const fillFade = zoomFade(view.dist);
-		const ringFade = 0.55 + 0.45 * fillFade; // rings stay legible up close
+		const ringFade = 0.55 + 0.45 * fillFade;
 		const dz = dotZoom(view.dist);
+
 		for (const e of entries) {
 			const on =
 				ui.tiers[e.tier] &&
 				(e.tier !== 'established' || ui.cats[e.category]) &&
 				(e.tier !== 'anthropogenic' || ui.cats[e.sub]);
-			const pinned = ui.pinned[e.id];
-			// While the camera moves, hide everything except reach glows (show-all or
-			// pinned); dots and hover effects are suppressed for a clean spin.
+
+				const pinned = ui.pinned[e.id];
+
 			e.dot.visible = on && !moving;
 			if (on) e.dot.scale.setScalar(dz * (hoveredId === e.id ? 1.9 : pinned ? 1.3 : 1));
+
 			const showArea = on && (showAll || pinned || (!moving && hoveredId === e.id));
 			for (const n of e.areaNodes) n.visible = showArea;
 			if (!showArea) continue;
+
 			const f = intensity * Math.max(0.7, e.certainty) * (hoveredId === e.id ? 1.5 : 1);
+
 			for (const fd of e.fades) {
-				// Pinned zones resist the zoom fade (deliberately kept); rings persist
-				// up close while the muddy fill fades out.
 				const zf = pinned ? 1 : fd.kind === 'ring' ? ringFade : fillFade;
 				fd.mat.opacity = Math.min(0.92, fd.base * f * zf);
 			}
 		}
 	});
 
-	// Gentle "breathing" pulse on the hovered zone for a premium, alive feel.
 	let pulseT = 0;
+
 	useTask((delta) => {
 		const id = ui.hovered?.id;
 		if (!id) return;
+
 		const e = entries.find((x) => x.id === id);
 		if (!e || !ui.tiers[e.tier]) return;
+
 		pulseT += delta;
+
 		const pinned = ui.pinned[e.id];
 		const fillFade = zoomFade(view.dist);
 		const ringFade = 0.55 + 0.45 * fillFade;
 		const f = ui.fieldIntensity * Math.max(0.7, e.certainty) * (1.4 + 0.2 * Math.sin(pulseT * 5));
+
 		for (const fd of e.fades) {
 			const zf = pinned ? 1 : fd.kind === 'ring' ? ringFade : fillFade;
 			fd.mat.opacity = Math.min(0.95, fd.base * f * zf);
@@ -211,7 +213,6 @@
 		return [lat, lng];
 	}
 
-	/** A filled ring band (annulus) between aMid-halfW and aMid+halfW. */
 	function buildBand(
 		center: Vector3,
 		u: Vector3,
@@ -225,12 +226,14 @@
 		const outer = aMid + halfW;
 		const pos: number[] = [];
 		const idx: number[] = [];
+
 		for (let j = 0; j <= spokes; j++) {
 			const t = (j / spokes) * Math.PI * 2;
 			const pi = capPoint(center, u, v, inner, t, radius);
 			const po = capPoint(center, u, v, outer, t, radius);
 			pos.push(pi[0], pi[1], pi[2], po[0], po[1], po[2]);
 		}
+
 		for (let j = 0; j < spokes; j++) {
 			const a0 = j * 2;
 			const a1 = j * 2 + 1;
@@ -238,9 +241,11 @@
 			const b1 = (j + 1) * 2 + 1;
 			idx.push(a0, b0, b1, a0, b1, a1);
 		}
+
 		const g = new BufferGeometry();
 		g.setAttribute('position', new Float32BufferAttribute(pos, 3));
 		g.setIndex(idx);
+
 		return g;
 	}
 
@@ -257,6 +262,7 @@
 		const pos: number[] = [];
 		const uv: number[] = [];
 		const idx: number[] = [];
+
 		for (let i = 0; i <= rings; i++) {
 			const a = (i / rings) * radiusRad;
 			const ur = (i / rings) * 0.5;
@@ -267,6 +273,7 @@
 				uv.push(0.5 + ur * Math.cos(t), 0.5 + ur * Math.sin(t));
 			}
 		}
+
 		const tri = (p: number, q: number, r2: number) => {
 			if (clip) {
 				const cx = (pos[p * 3] + pos[q * 3] + pos[r2 * 3]) / 3;
@@ -277,7 +284,9 @@
 			}
 			idx.push(p, q, r2);
 		};
+
 		const stride = spokes + 1;
+
 		for (let i = 0; i < rings; i++) {
 			for (let j = 0; j < spokes; j++) {
 				const a0 = i * stride + j;
@@ -288,10 +297,12 @@
 				tri(a0, b1, a1);
 			}
 		}
+
 		const g = new BufferGeometry();
 		g.setAttribute('position', new Float32BufferAttribute(pos, 3));
 		g.setAttribute('uv', new Float32BufferAttribute(uv, 2));
 		g.setIndex(idx);
+
 		return g;
 	}
 

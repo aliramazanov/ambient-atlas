@@ -24,12 +24,9 @@
 	const selected = $derived(options.find((o) => o.value === value));
 	const selectedLabel = $derived(selected?.label ?? '');
 
-	// Typeahead buffer.
 	let typed = '';
 	let typedAt = 0;
 
-	// Position the menu with fixed coordinates from the trigger, so it is never
-	// clipped by a scrollable parent panel and flips up when low on space.
 	function place() {
 		if (!trigger) return;
 		const r = trigger.getBoundingClientRect();
@@ -51,7 +48,6 @@
 		scrollActive();
 	}
 
-	// Keep the menu glued to the trigger while open (panel scroll, window resize).
 	$effect(() => {
 		if (!isOpen) return;
 		const reposition = () => place();
@@ -139,8 +135,6 @@
 		if (!trigger?.contains(t) && !list?.contains(t)) close(false);
 	}
 
-	// Render the menu on <body> so it escapes the panel's backdrop-filter, which
-	// otherwise traps and clips position:fixed descendants.
 	function portal(node: HTMLElement) {
 		document.body.appendChild(node);
 		return {

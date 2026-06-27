@@ -1,10 +1,10 @@
-import { anthroSubOf } from "./anthropogenic";
 import type { Certainty, Tier, Zone } from "../zones/types";
+import { anthroSubOf } from "./anthropogenic";
 
 export { anthroSubOf };
 
-// Anthropogenic (man-made) hazards split into 5 scientifically distinct groups,
-// each with its own color and legend toggle.
+/** Anthropogenic (man-made) hazards split into 5 scientifically distinct groups, each with its own color and legend toggle. */
+
 export const ANTHRO_SUBCATS: {
   key: string;
   label: string;
@@ -42,6 +42,7 @@ export const ANTHRO_SUBCATS: {
     desc: "Illegal dumping, landfills, e-waste and open burning.",
   },
 ];
+
 const ANTHRO_COLOR: Record<string, string> = Object.fromEntries(
   ANTHRO_SUBCATS.map((s) => [s.key, s.color]),
 );
@@ -50,17 +51,10 @@ export interface CategoryMeta {
   key: string;
   tier: Tier;
   label: string;
-  /** Hex color used for the field and the legend swatch. */
   color: string;
-  /** Plain-language meaning, shown as a hover tooltip in the legend. */
   desc: string;
 }
 
-// A categorical palette of bright pastel hues, spread around the color wheel so
-// every category reads as a distinct hue even where many fields overlap. The
-// per-zone boundary ring and epicenter dot carry this hue (normal blending), so
-// identity survives the additive glow of overlapping fills. Tiers also differ by
-// FORM (ring style, see TIER_RING_DASHED) as a non-color backup.
 export const CATEGORIES: CategoryMeta[] = [
   {
     key: "radiation",
@@ -143,8 +137,6 @@ export const CATEGORIES: CategoryMeta[] = [
 
 const DESC_BY_KEY = new Map(CATEGORIES.map((c) => [c.key, c.desc]));
 
-// Ring style per tier: dashed rings mark the less-certain or non-geological
-// tiers (gray open questions, conflict), readable without relying on hue.
 export const TIER_RING_DASHED: Record<Tier, boolean> = {
   established: false,
   gray: true,
@@ -154,7 +146,6 @@ export const TIER_RING_DASHED: Record<Tier, boolean> = {
   climate: false,
 };
 
-// Fainter fields for less-certain zones, so confidence reads visually.
 export function certaintyOpacity(c?: Certainty): number {
   switch (c) {
     case "anecdotal":

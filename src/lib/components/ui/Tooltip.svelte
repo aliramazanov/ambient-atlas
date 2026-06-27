@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { categoryColor } from '$lib/data/scales/categories';
+	import { dots, researchOf, severityOf } from '$lib/data/scales/severity';
+	import { statusOf } from '$lib/data/scales/status';
 	import { ui } from '$lib/state/state.svelte';
 	import { view } from '$lib/state/viewport.svelte';
-	import { categoryColor } from '$lib/data/scales/categories';
-	import { severityOf, researchOf, dots } from '$lib/data/scales/severity';
-	import { statusOf } from '$lib/data/scales/status';
 </script>
 
 {#if ui.hovered && !view.moving}

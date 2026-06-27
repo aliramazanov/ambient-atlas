@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition';
-	import { ui } from '$lib/state/state.svelte';
-	import { zones } from '$lib/data/zones/zones';
 	import { categoryColor, CERTAINTY_LABEL } from '$lib/data/scales/categories';
-	import { severityOf, researchOf, dots } from '$lib/data/scales/severity';
-	import { statusOf } from '$lib/data/scales/status';
 	import { reachKm } from '$lib/data/scales/reach';
+	import { dots, researchOf, severityOf } from '$lib/data/scales/severity';
+	import { statusOf } from '$lib/data/scales/status';
 	import { HEALTH } from '$lib/data/zones/health';
+	import { zones } from '$lib/data/zones/zones';
+	import { ui } from '$lib/state/state.svelte';
+	import { fly } from 'svelte/transition';
 	import Icon from './Icon.svelte';
 
 	const items = $derived(

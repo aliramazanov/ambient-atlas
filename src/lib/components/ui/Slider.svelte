@@ -1,6 +1,4 @@
 <script lang="ts">
-	// Premium range slider: native input under the hood (fully accessible) with a
-	// gold-filled track and a glowing thumb.
 	let {
 		value = $bindable(),
 		min = 0,

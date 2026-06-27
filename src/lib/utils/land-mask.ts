@@ -2,12 +2,8 @@ import { geoEquirectangular, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
 import land110 from "world-atlas/land-110m.json";
 
-// Fast land/ocean test. Instead of running d3 geoContains against the land
-// polygons for every query (tens of thousands at startup, slow), we rasterize
-// the 110m land once into a small equirectangular bitmap and sample pixels. The
-// projection is set so a pixel maps linearly to lon/lat, so sampling is O(1).
 const W = 1024;
-const H = 512; // must be W/2 for a full equirectangular sphere
+const H = 512;
 let data: Uint8ClampedArray | null = null;
 
 function build() {

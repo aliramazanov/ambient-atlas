@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { zones } from '$lib/data/zones/zones';
 	import { cities, countryLabels } from '$lib/data/generated/places';
-	import { ui, flyToLocation } from '$lib/state/state.svelte';
+	import { zones } from '$lib/data/zones/zones';
+	import { flyToLocation, ui } from '$lib/state/state.svelte';
 	import Icon from './Icon.svelte';
 
 	interface Item {
@@ -29,23 +29,27 @@
 	const results = $derived.by(() => {
 		const s = q.trim().toLowerCase();
 		if (s.length < 2) return [];
+
 		const starts: Item[] = [];
 		const contains: Item[] = [];
+
 		for (const it of index) {
 			const n = it.name.toLowerCase();
 			if (n.startsWith(s)) starts.push(it);
 			else if (n.includes(s)) contains.push(it);
 			if (starts.length >= 8) break;
 		}
+
 		return [...starts, ...contains].slice(0, 8);
 	});
 
 	function choose(it: Item) {
-		// Zoom level by kind; zones get framed by the zone route itself.
 		const dist = it.type === 'country' ? 2.6 : it.type === 'city' ? 1.9 : undefined;
 		flyToLocation(it.lat, it.lng, dist);
+
 		q = it.name;
 		open = false;
+
 		if (it.type === 'zone' && it.id) goto(resolve('/zone/[id]', { id: it.id }));
 		else ui.probe = { lat: it.lat, lng: it.lng };
 	}
@@ -55,10 +59,12 @@
 			open = false;
 			return;
 		}
+
 		if (!open || !results.length) {
 			if (e.key === 'ArrowDown') open = true;
 			return;
 		}
+
 		switch (e.key) {
 			case 'ArrowDown':
 				e.preventDefault();

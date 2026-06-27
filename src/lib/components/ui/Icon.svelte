@@ -1,5 +1,4 @@
 <script lang="ts">
-	// Small consistent stroke icon set (currentColor).
 	let {
 		name,
 		size = 16,

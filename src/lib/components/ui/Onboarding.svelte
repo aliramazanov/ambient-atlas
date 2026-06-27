@@ -3,6 +3,7 @@
 	import { fade, scale } from 'svelte/transition';
 
 	let show = $state(false);
+
 	onMount(() => {
 		try {
 			show = !localStorage.getItem('aa_onboarded');
@@ -10,6 +11,7 @@
 			show = true;
 		}
 	});
+
 	function dismiss() {
 		show = false;
 		try {

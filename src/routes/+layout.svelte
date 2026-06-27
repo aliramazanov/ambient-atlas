@@ -1,36 +1,35 @@
 <script lang="ts">
-	import '../app.css';
+	import { page } from '$app/state';
 	import favicon from '$lib/assets/favicon.svg';
+	import AirQualityLayer from '$lib/components/globe/AirQualityLayer.svelte';
 	import Globe from '$lib/components/globe/Globe.svelte';
 	import Labels from '$lib/components/globe/Labels.svelte';
-	import AirQualityLayer from '$lib/components/globe/AirQualityLayer.svelte';
-	import Legend from '$lib/components/ui/Legend.svelte';
 	import ColorKey from '$lib/components/ui/ColorKey.svelte';
+	import ComparePanel from '$lib/components/ui/ComparePanel.svelte';
+	import Legend from '$lib/components/ui/Legend.svelte';
+	import LocationInspector from '$lib/components/ui/LocationInspector.svelte';
 	import MapNote from '$lib/components/ui/MapNote.svelte';
 	import NonSpatialPanel from '$lib/components/ui/NonSpatialPanel.svelte';
-	import Tooltip from '$lib/components/ui/Tooltip.svelte';
+	import Onboarding from '$lib/components/ui/Onboarding.svelte';
 	import ReaderPanel from '$lib/components/ui/ReaderPanel.svelte';
 	import Search from '$lib/components/ui/Search.svelte';
-	import LocationInspector from '$lib/components/ui/LocationInspector.svelte';
-	import ComparePanel from '$lib/components/ui/ComparePanel.svelte';
-	import Onboarding from '$lib/components/ui/Onboarding.svelte';
-	import { view } from '$lib/state/viewport.svelte';
+	import Tooltip from '$lib/components/ui/Tooltip.svelte';
 	import { ui } from '$lib/state/state.svelte';
 	import { readUrlState, writeUrlState } from '$lib/state/url-state';
-	import { page } from '$app/state';
+	import { view } from '$lib/state/viewport.svelte';
+	import '../app.css';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
 
-	// Off-globe routes render their own full pages; everything else is the globe.
 	const onGlobe = $derived(
 		!page.route.id?.startsWith('/rankings') &&
 			!page.route.id?.startsWith('/about') &&
 			!page.route.id?.startsWith('/country')
 	);
 
-	// Restore a shared view from the URL on load, and keep the URL in sync.
 	readUrlState();
+
 	$effect(() => {
 		if (onGlobe) writeUrlState();
 	});
@@ -78,8 +77,6 @@
 	{ui.selected ? `Opened ${ui.selected.name}` : ''}
 </div>
 
-<!-- On the globe, route pages only drive selection state and render nothing.
-     On /rankings, the page renders its own full-page content. -->
 {@render children()}
 
 <style>

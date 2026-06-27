@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { air, AQI_LEGEND, ensureAirData } from '$lib/state/air-quality.svelte';
 	import { ANTHRO_SUBCATS, anthroSubOf, CATEGORIES, TIERS } from '$lib/data/scales/categories';
 	import { zones } from '$lib/data/zones/zones';
+	import { air, AQI_LEGEND, ensureAirData } from '$lib/state/air-quality.svelte';
 	import { ui } from '$lib/state/state.svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { scale } from 'svelte/transition';
@@ -18,17 +18,19 @@
 				(z.tier !== 'anthropogenic' || ui.cats[anthroSubOf(z)])
 		).length
 	);
+
 	const anyFilterOff = $derived(
 		Object.values(ui.tiers).some((v) => !v) || Object.values(ui.cats).some((v) => !v)
 	);
+
 	const allLayersOn = $derived(
 		Object.values(ui.tiers).every((v) => v) && Object.values(ui.cats).every((v) => v)
 	);
+
 	function resetFilters() {
 		setAllLayers(true);
 	}
-	// Master on/off for every layer tier and category at once (air quality, a
-	// separate live data layer, is intentionally left untouched).
+
 	function setAllLayers(on: boolean) {
 		for (const k of Object.keys(ui.tiers)) ui.tiers[k as keyof typeof ui.tiers] = on;
 		for (const k of Object.keys(ui.cats)) ui.cats[k] = on;

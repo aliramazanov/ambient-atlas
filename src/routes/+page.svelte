@@ -6,6 +6,7 @@
 	// The index route shows the globe with no zone open. A ?fly=lat,lng param
 	// (from the rankings page) flies to and inspects that location. Keyed only on
 	// the URL; writes are untracked so this never self-triggers.
+
 	$effect(() => {
 		const search = page.url.search;
 		untrack(() => {

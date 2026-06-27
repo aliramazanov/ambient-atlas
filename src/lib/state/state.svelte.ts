@@ -1,5 +1,5 @@
-import type { Tier, Zone } from '../data/zones/types';
 import type { MetricKey } from '../data/places/metrics';
+import type { Tier, Zone } from '../data/zones/types';
 
 interface UiState {
 	hovered: Zone | null;
@@ -17,7 +17,7 @@ interface UiState {
 	compare: string[];
 	/** Show every zone's reach area at once. */
 	showAllAreas: boolean;
-	/** Field opacity multiplier (user clutter control). */
+	/** Field opacity multiplier. */
 	fieldIntensity: number;
 	/** Point-probe target (click empty globe to inspect a location). */
 	probe: { lat: number; lng: number } | null;
@@ -64,11 +64,8 @@ export const ui = $state<UiState>({
 	showQuestions: false
 });
 
-// Request a camera fly-to. The token comes from a private counter so callers
-// never need to read ui.flyTo to bump it: reading ui.flyTo inside an $effect that
-// also writes it creates a self-triggering reactive loop (which was pinning
-// ui.selected open and re-firing the animation every frame).
 let flyCounter = 0;
+
 export function flyToLocation(lat: number, lng: number, dist?: number) {
 	flyCounter += 1;
 	ui.flyTo = { lat, lng, token: flyCounter, dist };

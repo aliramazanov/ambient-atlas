@@ -2,10 +2,6 @@ import type { MetricKey } from "../data/places/metrics";
 import type { Tier } from "../data/zones/types";
 import { ui } from "./state.svelte";
 
-// Persist the shareable view (layers, metric, intensity, air quality, pinned
-// zones) in the URL query so a globe view can be linked. Transient state
-// (hover, selection, probe) is not encoded.
-
 const TIER_KEYS: Tier[] = [
   "established",
   "gray",
@@ -52,12 +48,15 @@ export function writeUrlState(): void {
   setOrDelete(p, "off", off);
   setOrDelete(p, "m", ui.countryMetric === "none" ? "" : ui.countryMetric);
   setOrDelete(p, "all", ui.showAllAreas ? "1" : "");
+
   setOrDelete(
     p,
     "fi",
     ui.fieldIntensity === 1 ? "" : String(ui.fieldIntensity),
   );
+
   setOrDelete(p, "aq", ui.layers.airQuality ? "1" : "");
+
   setOrDelete(
     p,
     "pin",
@@ -67,8 +66,10 @@ export function writeUrlState(): void {
   );
 
   const qs = p.toString();
+
   const url = qs
     ? `${window.location.pathname}?${qs}`
     : window.location.pathname;
+
   window.history.replaceState(window.history.state, "", url);
 }

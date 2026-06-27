@@ -1,7 +1,5 @@
 import type { GlobalQuestion } from "./types";
 
-// Non-spatial open questions: real ambient exposures that are global or diffuse,
-// with no honest single location. Shown in a side panel, not on the globe.
 export const questions: GlobalQuestion[] = [
   {
     id: "birth-season",
