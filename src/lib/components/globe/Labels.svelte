@@ -13,10 +13,11 @@
 	function openCountry(iso3: string | undefined, lat: number, lng: number) {
 		if (!iso3) return;
 		// Fly the globe toward the country first, then route, so the jump to its
-		// page reads as a continuous zoom-in instead of an abrupt swap. The country
-		// page fades and scales in on arrival to complete the handoff.
-		flyToLocation(lat, lng, 1.5);
-		setTimeout(() => goto(resolve('/country/[id]', { id: iso3 })), 620);
+		// page reads as a continuous zoom-in instead of an abrupt swap. Dist 1.8
+		// frames the country without diving into the surface; the country page
+		// fades and scales in on arrival to complete the handoff.
+		flyToLocation(lat, lng, 1.8);
+		setTimeout(() => goto(resolve('/country/[id]', { id: iso3 })), 600);
 	}
 
 	interface L {

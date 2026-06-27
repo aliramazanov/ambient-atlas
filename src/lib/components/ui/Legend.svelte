@@ -21,9 +21,17 @@
 	const anyFilterOff = $derived(
 		Object.values(ui.tiers).some((v) => !v) || Object.values(ui.cats).some((v) => !v)
 	);
+	const allLayersOn = $derived(
+		Object.values(ui.tiers).every((v) => v) && Object.values(ui.cats).every((v) => v)
+	);
 	function resetFilters() {
-		for (const k of Object.keys(ui.tiers)) ui.tiers[k as keyof typeof ui.tiers] = true;
-		for (const k of Object.keys(ui.cats)) ui.cats[k] = true;
+		setAllLayers(true);
+	}
+	// Master on/off for every layer tier and category at once (air quality, a
+	// separate live data layer, is intentionally left untouched).
+	function setAllLayers(on: boolean) {
+		for (const k of Object.keys(ui.tiers)) ui.tiers[k as keyof typeof ui.tiers] = on;
+		for (const k of Object.keys(ui.cats)) ui.cats[k] = on;
 	}
 
 	let minimized = $state(false);
@@ -61,6 +69,14 @@
 			<details class="sec" open>
 				<summary><span>Layers</span><span class="chev"><Icon name="chevron" size={13} /></span></summary>
 				<div class="body">
+					<label class="row master">
+						<input
+							type="checkbox"
+							checked={allLayersOn}
+							onchange={(e) => setAllLayers(e.currentTarget.checked)}
+						/>
+						<span>All layers</span>
+					</label>
 					{#each TIERS as t (t.key)}
 						<div class="row">
 							<label class="tlabel">
@@ -349,6 +365,12 @@
 	.subcat {
 		font-size: 11.5px;
 		color: var(--muted);
+	}
+	.master {
+		font-weight: 600;
+		margin-bottom: 4px;
+		padding-bottom: 7px;
+		border-bottom: 1px solid var(--line);
 	}
 	input {
 		accent-color: #d9b46a;
