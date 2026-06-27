@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
+	import { resolve } from '$app/paths';
 	import { ui } from '$lib/state/state.svelte';
 	import { inspectLocation } from '$lib/interaction/inspect';
 	import { CATEGORIES } from '$lib/data/scales/categories';
@@ -46,6 +47,10 @@
 					<div class="m"><span>{m.label}</span><b>{m.value}{m.unit ? ` ${m.unit}` : ''}</b></div>
 				{/each}
 			</div>
+			<a class="country-link" href={resolve('/country/[id]', { id: result.country.iso3 })}>
+				<Icon name="globe" size={13} /> Explore {result.country.name}
+				<span class="cl-arrow"><Icon name="chevron" size={13} /></span>
+			</a>
 		{/if}
 	</div>
 {/if}
@@ -156,5 +161,26 @@
 	}
 	.m span {
 		color: var(--muted);
+	}
+	.country-link {
+		display: flex;
+		align-items: center;
+		gap: 7px;
+		margin-top: 11px;
+		padding: 8px 11px;
+		font-size: 12px;
+		font-weight: 600;
+		text-decoration: none;
+		color: var(--accent);
+		background: var(--accent-soft);
+		border: 1px solid var(--accent);
+		border-radius: 8px;
+	}
+	.country-link .cl-arrow {
+		margin-left: auto;
+		display: inline-flex;
+	}
+	.country-link:hover {
+		background: color-mix(in srgb, var(--accent) 24%, transparent);
 	}
 </style>

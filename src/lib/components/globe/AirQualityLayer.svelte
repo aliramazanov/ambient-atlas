@@ -38,13 +38,12 @@
 			}
 			camDir.copy(cam.position).normalize();
 			// Reveal AQI only around the cursor focus, so it reads as a clean,
-			// premium probe rather than a global confetti of dots.
+			// premium probe rather than a global confetti of dots. Uses the same
+			// focus radius as the city labels so the two reveal together at every
+			// zoom level, instead of AQI flooding the whole hemisphere up close.
 			const fx = view.hasFocus ? view.focusX : w / 2;
 			const fy = view.hasFocus ? view.focusY : h / 2;
-			// Zoomed in, cities are sparse on screen, so show all visible AQI; zoomed
-			// out, gate to the cursor so it stays a clean local probe.
-			const dist = cam.position.length();
-			const focusR = dist < 1.9 ? Infinity : Math.min(165, Math.max(110, Math.min(w, h) * 0.18));
+			const focusR = Math.min(150, Math.max(90, Math.min(w, h) * 0.18));
 			const occupied = new Set<string>();
 			for (let i = 0; i < pts.length; i++) {
 				const el = els[i];

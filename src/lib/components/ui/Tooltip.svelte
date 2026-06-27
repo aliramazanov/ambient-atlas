@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { ui } from '$lib/state/state.svelte';
+	import { view } from '$lib/state/viewport.svelte';
 	import { categoryColor } from '$lib/data/scales/categories';
 	import { severityOf, researchOf, dots } from '$lib/data/scales/severity';
 	import { statusOf } from '$lib/data/scales/status';
 </script>
 
-{#if ui.hovered}
+{#if ui.hovered && !view.moving}
 	{@const st = statusOf(ui.hovered)}
 	<div class="tip" style="left:{ui.pointer.x + 16}px; top:{ui.pointer.y + 16}px;">
 		<div class="name">

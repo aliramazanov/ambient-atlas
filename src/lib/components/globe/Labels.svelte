@@ -8,10 +8,15 @@
 	import { METRIC_BY_KEY, metricColor } from '$lib/data/places/metrics';
 	import { latLngToVector3 } from '$lib/utils/geo';
 	import { view } from '$lib/state/viewport.svelte';
-	import { ui } from '$lib/state/state.svelte';
+	import { ui, flyToLocation } from '$lib/state/state.svelte';
 
-	function openCountry(iso3: string | undefined) {
-		if (iso3) goto(resolve('/country/[id]', { id: iso3 }));
+	function openCountry(iso3: string | undefined, lat: number, lng: number) {
+		if (!iso3) return;
+		// Fly the globe toward the country first, then route, so the jump to its
+		// page reads as a continuous zoom-in instead of an abrupt swap. The country
+		// page fades and scales in on arrival to complete the handoff.
+		flyToLocation(lat, lng, 1.5);
+		setTimeout(() => goto(resolve('/country/[id]', { id: iso3 })), 620);
 	}
 
 	interface L {
@@ -19,6 +24,8 @@
 		kind: 'country' | 'city';
 		pos: Vector3;
 		dir: Vector3;
+		lat: number;
+		lng: number;
 		pop: number;
 		significant: boolean;
 		capital: boolean;
@@ -35,6 +42,8 @@
 			kind: 'country',
 			pos,
 			dir: pos.clone().normalize(),
+			lat: c.lat,
+			lng: c.lng,
 			pop: 0,
 			significant: false,
 			capital: false,
@@ -50,6 +59,8 @@
 			kind: 'city',
 			pos,
 			dir: pos.clone().normalize(),
+			lat: c.lat,
+			lng: c.lng,
 			pop: c.pop,
 			significant: !!c.significant,
 			capital: !!c.capital,
@@ -183,10 +194,10 @@
 			class:cap={l.capital}
 			role={l.kind === 'country' && l.iso3 ? 'button' : undefined}
 			tabindex={l.kind === 'country' && l.iso3 ? 0 : undefined}
-			onclick={l.kind === 'country' && l.iso3 ? () => openCountry(l.iso3) : undefined}
+			onclick={l.kind === 'country' && l.iso3 ? () => openCountry(l.iso3, l.lat, l.lng) : undefined}
 			onkeydown={l.kind === 'country' && l.iso3
 				? (e: KeyboardEvent) => {
-						if (e.key === 'Enter' || e.key === ' ') openCountry(l.iso3);
+						if (e.key === 'Enter' || e.key === ' ') openCountry(l.iso3, l.lat, l.lng);
 					}
 				: undefined}
 		>

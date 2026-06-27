@@ -44,7 +44,7 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="icon" type="image/svg+xml" href={favicon} />
 	<title>Ambient Atlas</title>
 </svelte:head>
 
