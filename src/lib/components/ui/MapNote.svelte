@@ -72,8 +72,8 @@
 		border: 1px solid var(--line);
 		padding: 10px 16px;
 		border-radius: var(--radius-sm);
-		backdrop-filter: blur(var(--blur));
-		-webkit-backdrop-filter: blur(var(--blur));
+		backdrop-filter: var(--glass-filter);
+		-webkit-backdrop-filter: var(--glass-filter);
 		box-shadow: var(--shadow);
 	}
 	.ibtn {
@@ -84,7 +84,7 @@
 		font-size: 11px;
 		letter-spacing: 0.03em;
 		border-radius: 999px;
-		backdrop-filter: blur(var(--blur));
-		-webkit-backdrop-filter: blur(var(--blur));
+		backdrop-filter: var(--glass-filter);
+		-webkit-backdrop-filter: var(--glass-filter);
 	}
 </style>

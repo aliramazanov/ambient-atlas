@@ -601,7 +601,7 @@
 		border: 1px solid var(--line);
 		border-radius: 999px;
 		padding: 7px 13px;
-		backdrop-filter: blur(var(--blur));
+		backdrop-filter: var(--glass-filter);
 	}
 	.back:hover {
 		border-color: var(--line-strong);
@@ -656,7 +656,7 @@
 		border: 1px solid var(--line);
 		border-radius: 14px;
 		padding: 14px 15px;
-		backdrop-filter: blur(var(--blur));
+		backdrop-filter: var(--glass-filter);
 		scrollbar-width: thin;
 	}
 	.grabber {
@@ -1181,7 +1181,11 @@
 		}
 		.mapcol {
 			order: -1;
-			min-height: 82vh;
+			min-height: 0;
+			padding: 10px 0 6px;
+		}
+		.mapcol svg {
+			height: auto;
 		}
 		.controls {
 			grid-row: auto;
@@ -1189,6 +1193,9 @@
 			border-radius: 20px 20px 0 0;
 			padding: 6px 18px 18px;
 			font-size: 14.5px;
+			box-shadow:
+				0 -18px 38px -10px rgba(0, 0, 0, 0.6),
+				var(--shadow);
 		}
 		.side {
 			order: 1;

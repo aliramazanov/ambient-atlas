@@ -161,8 +161,8 @@
 		border: 1px solid var(--line);
 		border-radius: var(--radius);
 		box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-		backdrop-filter: blur(var(--blur));
-		-webkit-backdrop-filter: blur(var(--blur));
+		backdrop-filter: var(--glass-filter);
+		-webkit-backdrop-filter: var(--glass-filter);
 		font-size: 12.5px;
 	}
 	.launcher {
@@ -180,8 +180,8 @@
 		border: 1px solid var(--line);
 		border-radius: 999px;
 		box-shadow: var(--shadow);
-		backdrop-filter: blur(var(--blur));
-		-webkit-backdrop-filter: blur(var(--blur));
+		backdrop-filter: var(--glass-filter);
+		-webkit-backdrop-filter: var(--glass-filter);
 		cursor: pointer;
 	}
 	.dot {

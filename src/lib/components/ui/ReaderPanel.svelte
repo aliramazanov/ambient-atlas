@@ -217,7 +217,7 @@
 		border: 1px solid var(--line-strong);
 		border-bottom: none;
 		border-radius: 10px 10px 0 0;
-		backdrop-filter: blur(var(--blur));
+		backdrop-filter: var(--glass-filter);
 	}
 	.folder-tab .ref {
 		color: var(--faint);
@@ -232,8 +232,8 @@
 		border-radius: var(--radius);
 		padding: 24px 30px 28px;
 		box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-		backdrop-filter: blur(var(--blur));
-		-webkit-backdrop-filter: blur(var(--blur));
+		backdrop-filter: var(--glass-filter);
+		-webkit-backdrop-filter: var(--glass-filter);
 	}
 	.close {
 		position: absolute;

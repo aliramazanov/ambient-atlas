@@ -2,7 +2,7 @@
   /* Surfaces: near-black intelligence-console navy, deep and quiet. */
   --bg: #04070e;
   --bg-2: #0a1022;
-  --panel: rgba(11, 16, 31, 0.85);
+  --panel: rgba(18, 25, 44, 0.58);
   --panel-solid: #0a1124;
   /* Hairline antique-brass rules (the restrained "old money" line work). */
   --line: rgba(198, 170, 116, 0.16);
@@ -21,9 +21,17 @@
   /* Form: more rectilinear, instrument-panel geometry. */
   --radius: 9px;
   --radius-sm: 6px;
-  --shadow: 0 22px 60px rgba(0, 0, 0, 0.62);
+  /* Frosted-glass surface: a soft float shadow, a bright specular top edge, top
+     and bottom rim lights, and a darker base for depth. */
+  --shadow:
+    0 18px 50px rgba(0, 0, 0, 0.5), 0 2px 10px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -30px 46px -24px rgba(0, 0, 0, 0.34);
   --shadow-sm: 0 6px 20px rgba(0, 0, 0, 0.45);
-  --blur: 16px;
+  --blur: 18px;
+  --glass-filter: blur(18px) saturate(1.7);
 
   /* Motion */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -134,18 +142,17 @@ canvas {
   letter-spacing: -0.01em;
 }
 
-/* Shared dossier surface for floating panels: deep glass with a hairline brass
-   top edge, the quiet, expensive "case file" look. */
+/* Shared liquid-glass surface for floating panels: translucent, frosted and
+   saturated, with a bright specular top edge over the brass line work. */
 .glass {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow:
     var(--shadow),
-    inset 0 1px 0 rgba(227, 197, 133, 0.08),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(var(--blur));
-  -webkit-backdrop-filter: blur(var(--blur));
+    inset 0 1px 0 rgba(227, 197, 133, 0.1);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
 }
 
 @keyframes aa-spin {

@@ -197,8 +197,8 @@
 		border: 1px solid var(--line);
 		border-radius: 10px;
 		box-shadow: var(--shadow-sm);
-		backdrop-filter: blur(var(--blur));
-		-webkit-backdrop-filter: blur(var(--blur));
+		backdrop-filter: var(--glass-filter);
+		-webkit-backdrop-filter: var(--glass-filter);
 		cursor: pointer;
 	}
 	.searchbtn:hover {
@@ -239,8 +239,8 @@
 		background: var(--panel);
 		border: 1px solid var(--line);
 		border-radius: 12px;
-		backdrop-filter: blur(var(--blur));
-		-webkit-backdrop-filter: blur(var(--blur));
+		backdrop-filter: var(--glass-filter);
+		-webkit-backdrop-filter: var(--glass-filter);
 	}
 	input {
 		width: 100%;
@@ -251,8 +251,8 @@
 		border: 1px solid var(--line);
 		border-radius: 8px;
 		box-shadow: var(--shadow-sm);
-		backdrop-filter: blur(var(--blur));
-		-webkit-backdrop-filter: blur(var(--blur));
+		backdrop-filter: var(--glass-filter);
+		-webkit-backdrop-filter: var(--glass-filter);
 		transition:
 			border-color 0.15s ease,
 			box-shadow 0.15s ease;

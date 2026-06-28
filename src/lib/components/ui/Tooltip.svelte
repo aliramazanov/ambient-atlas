@@ -15,7 +15,7 @@
 	<div
 		class="tip"
 		class:tappable={view.coarse}
-		style="left:{ui.pointer.x + 16}px; top:{ui.pointer.y + 16}px;"
+		style={view.coarse ? '' : `left:${ui.pointer.x + 16}px; top:${ui.pointer.y + 16}px;`}
 		role="button"
 		tabindex={view.coarse ? 0 : -1}
 		aria-label="Open this exposure"
@@ -48,14 +48,22 @@
 		background: var(--panel);
 		border: 1px solid var(--line);
 		border-radius: var(--radius-sm);
-		backdrop-filter: blur(var(--blur));
-		-webkit-backdrop-filter: blur(var(--blur));
+		backdrop-filter: var(--glass-filter);
+		-webkit-backdrop-filter: var(--glass-filter);
 		pointer-events: none;
 		box-shadow: var(--shadow);
 	}
+	/* On touch the tip is a clamped, full-width card near the bottom so it always
+	   reads fully instead of overflowing off the tapped point. */
 	.tip.tappable {
 		pointer-events: auto;
 		cursor: pointer;
+		left: 12px;
+		right: 12px;
+		top: auto;
+		bottom: calc(env(safe-area-inset-bottom, 0px) + 78px);
+		max-width: none;
+		padding: 14px 16px;
 	}
 	.name {
 		font-weight: 700;

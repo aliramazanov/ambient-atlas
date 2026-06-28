@@ -253,8 +253,8 @@
 		border: 1px solid var(--line-strong);
 		border-radius: var(--radius-sm);
 		box-shadow: var(--shadow);
-		backdrop-filter: blur(var(--blur));
-		-webkit-backdrop-filter: blur(var(--blur));
+		backdrop-filter: var(--glass-filter);
+		-webkit-backdrop-filter: var(--glass-filter);
 	}
 	.list li {
 		display: flex;
