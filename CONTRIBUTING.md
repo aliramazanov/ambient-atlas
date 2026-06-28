@@ -1,6 +1,6 @@
 # Contributing to Ambient Atlas
 
-Ambient Atlas is a serious, openly-sourced scientific visualization of ambient
+Ambient Atlas is a exploratory openly-sourced scientific visualization of ambient
 environmental-health exposures. Contributions are welcome, accuracy and
 restraint matter more than volume.
 
@@ -48,8 +48,7 @@ pnpm check:citations
 - Match the conventions of the surrounding file (Svelte 5 runes, TypeScript).
 - Reuse shared components and state; avoid duplicating logic or one-off
   components when an existing one fits.
-- Write user-facing text plainly. Do **not** use em dashes; use commas,
-  colons, or separate sentences.
+- Write user-facing text plainly.
 
 ## Pull requests
 
