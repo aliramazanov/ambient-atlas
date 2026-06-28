@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { METRICS, METRIC_BY_KEY } from '$lib/data/places/metrics';
 	import { questions } from '$lib/data/zones/questions';
+	import { air } from '$lib/state/air-quality.svelte';
 	import { flyToLocation, ui } from '$lib/state/state.svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { scale, slide } from 'svelte/transition';
@@ -77,6 +78,18 @@
 		<span class="pill">{ui.showAllAreas ? 'ON' : 'OFF'}</span>
 	</button>
 
+	<button
+		class="reach"
+		class:on={ui.layers.airQuality}
+		onclick={() => (ui.layers.airQuality = !ui.layers.airQuality)}
+		aria-pressed={ui.layers.airQuality}
+	>
+		<span class="tlabel"><Icon name="wind" size={14} /> Air quality (live)</span>
+		<span class="pill">
+			{ui.layers.airQuality ? (air.status === 'loading' ? '···' : 'ON') : 'OFF'}
+		</span>
+	</button>
+
 	<div class="viewbar">
 		<button class="vbtn" onclick={resetView}>
 			<Icon name="globe" size={13} /> Reset view
@@ -142,9 +155,10 @@
 		backdrop-filter: blur(8px);
 	}
 	.ltitle {
+		font-family: var(--font-mono);
 		font-size: 11px;
 		font-weight: 700;
-		letter-spacing: 0.06em;
+		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: var(--muted);
 	}
@@ -267,8 +281,11 @@
 	}
 	.mlabel {
 		display: block;
-		font-size: 11px;
+		font-family: var(--font-mono);
+		font-size: 10px;
 		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
 		color: var(--muted);
 		margin-bottom: 7px;
 	}

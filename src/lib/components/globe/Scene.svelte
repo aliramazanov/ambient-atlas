@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { resolve } from '$app/paths';
-	import { dominantZone, zoneAtPoint } from '$lib/interaction/picking';
-	import { flyToLocation, ui } from '$lib/state/state.svelte';
+	import { zoneAtPoint } from '$lib/interaction/picking';
+	import { flyToLocation, openZone, togglePin, ui } from '$lib/state/state.svelte';
 	import { view } from '$lib/state/viewport.svelte';
 	import { latLngToVector3, vector3ToLatLng } from '$lib/utils/geo';
 	import { isLand } from '$lib/utils/land-mask';
@@ -54,6 +52,19 @@
 	const { camera, size } = useThrelte();
 	let controls = $state<OrbitControlsRef | undefined>(undefined);
 
+
+	onMount(() => {
+		const onWheel = (e: WheelEvent) => {
+			if (!controls) return;
+			const cam = camera.current;
+			const d = cam ? cam.position.length() : 3;
+			const near = Math.max(0, Math.min(1, (d - 1.1) / (4 - 1.1)));
+			controls.zoomSpeed = e.deltaY > 0 ? 1.15 : 0.35 + near * 0.35;
+		};
+		window.addEventListener('wheel', onWheel, { capture: true, passive: true });
+		return () => window.removeEventListener('wheel', onWheel, { capture: true });
+	});
+
 	const flyDir = new Vector3();
 	let flying = false;
 	let flyTarget = 0;
@@ -65,6 +76,17 @@
 		if (f) {
 			flyDir.copy(latLngToVector3(f.lat, f.lng, 1)).normalize();
 			flyTarget = f.dist ?? 0;
+			flying = true;
+		}
+	});
+
+
+	$effect(() => {
+		const z = view.zoom;
+		if (z) {
+			const cam = camera.current;
+			if (cam) flyDir.copy(cam.position).normalize();
+			flyTarget = z.dist;
 			flying = true;
 		}
 	});
@@ -90,7 +112,10 @@
 
 			lastPos.copy(cam.position);
 
-			if (controls) controls.rotateSpeed = Math.max(0.05, Math.min(0.85, (d - 1.05) * 0.7));
+			if (controls) {
+				const near = Math.max(0, Math.min(1, (d - 1.1) / (4 - 1.1))); // 0 close, 1 far
+				controls.rotateSpeed = 0.06 + near * 0.5;
+			}
 		}
 
 		stars.rotation.y += delta * 0.004;
@@ -155,13 +180,14 @@
 	}
 
 	function createMoon(): Mesh {
-		const geo = new SphereGeometry(0.55, 32, 32);
+
+		const geo = new SphereGeometry(0.55, 64, 64);
 		const mat = new MeshStandardMaterial({
-			color: new Color('#c6cad2'),
-			roughness: 1,
+			color: new Color('#d4d8e0'),
+			roughness: 0.95,
 			metalness: 0,
-			emissive: new Color('#0b0d12'),
-			emissiveIntensity: 0.45
+			emissive: new Color('#0a0c12'),
+			emissiveIntensity: 0.07
 		});
 
 		const m = new Mesh(geo, mat);
@@ -171,6 +197,7 @@
 	}
 
 	const graticule = createGraticule();
+	const atmoGeo = new SphereGeometry(1, 32, 32);
 
 	function createGraticule(): LineSegments {
 		const grat = geoGraticule10();
@@ -204,6 +231,7 @@
 		(moon.material as MeshStandardMaterial).dispose();
 		graticule.geometry.dispose();
 		(graticule.material as LineBasicMaterial).dispose();
+		atmoGeo.dispose();
 
 		stars.traverse((o) => {
 			const p = o as Points;
@@ -213,14 +241,13 @@
 	});
 
 	function handleMove(e: { point?: Vector3; nativeEvent?: PointerEvent }) {
-		if (!e.point) return;
-		const { lat, lng } = vector3ToLatLng(e.point);
-		ui.hovered = dominantZone(lat, lng);
 		if (e.nativeEvent) ui.pointer = { x: e.nativeEvent.clientX, y: e.nativeEvent.clientY };
+		view.cursorLL = e.point ? vector3ToLatLng(e.point) : null;
 	}
 
 	function handleLeave() {
 		ui.hovered = null;
+		view.cursorLL = null;
 	}
 
 
@@ -239,13 +266,10 @@
 
 	function handleClick(e: { point?: Vector3 }) {
 		const { z, lat, lng } = zoneUnder(e);
-
 		if (z) {
-			ui.selected = z;
-			goto(resolve('/zone/[id]', { id: z.id }));
+			openZone(z);
 			return;
 		}
-
 		if (e.point) {
 			ui.probe = { lat, lng };
 			flyToLocation(lat, lng);
@@ -255,9 +279,7 @@
 	function handleContext(e: { point?: Vector3; nativeEvent?: MouseEvent }) {
 		e.nativeEvent?.preventDefault?.();
 		const { z } = zoneUnder(e);
-		if (!z) return;
-		if (ui.pinned[z.id]) delete ui.pinned[z.id];
-		else ui.pinned[z.id] = true;
+		if (z) togglePin(z.id);
 	}
 
 
@@ -306,9 +328,9 @@
 		bind:ref={controls}
 		enableDamping
 		dampingFactor={0.11}
-		minDistance={1.15}
+		minDistance={1.1}
 		maxDistance={9}
-		zoomSpeed={0.45}
+		zoomSpeed={0.4}
 		rotateSpeed={0.85}
 		minPolarAngle={0.22}
 		maxPolarAngle={Math.PI - 0.22}
@@ -334,8 +356,7 @@
 {#if FieldLayer}<FieldLayer />{/if}
 
 {#each ATMOSPHERE as a (a.scale)}
-	<T.Mesh scale={a.scale}>
-		<T.SphereGeometry args={[1, 48, 48]} />
+	<T.Mesh geometry={atmoGeo} scale={a.scale}>
 		<T.MeshBasicMaterial
 			color={a.color}
 			transparent

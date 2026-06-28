@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import Checkbox from '$lib/components/ui/Checkbox.svelte';
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Select from '$lib/components/ui/Select.svelte';
 	import Slider from '$lib/components/ui/Slider.svelte';
@@ -114,7 +115,7 @@
 			<div class="panel">
 				<div class="ctitle">Disqualify cities that have</div>
 				{#each CONDS as cond (cond.key)}
-					<label><input type="checkbox" bind:checked={dq[cond.key]} /> {cond.label}</label>
+					<Checkbox bind:checked={dq[cond.key]} label={cond.label} />
 				{/each}
 				<div class="presets">
 					<button onclick={() => preset('practical')}>Practical</button>
@@ -219,18 +220,19 @@
 		padding: 14px 16px;
 	}
 	.ctitle {
-		font-size: 11px;
+		font-family: var(--font-mono);
+		font-size: 10px;
 		text-transform: uppercase;
-		letter-spacing: 0.06em;
+		letter-spacing: 0.1em;
 		color: var(--muted);
-		margin-bottom: 9px;
+		margin-bottom: 14px;
 	}
 	.panel label {
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: 10px;
 		font-size: 13px;
-		padding: 3px 0;
+		padding: 7px 0;
 	}
 	.slider {
 		justify-content: space-between;

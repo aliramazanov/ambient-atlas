@@ -2,7 +2,6 @@
 	import { resolve } from '$app/paths';
 	import { ANTHRO_SUBCATS, anthroSubOf, CATEGORIES, TIERS } from '$lib/data/scales/categories';
 	import { zones } from '$lib/data/zones/zones';
-	import { air, AQI_LEGEND, ensureAirData } from '$lib/state/air-quality.svelte';
 	import { ui } from '$lib/state/state.svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { scale } from 'svelte/transition';
@@ -116,31 +115,6 @@
 				</div>
 			</details>
 
-			<details class="sec" open>
-				<summary><span>Data</span><span class="chev"><Icon name="chevron" size={13} /></span></summary>
-				<div class="body">
-					<label class="row">
-						<input type="checkbox" bind:checked={ui.layers.airQuality} />
-						<span>Air quality (live)</span>
-					</label>
-					{#if ui.layers.airQuality}
-						{#if air.status === 'loading'}
-							<div class="sub"><span class="spinner"></span> loading current AQI</div>
-						{:else if air.status === 'error'}
-							<div class="sub">
-								could not load AQI <button class="retry" onclick={() => ensureAirData()}>retry</button>
-							</div>
-						{:else if air.status === 'ready'}
-							{#each AQI_LEGEND as a (a.label)}
-								<div class="row sub">
-									<span class="swatch sm" style="background:{a.color}"></span>
-									<span>{a.label}</span>
-								</div>
-							{/each}
-						{/if}
-					{/if}
-				</div>
-			</details>
 		</div>
 	</div>
 {/if}
@@ -238,6 +212,8 @@
 	}
 	.countbar b {
 		color: var(--text);
+		font-family: var(--font-mono);
+		font-variant-numeric: tabular-nums;
 	}
 	.reset {
 		font-size: 11px;
@@ -250,23 +226,13 @@
 	.reset:hover {
 		text-decoration: underline;
 	}
-	.retry {
-		font-size: 11px;
-		color: var(--accent);
-		background: none;
-		border: 1px solid var(--accent);
-		border-radius: 6px;
-		padding: 1px 7px;
-		cursor: pointer;
-		margin-left: 4px;
-	}
 	.scroll {
 		overflow-y: auto;
 		margin: 0 -4px;
 		padding: 0 4px;
 	}
 	.sec {
-		border-top: 1px solid var(--line);
+		border-top: 1px solid var(--divider);
 	}
 	.sec > summary {
 		display: flex;
@@ -275,10 +241,11 @@
 		cursor: pointer;
 		list-style: none;
 		padding: 10px 0;
+		font-family: var(--font-mono);
 		font-size: 10px;
 		font-weight: 600;
 		text-transform: uppercase;
-		letter-spacing: 0.07em;
+		letter-spacing: 0.1em;
 		color: var(--muted);
 	}
 	.sec > summary::-webkit-details-marker {
@@ -313,17 +280,6 @@
 		height: 11px;
 		border-radius: 3px;
 		flex: none;
-	}
-	.swatch.sm {
-		width: 10px;
-		height: 10px;
-		border-radius: 2px;
-	}
-	.sub {
-		font-size: 11px;
-		color: var(--muted);
-		line-height: 1.45;
-		padding: 2px 0 2px 2px;
 	}
 	.tlabel {
 		display: flex;

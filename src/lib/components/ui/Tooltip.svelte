@@ -73,14 +73,16 @@
 	}
 	.sr {
 		margin-top: 6px;
-		font-size: 11px;
+		font-family: var(--font-mono);
+		font-size: 10.5px;
 		color: #a9b6c9;
-		letter-spacing: 0.5px;
+		letter-spacing: 0.3px;
 	}
 	.hint {
 		margin-top: 6px;
-		font-size: 10px;
-		letter-spacing: 0.05em;
+		font-family: var(--font-mono);
+		font-size: 9.5px;
+		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		color: rgba(255, 255, 255, 0.35);
 	}

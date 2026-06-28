@@ -6,51 +6,38 @@
 	const established = CATEGORIES.filter((c) => c.tier === 'established');
 	const tiers = CATEGORIES.filter((c) => c.tier !== 'established');
 
+	const groups = [
+		{ title: 'Established categories', items: established },
+		{ title: 'Tiers', items: tiers },
+		{ title: 'Anthropogenic types', items: ANTHRO_SUBCATS }
+	];
+
 	let open = $state(false);
-	let detail = $state<Record<string, boolean>>({});
-	const toggle = (k: string) => (detail[k] = !detail[k]);
+	let openKey = $state<string | null>(null);
+	const toggle = (k: string) => (openKey = openKey === k ? null : k);
 </script>
 
 <div class="wrap">
 	{#if open}
 		<div class="panel" transition:slide={{ duration: 160 }}>
-			<div class="sub">Established categories</div>
-			<div class="chips">
-				{#each established as c (c.key)}
-					<button class="chip" class:active={detail['c:' + c.key]} onclick={() => toggle('c:' + c.key)}>
-						<span class="swatch" style="background:{c.color}"></span>{c.label}
+			{#each groups as g (g.title)}
+				<div class="sub">{g.title}</div>
+				{#each g.items as c (c.key)}
+					<button
+						class="row"
+						class:open={openKey === c.key}
+						aria-expanded={openKey === c.key}
+						onclick={() => toggle(c.key)}
+					>
+						<span class="swatch" style="background:{c.color}"></span>
+						<span class="rlabel">{c.label}</span>
+						<span class="chev" class:open={openKey === c.key}><Icon name="chevron" size={12} /></span>
 					</button>
+					{#if openKey === c.key}
+						<div class="rdesc" transition:slide={{ duration: 140 }}>{c.desc}</div>
+					{/if}
 				{/each}
-			</div>
-			{#each established as c (c.key)}
-				{#if detail['c:' + c.key]}<div class="line">{c.label}: {c.desc}</div>{/if}
 			{/each}
-
-			<div class="sub">Tiers</div>
-			<div class="chips">
-				{#each tiers as c (c.key)}
-					<button class="chip" class:active={detail['c:' + c.key]} onclick={() => toggle('c:' + c.key)}>
-						<span class="swatch" style="background:{c.color}"></span>{c.label}
-					</button>
-				{/each}
-			</div>
-			{#each tiers as c (c.key)}
-				{#if detail['c:' + c.key]}<div class="line">{c.label}: {c.desc}</div>{/if}
-			{/each}
-
-			<div class="sub">Anthropogenic types</div>
-			<div class="chips">
-				{#each ANTHRO_SUBCATS as s (s.key)}
-					<button class="chip" class:active={detail['s:' + s.key]} onclick={() => toggle('s:' + s.key)}>
-						<span class="swatch" style="background:{s.color}"></span>{s.label}
-					</button>
-				{/each}
-			</div>
-			{#each ANTHRO_SUBCATS as s (s.key)}
-				{#if detail['s:' + s.key]}<div class="line">{s.label}: {s.desc}</div>{/if}
-			{/each}
-
-			<div class="hint">Tap a chip for what it means.</div>
 		</div>
 	{/if}
 
@@ -94,6 +81,7 @@
 	}
 	.chev {
 		display: flex;
+		color: var(--muted);
 		transition: transform var(--dur) var(--ease);
 	}
 	.chev.open {
@@ -101,62 +89,57 @@
 	}
 	.panel {
 		margin-bottom: 8px;
-		max-height: min(60vh, 460px);
+		max-height: min(62vh, 480px);
 		overflow-y: auto;
 		background: var(--panel);
 		border: 1px solid var(--line);
 		border-radius: 10px;
-		padding: 12px;
+		padding: 8px;
 		backdrop-filter: blur(8px);
 	}
 	.sub {
+		font-family: var(--font-mono);
 		font-size: 10px;
-		letter-spacing: 0.07em;
+		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: var(--faint);
-		margin: 10px 0 6px;
+		margin: 12px 6px 4px;
 	}
 	.sub:first-child {
-		margin-top: 0;
+		margin-top: 4px;
 	}
-	.chips {
+	.row {
+		width: 100%;
 		display: flex;
-		flex-wrap: wrap;
-		gap: 5px;
-	}
-	.chip {
-		display: inline-flex;
 		align-items: center;
-		gap: 6px;
-		font-size: 11px;
-		color: var(--muted);
-		background: rgba(255, 255, 255, 0.03);
-		border: 1px solid var(--line);
-		border-radius: 999px;
-		padding: 3px 9px 3px 7px;
-		cursor: pointer;
-	}
-	.chip.active {
+		gap: 9px;
+		padding: 7px 8px;
+		font-size: 12px;
 		color: var(--text);
-		border-color: var(--line-strong);
+		background: none;
+		border: none;
+		border-radius: 7px;
+		cursor: pointer;
+		text-align: left;
+		transition: background var(--dur) var(--ease);
+	}
+	.row:hover,
+	.row.open {
+		background: rgba(255, 255, 255, 0.04);
 	}
 	.swatch {
-		width: 10px;
-		height: 10px;
+		width: 11px;
+		height: 11px;
 		border-radius: 3px;
 		flex: none;
 	}
-	.line {
-		font-size: 11px;
-		line-height: 1.45;
-		color: var(--muted);
-		margin: 4px 0 2px;
+	.rlabel {
+		flex: 1;
 	}
-	.hint {
-		margin-top: 10px;
-		font-size: 10px;
-		letter-spacing: 0.05em;
-		text-transform: uppercase;
-		color: rgba(255, 255, 255, 0.32);
+	.rdesc {
+		font-size: 11.5px;
+		line-height: 1.5;
+		color: var(--muted);
+		padding: 2px 10px 9px 28px;
 	}
 </style>

@@ -22,9 +22,8 @@
 <style>
 	.mapnote {
 		position: absolute;
-		bottom: 14px;
-		left: 50%;
-		transform: translateX(-50%);
+		bottom: 16px;
+		right: 16px;
 		z-index: 20;
 		display: flex;
 		flex-direction: column;

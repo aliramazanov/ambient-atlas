@@ -18,6 +18,7 @@
 	import { zoneRadiusDeg } from '$lib/data/scales/reach';
 	import { dots, researchOf, severityOf } from '$lib/data/scales/severity';
 	import { statusOf } from '$lib/data/scales/status';
+	import { HEALTH } from '$lib/data/zones/health';
 	import type { Tier, Zone } from '$lib/data/zones/types';
 	import { air, aqiColor, ensureAirData } from '$lib/state/air-quality.svelte';
 	import { angularDistanceDeg } from '$lib/utils/geo';
@@ -122,62 +123,52 @@
 	const visibleZones = $derived(info ? info.zones.filter(zoneVisible) : []);
 
 
-	function spreadMarks<T extends { x: number; y: number }>(pts: T[]): T[] {
-		const out = pts.map((p) => ({ ...p }));
-		const MIN = 14;
-
-		for (let iter = 0; iter < 80; iter++) {
-			let moved = false;
-
-			for (let i = 0; i < out.length; i++) {
-
-				for (let j = i + 1; j < out.length; j++) {
-					let dx = out[j].x - out[i].x;
-					let dy = out[j].y - out[i].y;
-					let d = Math.hypot(dx, dy);
-
-					if (d < 0.01) {
-						const a = j * 2.399;
-						dx = Math.cos(a);
-						dy = Math.sin(a);
-						d = 1;
-					}
-
-					if (d < MIN) {
-						const push = (MIN - d) / 2;
-						const ux = dx / d;
-						const uy = dy / d;
-						out[i].x -= ux * push;
-						out[i].y -= uy * push;
-						out[j].x += ux * push;
-						out[j].y += uy * push;
-						moved = true;
-					}
-				}
-			}
-
-			if (!moved) break;
-		}
-
-		for (const p of out) {
-			p.x = Math.max(10, Math.min(W - 10, p.x));
-			p.y = Math.max(10, Math.min(H - 10, p.y));
-		}
-
-		return out;
-	}
+	type Mark = { z: Zone; x: number; y: number; color: string };
 
 	const marks = $derived.by(() => {
 		const proj = projection;
 		if (!proj) return [];
-
-		const raw = visibleZones.flatMap((z) => {
+		return visibleZones.flatMap((z) => {
 			const p = proj([z.lng, z.lat]);
 			return p ? [{ z, x: p[0], y: p[1], color: categoryColor(z) }] : [];
 		});
-
-		return spreadMarks(raw);
 	});
+
+	type Cluster = { id: string; items: Mark[]; cx: number; cy: number };
+	const clusters = $derived.by(() => {
+		const R = 13;
+		const out: Cluster[] = [];
+
+		for (const m of marks) {
+			let placed = false;
+			for (const cl of out) {
+				if (Math.hypot(m.x - cl.cx, m.y - cl.cy) < R) {
+					cl.items.push(m);
+					cl.cx = cl.items.reduce((s, i) => s + i.x, 0) / cl.items.length;
+					cl.cy = cl.items.reduce((s, i) => s + i.y, 0) / cl.items.length;
+					placed = true;
+					break;
+				}
+			}
+			if (!placed) out.push({ id: m.z.id, items: [m], cx: m.x, cy: m.y });
+		}
+
+		return out;
+	});
+
+	let hoveredCluster = $state<string | null>(null);
+
+	function fanRadius(n: number): number {
+		return Math.max(14, n * 2.6);
+	}
+	function fanned(cl: Cluster): { m: Mark; x: number; y: number }[] {
+		const n = cl.items.length;
+		const radius = fanRadius(n);
+		return cl.items.map((m, k) => {
+			const a = (k / n) * Math.PI * 2 - Math.PI / 2;
+			return { m, x: cl.cx + Math.cos(a) * radius, y: cl.cy + Math.sin(a) * radius };
+		});
+	}
 
 	const reachPaths = $derived.by(() => {
 		const p = path;
@@ -233,11 +224,35 @@
 		metricMeta && metricValue != null ? metricColor(metricMeta, metricValue) : '#16273f'
 	);
 
+	function luminance(rgb: string): number {
+		const m = rgb.match(/\d+(?:\.\d+)?/g);
+		if (!m || m.length < 3) return 1;
+		const [r, g, b] = m.map(Number);
+		return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+	}
+
+	const readoutInk = $derived(luminance(landFill) > 0.52 ? '#10182b' : '#f4f8ff');
+
+	const readoutHalo = $derived(
+		luminance(landFill) > 0.52 ? 'rgba(255, 255, 255, 0.55)' : 'rgba(5, 7, 14, 0.85)'
+	);
+
 	let openId = $state<string | null>(null);
 	const selected = $derived(marks.find((m) => m.z.id === openId) ?? null);
 
+	let pinnedNames = $state<Set<string>>(new Set());
+
 	function selectZone(id: string) {
-		openId = openId === id ? null : id;
+		const next = new Set(pinnedNames);
+		if (next.has(id)) {
+			next.delete(id);
+			if (openId === id) openId = [...next].at(-1) ?? null;
+		} else {
+			next.add(id);
+			openId = id;
+		}
+
+		pinnedNames = next;
 	}
 </script>
 
@@ -364,16 +379,40 @@
 					onclick={() => (openId = null)}
 					role="presentation"
 				>
+					<defs>
+						<!-- Sphere shading overlay: bright highlight top-left fading to a dark
+						     lower-right edge. objectBoundingBox units, so one gradient gives
+						     every marker a 3D ball look regardless of position or size. -->
+						<radialGradient id="sphere" cx="0.34" cy="0.28" r="0.85">
+							<stop offset="0" stop-color="#ffffff" stop-opacity="0.55" />
+							<stop offset="0.22" stop-color="#ffffff" stop-opacity="0.06" />
+							<stop offset="0.68" stop-color="#000000" stop-opacity="0" />
+							<stop offset="1" stop-color="#000000" stop-opacity="0.3" />
+						</radialGradient>
+						<!-- Soft contact shadow so markers read as balls seated in the surface. -->
+						<filter id="ballShadow" x="-60%" y="-60%" width="220%" height="220%">
+							<feDropShadow dx="0" dy="1.1" stdDeviation="1.3" flood-color="#05070e" flood-opacity="0.6" />
+						</filter>
+					</defs>
 					<path d={grat} class="grat" />
 					<path d={shape} class="land" style="fill:{landFill}" />
 					{#if metricMeta && metricValue != null && centroid}
 						<g class="shade-readout">
-							<text x={centroid[0]} y={centroid[1]} class="sr-val"
+							<text
+								x={centroid[0]}
+								y={centroid[1]}
+								class="sr-val"
+								style="fill:{readoutInk}; stroke:{readoutHalo}"
 								>{metricMeta.format(metricValue)}{metricMeta.unit
 									? ` ${metricMeta.unit}`
 									: ''}</text
 							>
-							<text x={centroid[0]} y={centroid[1] + 18} class="sr-lab">{metricMeta.label}</text>
+							<text
+								x={centroid[0]}
+								y={centroid[1] + 18}
+								class="sr-lab"
+								style="fill:{readoutInk}; stroke:{readoutHalo}">{metricMeta.label}</text
+							>
 						</g>
 					{/if}
 					{#each reachPaths as r (r.id)}
@@ -399,16 +438,12 @@
 							{/if}
 						</g>
 					{/each}
-					{#each marks as m (m.z.id)}
-						<circle
+					{#snippet markerBall(m: Mark, x: number, y: number)}
+						{@const r = openId === m.z.id ? 7.5 : 5.5}
+						<g
 							class="mark"
 							class:active={openId === m.z.id}
-							cx={m.x}
-							cy={m.y}
-							r={openId === m.z.id ? 8 : 5.5}
-							fill={m.color}
-							stroke="#0a0f1a"
-							stroke-width="1.4"
+							class:dim={openId !== null && openId !== m.z.id && !pinnedNames.has(m.z.id)}
 							role="button"
 							tabindex="0"
 							aria-label={m.z.name}
@@ -422,7 +457,55 @@
 									selectZone(m.z.id);
 								}
 							}}
-						/>
+						>
+							<circle class="ball" cx={x} cy={y} {r} fill={m.color} />
+							<circle class="sheen" cx={x} cy={y} {r} fill="url(#sphere)" />
+							{#if openId === m.z.id}
+								{@const h = r + 5}
+								{@const c = 4.5}
+								<g class="reticle">
+									<path d="M{x - h},{y - h + c} L{x - h},{y - h} L{x - h + c},{y - h}" />
+									<path d="M{x + h - c},{y - h} L{x + h},{y - h} L{x + h},{y - h + c}" />
+									<path d="M{x + h},{y + h - c} L{x + h},{y + h} L{x + h - c},{y + h}" />
+									<path d="M{x - h + c},{y + h} L{x - h},{y + h} L{x - h},{y + h - c}" />
+								</g>
+							{/if}
+							{#if pinnedNames.has(m.z.id)}
+								<text class="mark-name" x={x + r + 6} y={y + 3.5}>{m.z.name}</text>
+							{/if}
+						</g>
+					{/snippet}
+
+					{#each clusters as cl (cl.id)}
+						{#if cl.items.length === 1}
+							{@render markerBall(cl.items[0], cl.items[0].x, cl.items[0].y)}
+						{:else}
+							{@const open = hoveredCluster === cl.id || cl.items.some((i) => i.z.id === openId)}
+							<g
+								class="cluster"
+								role="group"
+								aria-label="{cl.items.length} exposures here"
+								onpointerenter={() => (hoveredCluster = cl.id)}
+								onpointerleave={() => (hoveredCluster = null)}
+							>
+								<circle class="cluster-hit" cx={cl.cx} cy={cl.cy} r={fanRadius(cl.items.length) + 12} />
+								{#if open}
+									{@const fan = fanned(cl)}
+									{#each fan as f (f.m.z.id)}
+										<line class="leader" x1={cl.cx} y1={cl.cy} x2={f.x} y2={f.y} />
+									{/each}
+									{#each fan as f (f.m.z.id)}
+										{@render markerBall(f.m, f.x, f.y)}
+									{/each}
+								{:else}
+									{#each cl.items as m (m.z.id)}
+										{@render markerBall(m, m.x, m.y)}
+									{/each}
+									<circle class="cl-badge-bg" cx={cl.cx + 6.5} cy={cl.cy - 6.5} r="6.5" />
+									<text class="cl-badge" x={cl.cx + 6.5} y={cl.cy - 4}>{cl.items.length}</text>
+								{/if}
+							</g>
+						{/if}
 					{/each}
 				</svg>
 			</section>
@@ -443,10 +526,17 @@
 						<span class="tag" style="color:{st.color}; border-color:{st.color}">{st.label}</span>
 						<span class="tag muted">{z.category}</span>
 						{#if z.certainty}<span class="tag muted">{CERTAINTY_LABEL[z.certainty]}</span>{/if}
+						{#if z.emissionType}<span class="tag muted">{EMISSION_LABEL[z.emissionType]}</span>{/if}
+						{#if z.approx}<span class="tag muted">approximate location</span>{/if}
 					</div>
 					<p class="desc">{z.desc}</p>
-					<p class="health"><b>Health.</b> {z.health}</p>
-					<div class="sr">severity {dots(severityOf(z))} · researched {dots(researchOf(z))}</div>
+					{#if z.health ?? HEALTH[z.id]}
+						<p class="health"><b>Health.</b> {z.health ?? HEALTH[z.id]}</p>
+					{/if}
+					<div class="sr">
+						severity {dots(severityOf(z))} {severityOf(z)}/5 · researched {dots(researchOf(z))}
+						{researchOf(z)}/5
+					</div>
 					{#if z.citations?.length}
 						<div class="cites">
 							{#each z.citations as c (c.url)}
@@ -456,9 +546,6 @@
 							{/each}
 						</div>
 					{/if}
-					<a class="full" href={resolve('/zone/[id]', { id: z.id })}>
-						<Icon name="plus" size={12} /> Open full entry
-					</a>
 				{:else}
 					<div class="label side-label">
 						Exposures
@@ -544,11 +631,6 @@
 		margin-top: 16vh;
 		color: var(--muted);
 	}
-
-	/* Three balanced columns: controls, map, exposures. The map is the focal
-	   point and fills the middle; the side panels scroll independently. Entrance
-	   scales and fades in (transform/opacity only, so it stays on the compositor)
-	   to read as a continuous zoom from the globe. */
 	.grid {
 		flex: 1;
 		min-height: 0;
@@ -586,7 +668,7 @@
 	.group + .group {
 		margin-top: 16px;
 		padding-top: 16px;
-		border-top: 1px solid var(--line);
+		border-top: 1px solid var(--divider);
 	}
 	.label {
 		display: block;
@@ -659,11 +741,10 @@
 		border-radius: 999px;
 		background: linear-gradient(
 			90deg,
-			rgb(179, 135, 155),
-			rgb(177, 153, 189),
-			rgb(159, 177, 204),
-			rgb(166, 204, 191),
-			rgb(210, 220, 171)
+			rgb(191, 151, 92),
+			rgb(151, 143, 118),
+			rgb(96, 120, 158),
+			rgb(58, 86, 132)
 		);
 	}
 	.pin {
@@ -839,27 +920,92 @@
 	.mark {
 		cursor: pointer;
 		transition:
-			r 120ms ease,
+			opacity 180ms ease,
 			filter 120ms ease;
 	}
-	.mark:hover {
-		filter: brightness(1.25);
+	.mark:focus,
+	.mark:focus-visible {
+		outline: none;
 	}
-	/* The selected dot breathes slowly to call out its place on the map.
-	   transform-box: fill-box scales it about its own center, not the SVG origin. */
-	.mark.active {
+	.mark:hover {
+		filter: brightness(1.14);
+	}
+	.mark.dim {
+		opacity: 0.28;
+	}
+	.ball {
+		filter: url(#ballShadow);
+	}
+	.sheen {
+		pointer-events: none;
+	}
+	.reticle {
+		pointer-events: none;
+	}
+	.reticle path {
+		fill: none;
+		stroke: rgba(233, 238, 247, 0.9);
+		stroke-width: 1;
+		stroke-linecap: square;
+		animation: reticle-in 160ms ease-out both;
+	}
+	@keyframes reticle-in {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+	.mark-name {
+		font-size: 10.5px;
+		font-weight: 600;
+		fill: var(--gold);
+		paint-order: stroke;
+		stroke: #05070e;
+		stroke-width: 2.6px;
+		stroke-linejoin: round;
+		pointer-events: none;
+	}
+	/* The selected ball flickers (gently scales) in place while its reticle frame
+	   holds still. transform-box: fill-box scales about the ball's own center. */
+	.mark.active .ball,
+	.mark.active .sheen {
 		transform-box: fill-box;
 		transform-origin: center;
-		animation: breathe 1.8s ease-in-out infinite;
+		animation: flicker 1.5s ease-in-out infinite;
 	}
-	@keyframes breathe {
+	@keyframes flicker {
 		0%,
 		100% {
 			transform: scale(1);
 		}
 		50% {
-			transform: scale(1.32);
+			transform: scale(1.16);
 		}
+	}
+	.cluster-hit {
+		fill: transparent;
+		pointer-events: all;
+	}
+	.leader {
+		stroke: rgba(233, 238, 247, 0.35);
+		stroke-width: 0.75;
+		pointer-events: none;
+	}
+	.cl-badge-bg {
+		fill: #0b1320;
+		stroke: rgba(233, 238, 247, 0.28);
+		stroke-width: 0.75;
+		pointer-events: none;
+	}
+	.cl-badge {
+		text-anchor: middle;
+		font-size: 8.5px;
+		font-weight: 700;
+		fill: #e9eef7;
+		pointer-events: none;
+		font-variant-numeric: tabular-nums;
 	}
 
 	/* Right side panel */
@@ -1006,21 +1152,6 @@
 		gap: 5px;
 		font-size: 11px;
 	}
-	.full {
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
-		margin-top: 13px;
-		font-size: 12px;
-		font-weight: 600;
-		color: var(--accent);
-		background: var(--accent-soft);
-		border: 1px solid var(--accent);
-		border-radius: 8px;
-		padding: 6px 11px;
-		text-decoration: none;
-	}
-
 	/* Tablet: drop the right list under the map, keep controls on the left. */
 	@media (max-width: 1100px) {
 		.grid {

@@ -91,59 +91,92 @@
 			tabindex={-1}
 			onkeydown={trapTab}
 		>
-			<div class="accent" style="background:{categoryColor(z)}"></div>
-			<button class="close icon-btn" bind:this={closeBtn} onclick={close} aria-label="Close">
-				<Icon name="close" size={16} />
-			</button>
+			<div class="folder-tab">
+				<span class="sdot" style="background:{st.color}"></span>
+				<span>Exposure file</span>
+				<span class="ref">№ {z.id}</span>
+			</div>
 
-			<div class="tags">
-				<span class="tag status" style="border-color:{st.color}; color:{st.color}">
-					<span class="sdot" style="background:{st.color}"></span>{st.label}
-				</span>
-				<span class="tag" style="border-color:{categoryColor(z)}; color:{categoryColor(z)}">
-					{z.category}
-				</span>
+			<div class="sheet">
+				<button class="close icon-btn" bind:this={closeBtn} onclick={close} aria-label="Close">
+					<Icon name="close" size={16} />
+				</button>
+
+				<header class="file-head">
+					<h1>{z.name}</h1>
+					<div class="coords">{z.lat.toFixed(2)}, {z.lng.toFixed(2)}</div>
+				</header>
+
+			<div class="rule"></div>
+
+			<dl class="fields">
+				<div class="field">
+					<dt>Status</dt>
+					<dd style="color:{st.color}">{st.label}</dd>
+				</div>
+				<div class="field">
+					<dt>Category</dt>
+					<dd style="color:{categoryColor(z)}">{z.category}</dd>
+				</div>
 				{#if z.certainty}
-					<span class="tag muted">{CERTAINTY_LABEL[z.certainty]}</span>
+					<div class="field"><dt>Certainty</dt><dd>{CERTAINTY_LABEL[z.certainty]}</dd></div>
 				{/if}
 				{#if z.emissionType}
-					<span class="tag muted">{EMISSION_LABEL[z.emissionType]}</span>
+					<div class="field"><dt>Emission</dt><dd>{EMISSION_LABEL[z.emissionType]}</dd></div>
 				{/if}
 				{#if z.approx}
-					<span class="tag muted">approximate location</span>
+					<div class="field"><dt>Location</dt><dd>Approximate</dd></div>
 				{/if}
-			</div>
+			</dl>
 
-			<h1>{z.name}</h1>
-			<div class="coords">
-				{z.lat.toFixed(2)}, {z.lng.toFixed(2)}
-				<button class="compare-btn" onclick={() => addCompare(z.id)} disabled={ui.compare.includes(z.id)}>
-					{ui.compare.includes(z.id) ? 'In comparison' : '+ Compare'}
-				</button>
-			</div>
+			<div class="rule"></div>
 
 			<p class="desc">{z.desc}</p>
 
 			{#if z.health ?? HEALTH[z.id]}
-				<div class="health"><span>Health effects</span> {z.health ?? HEALTH[z.id]}</div>
+				<section class="block">
+					<span class="label">Health effects</span>
+					<p>{z.health ?? HEALTH[z.id]}</p>
+				</section>
 			{/if}
 
 			<div class="ratings">
-				<div><span>Health severity</span><b>{dots(severityOf(z))}</b></div>
-				<div><span>Research depth</span><b>{dots(researchOf(z))}</b></div>
+				<div>
+					<span class="label">Health severity</span>
+					<b>{dots(severityOf(z))} <span class="num">{severityOf(z)}/5</span></b>
+				</div>
+				<div>
+					<span class="label">Research depth</span>
+					<b>{dots(researchOf(z))} <span class="num">{researchOf(z)}/5</span></b>
+				</div>
 			</div>
 
-			<div class="cite-head">Citations</div>
-			<ul class="cites">
-				{#each z.citations as c (c.url)}
-					<li>
-						<a href={c.url} target="_blank" rel="noopener noreferrer">{c.ref}</a>
-						<span class="badge">{c.type}</span>
-						{#if c.openAccess}<span class="badge open">open access</span>{/if}
-						{#if c.doi}<span class="doi">doi:{c.doi}</span>{/if}
-					</li>
-				{/each}
-			</ul>
+			<div class="rule"></div>
+
+			<section class="block">
+				<span class="label">Sources</span>
+				<ul class="cites">
+					{#each z.citations as c (c.url)}
+						<li>
+							<a href={c.url} target="_blank" rel="noopener noreferrer">{c.ref}</a>
+							<div class="cite-meta">
+								<span class="badge">{c.type}</span>
+								{#if c.openAccess}<span class="badge open">open access</span>{/if}
+								{#if c.doi}<span class="doi">doi:{c.doi}</span>{/if}
+							</div>
+						</li>
+					{/each}
+				</ul>
+			</section>
+
+			<button
+				class="compare-btn"
+				onclick={() => addCompare(z.id)}
+				disabled={ui.compare.includes(z.id)}
+			>
+				{ui.compare.includes(z.id) ? '✓ In comparison' : '+ Add to comparison'}
+				</button>
+			</div>
 		</div>
 	</div>
 {/if}
@@ -162,25 +195,45 @@
 	}
 	.panel {
 		position: relative;
-		width: min(720px, 100%);
-		max-height: 86vh;
+		width: min(680px, 100%);
+		display: flex;
+		flex-direction: column;
+	}
+	.folder-tab {
+		align-self: flex-start;
+		margin-left: 30px;
+		margin-bottom: -1px;
+		z-index: 1;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 7px 18px 9px;
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--muted);
+		background: rgba(16, 22, 36, 0.97);
+		border: 1px solid var(--line-strong);
+		border-bottom: none;
+		border-radius: 10px 10px 0 0;
+		backdrop-filter: blur(var(--blur));
+	}
+	.folder-tab .ref {
+		color: var(--faint);
+		letter-spacing: 0.08em;
+	}
+	.sheet {
+		position: relative;
+		max-height: 84vh;
 		overflow-y: auto;
-		background: rgba(10, 14, 23, 0.9);
+		background: linear-gradient(180deg, rgba(13, 18, 30, 0.96), rgba(8, 11, 19, 0.96));
 		border: 1px solid var(--line-strong);
 		border-radius: var(--radius);
-		padding: 28px 30px 30px;
-		box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+		padding: 24px 30px 28px;
+		box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.04);
 		backdrop-filter: blur(var(--blur));
 		-webkit-backdrop-filter: blur(var(--blur));
-	}
-	.accent {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 3px;
-		border-radius: var(--radius) var(--radius) 0 0;
-		opacity: 0.9;
 	}
 	.close {
 		position: absolute;
@@ -189,97 +242,108 @@
 		width: 30px;
 		height: 30px;
 	}
-	.tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 6px;
-		margin-bottom: 12px;
-	}
-	.tag {
-		font-size: 10.5px;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-		padding: 3px 8px;
-		border-radius: 999px;
-		border: 1px solid var(--line);
-	}
-	.tag.muted {
-		color: var(--muted);
-	}
-	.tag.status {
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
+
+	.file-head {
+		padding-right: 36px;
 	}
 	.sdot {
 		width: 7px;
 		height: 7px;
 		border-radius: 50%;
+		flex: none;
 	}
 	h1 {
-		margin: 0;
-		font-size: 24px;
-		line-height: 1.2;
+		margin: 6px 0 6px;
+		font-family: var(--font-display);
+		font-size: 26px;
+		line-height: 1.18;
+		letter-spacing: -0.01em;
 	}
 	.coords {
-		margin-top: 4px;
+		font-family: var(--font-mono);
 		font-size: 12px;
+		letter-spacing: 0.02em;
 		color: var(--muted);
 		font-variant-numeric: tabular-nums;
-		display: flex;
-		align-items: center;
-		gap: 12px;
 	}
-	.compare-btn {
-		font-size: 11px;
-		color: var(--accent);
-		background: var(--accent-soft);
-		border: 1px solid var(--line);
-		border-radius: 999px;
-		padding: 3px 10px;
-		cursor: pointer;
+
+	.rule {
+		height: 1px;
+		margin: 18px 0;
+		background: linear-gradient(90deg, var(--divider), transparent 85%);
 	}
-	.compare-btn:disabled {
-		color: var(--muted);
-		background: transparent;
-		cursor: default;
+
+	.fields {
+		display: grid;
+		grid-template-columns: max-content 1fr;
+		column-gap: 22px;
+		row-gap: 9px;
+		margin: 0;
 	}
-	.desc {
-		margin: 16px 0 22px;
-		font-size: 15px;
-		line-height: 1.65;
+	.field {
+		display: contents;
 	}
-	.health {
-		margin: 0 0 16px;
-		font-size: 13.5px;
-		line-height: 1.55;
+	.fields dt {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--faint);
+		padding-top: 1px;
 	}
-	.health span {
-		color: #ff9e80;
-		font-weight: 600;
-		margin-right: 6px;
-	}
-	.ratings {
-		display: flex;
-		gap: 24px;
-		margin: 0 0 20px;
+	.fields dd {
+		margin: 0;
 		font-size: 13px;
+		letter-spacing: 0.01em;
+		color: var(--text);
 	}
-	.ratings span {
-		color: var(--muted);
-		margin-right: 8px;
-	}
-	.ratings b {
-		letter-spacing: 1px;
-		color: #ccd6e6;
-	}
-	.cite-head {
-		font-size: 11px;
-		letter-spacing: 0.07em;
+
+	.label {
+		display: block;
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		color: var(--muted);
-		margin-bottom: 8px;
+		margin-bottom: 7px;
 	}
+
+	.desc {
+		margin: 0 0 4px;
+		font-size: 15px;
+		line-height: 1.7;
+		color: #e6ecf6;
+	}
+	.block {
+		margin-top: 18px;
+	}
+	.block p {
+		margin: 0;
+		font-size: 13.5px;
+		line-height: 1.6;
+		color: var(--muted);
+	}
+
+	.ratings {
+		display: flex;
+		gap: 40px;
+		margin-top: 18px;
+	}
+	.ratings b {
+		display: block;
+		margin-top: 3px;
+		font-size: 14px;
+		letter-spacing: 3px;
+		color: var(--accent);
+	}
+	.ratings .num {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 0;
+		color: var(--muted);
+		margin-left: 2px;
+	}
+
 	.cites {
 		list-style: none;
 		margin: 0;
@@ -290,25 +354,57 @@
 	}
 	.cites li {
 		font-size: 13px;
-		line-height: 1.4;
+		line-height: 1.45;
+	}
+	.cite-meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 6px;
+		margin-top: 5px;
 	}
 	.badge {
-		font-size: 10px;
+		font-family: var(--font-mono);
+		font-size: 9.5px;
 		text-transform: uppercase;
-		letter-spacing: 0.04em;
+		letter-spacing: 0.06em;
 		color: var(--muted);
 		border: 1px solid var(--line);
-		border-radius: 5px;
+		border-radius: 4px;
 		padding: 1px 5px;
-		margin-left: 6px;
 	}
 	.badge.open {
-		color: #6fd99a;
-		border-color: rgba(111, 217, 154, 0.4);
+		color: #7fd6a3;
+		border-color: rgba(127, 214, 163, 0.4);
 	}
 	.doi {
+		font-family: var(--font-mono);
 		font-size: 11px;
+		color: var(--faint);
+	}
+
+	.compare-btn {
+		margin-top: 22px;
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--accent);
+		background: transparent;
+		border: 1px solid var(--divider);
+		border-radius: 7px;
+		padding: 8px 14px;
+		cursor: pointer;
+		transition:
+			border-color var(--dur) var(--ease),
+			background var(--dur) var(--ease);
+	}
+	.compare-btn:hover:not(:disabled) {
+		border-color: var(--accent);
+		background: var(--accent-soft);
+	}
+	.compare-btn:disabled {
 		color: var(--muted);
-		margin-left: 6px;
+		cursor: default;
 	}
 </style>

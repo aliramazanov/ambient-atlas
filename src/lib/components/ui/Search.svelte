@@ -176,7 +176,7 @@
 		color: var(--text);
 		background: var(--panel);
 		border: 1px solid var(--line);
-		border-radius: 12px;
+		border-radius: 8px;
 		box-shadow: var(--shadow-sm);
 		backdrop-filter: blur(var(--blur));
 		-webkit-backdrop-filter: blur(var(--blur));
@@ -198,7 +198,7 @@
 		padding: 4px;
 		background: var(--panel);
 		border: 1px solid var(--line);
-		border-radius: 10px;
+		border-radius: 8px;
 		backdrop-filter: blur(8px);
 		max-height: 320px;
 		overflow-y: auto;
@@ -219,9 +219,10 @@
 		background: rgba(255, 255, 255, 0.07);
 	}
 	.rsub {
-		color: var(--muted);
-		font-size: 10px;
+		color: var(--faint);
+		font-family: var(--font-mono);
+		font-size: 9.5px;
 		text-transform: uppercase;
-		letter-spacing: 0.04em;
+		letter-spacing: 0.12em;
 	}
 </style>

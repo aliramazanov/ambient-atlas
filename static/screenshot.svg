@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750" role="img" aria-label="Ambient Atlas interface">
+  <defs>
+    <radialGradient id="stage" cx="50%" cy="26%" r="115%">
+      <stop offset="0%" stop-color="#0d1a31"/>
+      <stop offset="42%" stop-color="#091123"/>
+      <stop offset="74%" stop-color="#050810"/>
+      <stop offset="100%" stop-color="#03050b"/>
+    </radialGradient>
+    <radialGradient id="earth" cx="42%" cy="34%" r="78%">
+      <stop offset="0%" stop-color="#16273f"/>
+      <stop offset="68%" stop-color="#0c1b30"/>
+      <stop offset="100%" stop-color="#081420"/>
+    </radialGradient>
+    <radialGradient id="atmo" cx="50%" cy="50%" r="50%">
+      <stop offset="72%" stop-color="rgba(140,200,255,0)"/>
+      <stop offset="90%" stop-color="rgba(110,170,230,0.16)"/>
+      <stop offset="100%" stop-color="rgba(110,170,230,0)"/>
+    </radialGradient>
+    <clipPath id="globeClip"><circle cx="600" cy="400" r="250"/></clipPath>
+    <style>
+      .mono{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+      .ui{font-family:'Inter',ui-sans-serif,system-ui,sans-serif}
+      .lbl{fill:#94a0b6}
+      .panel{fill:rgba(11,16,31,0.85);stroke:rgba(198,170,116,0.18)}
+    </style>
+  </defs>
+
+  <!-- page + inset stage frame -->
+  <rect width="1200" height="750" fill="#05070e"/>
+  <rect x="16" y="16" width="1168" height="718" rx="14" fill="url(#stage)" stroke="rgba(198,170,116,0.18)"/>
+
+  <!-- starfield -->
+  <g fill="#aab8d6">
+    <circle cx="120" cy="120" r="1" opacity="0.5"/><circle cx="300" cy="80" r="1.2" opacity="0.7"/>
+    <circle cx="980" cy="150" r="1" opacity="0.5"/><circle cx="1080" cy="520" r="1.3" opacity="0.6"/>
+    <circle cx="160" cy="560" r="1" opacity="0.5"/><circle cx="240" cy="660" r="1.1" opacity="0.6"/>
+    <circle cx="900" cy="640" r="1" opacity="0.5"/><circle cx="1040" cy="300" r="1" opacity="0.5"/>
+    <circle cx="520" cy="90" r="1" opacity="0.5"/><circle cx="700" cy="700" r="1.1" opacity="0.6"/>
+  </g>
+
+  <!-- globe -->
+  <circle cx="600" cy="400" r="296" fill="url(#atmo)"/>
+  <circle cx="600" cy="400" r="250" fill="url(#earth)" stroke="rgba(140,200,255,0.18)" stroke-width="1"/>
+  <g clip-path="url(#globeClip)" fill="none" stroke="rgba(120,170,230,0.22)" stroke-width="1">
+    <line x1="350" y1="400" x2="850" y2="400"/>
+    <ellipse cx="600" cy="400" rx="250" ry="120"/>
+    <ellipse cx="600" cy="400" rx="250" ry="210"/>
+    <ellipse cx="600" cy="400" rx="120" ry="250"/>
+    <ellipse cx="600" cy="400" rx="215" ry="250"/>
+  </g>
+
+  <!-- reach glows -->
+  <g clip-path="url(#globeClip)">
+    <circle cx="690" cy="330" r="70" fill="#f2c14e" opacity="0.12"/>
+    <circle cx="500" cy="470" r="58" fill="#ef7a93" opacity="0.12"/>
+    <circle cx="560" cy="300" r="46" fill="#62a8f0" opacity="0.12"/>
+  </g>
+
+  <!-- exposure markers (category colors) -->
+  <g clip-path="url(#globeClip)">
+    <circle cx="690" cy="330" r="6" fill="#f2c14e"/>
+    <circle cx="500" cy="470" r="6" fill="#ef7a93"/>
+    <circle cx="560" cy="300" r="6" fill="#62a8f0"/>
+    <circle cx="620" cy="420" r="5.5" fill="#a472f0"/>
+    <circle cx="540" cy="380" r="5.5" fill="#bcd45f"/>
+    <circle cx="700" cy="470" r="5.5" fill="#c4894c"/>
+    <circle cx="470" cy="350" r="5" fill="#e98bd0"/>
+    <circle cx="640" cy="520" r="5" fill="#4cc7bd"/>
+    <circle cx="600" cy="250" r="5" fill="#f2926b"/>
+    <circle cx="520" cy="540" r="5" fill="#f25555"/>
+    <circle cx="740" cy="400" r="5" fill="#a99bff"/>
+    <circle cx="450" cy="430" r="4.5" fill="#f2c14e"/>
+  </g>
+
+  <!-- search command bar -->
+  <g class="ui">
+    <rect x="440" y="40" width="320" height="40" rx="8" class="panel"/>
+    <circle cx="466" cy="60" r="6" fill="none" stroke="#94a0b6" stroke-width="1.6"/>
+    <line x1="470" y1="64" x2="475" y2="69" stroke="#94a0b6" stroke-width="1.6"/>
+    <text x="486" y="64" class="ui" font-size="13" fill="#687485">Search a city, country, or zone...</text>
+  </g>
+
+  <!-- Controls panel (left) -->
+  <g>
+    <rect x="40" y="40" width="240" height="150" rx="9" class="panel"/>
+    <text x="60" y="66" class="mono" font-size="11" letter-spacing="2" fill="#94a0b6">CONTROLS</text>
+    <rect x="60" y="80" width="200" height="30" rx="6" fill="rgba(255,255,255,0.03)" stroke="rgba(198,170,116,0.16)"/>
+    <text x="74" y="99" class="ui" font-size="12" fill="#e8eaf1">Non-spatial open questions</text>
+    <rect x="60" y="118" width="200" height="30" rx="6" fill="rgba(255,255,255,0.03)" stroke="rgba(198,170,116,0.16)"/>
+    <text x="74" y="137" class="ui" font-size="12" fill="#e8eaf1">Show all reach areas</text>
+    <text x="246" y="137" class="mono" font-size="9" fill="#687485">OFF</text>
+  </g>
+
+  <!-- Legend panel (right) -->
+  <g>
+    <rect x="930" y="40" width="230" height="330" rx="9" class="panel"/>
+    <circle cx="952" cy="64" r="5" fill="#e3c585"/>
+    <text x="964" y="69" class="ui" font-size="15" font-weight="700" fill="#e8eaf1">Ambient Atlas</text>
+    <text x="950" y="92" class="ui" font-size="11" fill="#cba869">Rankings</text>
+    <text x="1020" y="92" class="ui" font-size="11" fill="#cba869">Sources</text>
+    <line x1="950" y1="104" x2="1140" y2="104" stroke="rgba(198,170,116,0.24)"/>
+    <text x="950" y="124" class="ui" font-size="11" fill="#94a0b6">Showing <tspan class="mono" fill="#e8eaf1" font-weight="700">500</tspan> of 500 zones</text>
+    <text x="950" y="150" class="mono" font-size="10" letter-spacing="2" fill="#94a0b6">LAYERS</text>
+    <g class="ui" font-size="12" fill="#e8eaf1">
+      <g transform="translate(950,168)"><rect width="14" height="14" rx="3" fill="#f2c14e"/><text x="24" y="12">Radiation / UV</text></g>
+      <g transform="translate(950,194)"><rect width="14" height="14" rx="3" fill="#a99bff"/><text x="24" y="12">Altitude</text></g>
+      <g transform="translate(950,220)"><rect width="14" height="14" rx="3" fill="#e98bd0"/><text x="24" y="12">Fiber</text></g>
+      <g transform="translate(950,246)"><rect width="14" height="14" rx="3" fill="#62a8f0"/><text x="24" y="12">Chemistry</text></g>
+      <g transform="translate(950,272)"><rect width="14" height="14" rx="3" fill="#bcd45f"/><text x="24" y="12">Airborne</text></g>
+      <g transform="translate(950,298)"><rect width="14" height="14" rx="3" fill="#f2926b"/><text x="24" y="12">Dietary</text></g>
+      <g transform="translate(950,324)"><rect width="14" height="14" rx="3" fill="#ef7a93"/><text x="24" y="12">Anthropogenic</text></g>
+    </g>
+  </g>
+
+  <!-- bottom bar: color key, zoom console, about -->
+  <g class="ui" font-size="12">
+    <rect x="40" y="690" width="150" height="34" rx="9" class="panel"/>
+    <text x="64" y="712" fill="#e8eaf1">Color key</text>
+
+    <g transform="translate(520,690)">
+      <rect width="160" height="34" rx="9" class="panel"/>
+      <rect x="12" y="9" width="16" height="16" rx="5" fill="rgba(255,255,255,0.04)" stroke="rgba(198,170,116,0.2)"/>
+      <line x1="16" y1="17" x2="24" y2="17" stroke="#94a0b6" stroke-width="1.6"/>
+      <rect x="38" y="16" width="60" height="3" rx="2" fill="rgba(255,255,255,0.08)"/>
+      <rect x="38" y="16" width="40" height="3" rx="2" fill="#e3c585"/>
+      <rect x="106" y="9" width="16" height="16" rx="5" fill="rgba(255,255,255,0.04)" stroke="rgba(198,170,116,0.2)"/>
+      <line x1="110" y1="17" x2="118" y2="17" stroke="#94a0b6" stroke-width="1.6"/><line x1="114" y1="13" x2="114" y2="21" stroke="#94a0b6" stroke-width="1.6"/>
+      <text x="132" y="21" class="mono" font-size="11" font-weight="700" fill="#e8eaf1">62</text>
+    </g>
+
+    <rect x="1010" y="690" width="150" height="34" rx="9" class="panel"/>
+    <circle cx="1034" cy="707" r="6" fill="none" stroke="#94a0b6" stroke-width="1.4"/>
+    <text x="1034" y="711" text-anchor="middle" class="mono" font-size="9" fill="#94a0b6">i</text>
+    <text x="1050" y="712" fill="#e8eaf1">About this map</text>
+  </g>
+</svg>

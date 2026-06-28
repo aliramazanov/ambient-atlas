@@ -34,7 +34,7 @@
 		const below = window.innerHeight - r.bottom;
 		const up = below < estH + 14 && r.top > below;
 		const top = up ? r.top - estH - 6 : r.bottom + 6;
-		menuStyle = `position:fixed; top:${Math.round(top)}px; left:${Math.round(r.left)}px; min-width:${Math.round(r.width)}px;`;
+		menuStyle = `position:fixed; top:${Math.round(top)}px; left:${Math.round(r.left)}px; width:${Math.round(r.width)}px;`;
 	}
 
 	async function open() {
@@ -204,13 +204,12 @@
 		position: relative;
 	}
 	.trigger {
-		display: inline-flex;
+		display: flex;
+		width: 100%;
 		align-items: center;
 		justify-content: space-between;
 		gap: 8px;
-		min-width: 130px;
-		max-width: 150px;
-		padding: 5px 9px;
+		padding: 7px 11px;
 		font-size: 11.5px;
 		color: var(--text);
 		background: rgba(0, 0, 0, 0.32);
@@ -244,33 +243,33 @@
 		transform: rotate(90deg);
 	}
 	.list {
-		/* position is set inline (fixed) so the menu is never clipped by a panel */
 		z-index: 200;
-		width: max-content;
-		max-width: 240px;
 		max-height: 260px;
 		overflow-y: auto;
 		margin: 0;
 		padding: 5px;
 		list-style: none;
-		background: var(--panel-solid);
+		background: var(--panel);
 		border: 1px solid var(--line-strong);
-		border-radius: 10px;
+		border-radius: var(--radius-sm);
 		box-shadow: var(--shadow);
+		backdrop-filter: blur(var(--blur));
+		-webkit-backdrop-filter: blur(var(--blur));
 	}
 	.list li {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 10px;
-		padding: 7px 9px;
+		padding: 8px 10px;
 		font-size: 12px;
 		color: var(--text);
 		border-radius: 7px;
 		cursor: pointer;
+		transition: background var(--dur) var(--ease);
 	}
 	.list li.active {
-		background: rgba(217, 180, 106, 0.22);
+		background: var(--accent-soft);
 		color: var(--gold);
 	}
 	.list li.selected {

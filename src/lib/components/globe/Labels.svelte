@@ -77,6 +77,13 @@
 		return c + (d - c) * t;
 	}
 
+	function labelInk(rgb: string): string {
+		const m = rgb.match(/\d+(?:\.\d+)?/g);
+		if (!m || m.length < 3) return '#0b1320';
+		const [r, g, b] = m.map(Number);
+		return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.52 ? '#0b1320' : '#eaf0fb';
+	}
+
 	function applyMetric(el: HTMLDivElement, l: L) {
 		const key = ui.countryMetric;
 		let value: number | undefined;
@@ -93,8 +100,9 @@
 		if (value != null) {
 			const m = METRIC_BY_KEY[key];
 			el.textContent = `${l.text} ${m.format(value)}`;
-			el.style.color = '#0b1320';
-			el.style.background = metricColor(m, value);
+			const bg = metricColor(m, value);
+			el.style.color = labelInk(bg);
+			el.style.background = bg;
 			el.style.padding = '1px 7px';
 			el.style.borderRadius = '999px';
 			el.style.fontWeight = '700';
@@ -230,25 +238,26 @@
 		transform-origin: center;
 	}
 	.city {
-		font-size: 11.5px;
+		font-size: 10px;
 		font-weight: 500;
-		color: #eef3fb;
-		padding: 1px 6px;
-		border-radius: 5px;
-		background: rgba(6, 10, 16, 0.58);
-		border: 1px solid rgba(255, 255, 255, 0.06);
+		color: rgba(198, 210, 226, 0.66);
+		padding: 0 4px;
+		border-radius: 4px;
+		background: rgba(6, 10, 16, 0.34);
+		border: 1px solid rgba(255, 255, 255, 0.03);
+		pointer-events: none;
 	}
 	.city.sig {
-		color: #ffd9a8;
+		color: rgba(231, 197, 133, 0.82);
 	}
 	.city.cap::before {
 		content: '';
 		display: inline-block;
-		width: 5px;
-		height: 5px;
+		width: 4px;
+		height: 4px;
 		margin-right: 5px;
 		border-radius: 50%;
-		background: #d9b46a;
+		background: var(--accent);
 		vertical-align: middle;
 	}
 	.country {
@@ -258,12 +267,12 @@
 		text-transform: uppercase;
 		pointer-events: auto;
 		cursor: pointer;
-		color: rgba(165, 185, 212, 0.7);
+		color: rgba(173, 192, 216, 0.78);
 		text-shadow:
 			0 0 5px rgba(0, 0, 0, 0.95),
 			0 1px 2px rgba(0, 0, 0, 0.95);
 	}
 	.country:hover {
-		color: #d9b46a;
+		color: var(--gold);
 	}
 </style>

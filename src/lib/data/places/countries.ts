@@ -1,4 +1,4 @@
-import { geoContains } from "d3-geo";
+import { geoBounds, geoContains } from "d3-geo";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 import { feature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
@@ -20,6 +20,41 @@ const fc = feature(
 
 const byNum = new Map<number, CountryFeature>();
 for (const f of fc.features) byNum.set(parseInt(String(f.id), 10), f);
+
+const isoByNum = new Map<number, string>();
+for (const wc of worldCountries) isoByNum.set(parseInt(wc.ccn3, 10), wc.cca3);
+
+interface BBoxed {
+  feat: CountryFeature;
+  iso: string | null;
+  w: number;
+  s: number;
+  e: number;
+  n: number;
+}
+const boxed: BBoxed[] = fc.features.map((feat) => {
+  const [[w, s], [e, n]] = geoBounds(feat);
+  return {
+    feat,
+    iso: isoByNum.get(parseInt(String(feat.id), 10)) ?? null,
+    w,
+    s,
+    e,
+    n,
+  };
+});
+
+export function countryAtPoint(lat: number, lng: number): string | null {
+  for (const b of boxed) {
+    if (lat < b.s || lat > b.n) continue;
+    const inLng =
+      b.w <= b.e ? lng >= b.w && lng <= b.e : lng >= b.w || lng <= b.e;
+    if (!inLng) continue;
+    if (geoContains(b.feat, [lng, lat])) return b.iso;
+  }
+
+  return null;
+}
 
 export interface CountryInfo {
   iso3: string;

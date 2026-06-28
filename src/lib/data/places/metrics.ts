@@ -172,11 +172,10 @@ export const METRIC_BY_KEY: Record<string, MetricDef> = Object.fromEntries(
 );
 
 const RAMP: number[][] = [
-  [179, 135, 155],
-  [177, 153, 189],
-  [159, 177, 204],
-  [166, 204, 191],
-  [210, 220, 171],
+  [191, 151, 92],
+  [151, 143, 118],
+  [96, 120, 158],
+  [58, 86, 132],
 ];
 
 function rampColor(t: number): string {

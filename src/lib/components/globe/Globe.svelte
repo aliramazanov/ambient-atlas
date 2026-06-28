@@ -6,26 +6,20 @@
 	import { WebGPURenderer } from 'three/webgpu';
 	import Scene from './Scene.svelte';
 
+	let { active = true }: { active?: boolean } = $props();
+
 	let backend = $state<'pending' | 'webgpu' | 'webgl'>('pending');
 	let ready = $state(false);
 	let pageVisible = $state(true);
 
-	const renderMode = $derived(ready && !ui.selected && pageVisible ? 'always' : 'manual');
+	const renderMode = $derived(
+		ready && active && !ui.selected && pageVisible ? 'always' : 'manual'
+	);
 
 	onMount(() => {
 		const onVis = () => (pageVisible = document.visibilityState === 'visible');
-		const onBlur = () => (pageVisible = false);
-		const onFocus = () => (pageVisible = true);
-
 		document.addEventListener('visibilitychange', onVis);
-		window.addEventListener('blur', onBlur);
-		window.addEventListener('focus', onFocus);
-
-		return () => {
-			document.removeEventListener('visibilitychange', onVis);
-			window.removeEventListener('blur', onBlur);
-			window.removeEventListener('focus', onFocus);
-		};
+		return () => document.removeEventListener('visibilitychange', onVis);
 	});
 </script>
 
@@ -57,10 +51,6 @@
 			<div class="sub">preparing the globe</div>
 		</div>
 	{/if}
-
-	<div class="badge" aria-hidden="true">
-		<span class="bdot" class:webgpu={backend === 'webgpu'}></span>{backend}
-	</div>
 </div>
 
 <style>
@@ -116,28 +106,5 @@
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
 		color: var(--muted);
-	}
-	.badge {
-		position: absolute;
-		right: 12px;
-		bottom: 12px;
-		font-size: 10px;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		color: var(--faint);
-		display: flex;
-		align-items: center;
-		gap: 6px;
-		pointer-events: none;
-	}
-	.bdot {
-		width: 7px;
-		height: 7px;
-		border-radius: 50%;
-		background: #c98a3a;
-	}
-	.bdot.webgpu {
-		background: #5fd39a;
-		box-shadow: 0 0 6px rgba(95, 211, 154, 0.7);
 	}
 </style>

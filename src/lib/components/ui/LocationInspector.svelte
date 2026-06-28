@@ -92,7 +92,9 @@
 	}
 	.coords {
 		color: var(--muted);
+		font-family: var(--font-mono);
 		font-variant-numeric: tabular-nums;
+		letter-spacing: -0.01em;
 		margin-bottom: 8px;
 	}
 	.section-label {
