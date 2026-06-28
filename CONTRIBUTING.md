@@ -1,8 +1,9 @@
 # Contributing to Ambient Atlas
 
-Ambient Atlas is a exploratory openly-sourced scientific visualization of ambient
-environmental-health exposures. Contributions are welcome, accuracy and
-restraint matter more than volume.
+Ambient Atlas is an exploratory, openly-sourced visualization of ambient
+environmental-health exposures, built from reliable scientific sources but not
+meant as a precise scientific instrument. Contributions are welcome, accuracy
+and restraint matter more than volume.
 
 ## Setup
 
@@ -57,4 +58,4 @@ pnpm check:citations
 3. Make sure `pnpm check` and `pnpm build` are green (CI enforces this).
 
 By contributing you agree your contribution is your own work and may be
-distributed under the project's license.
+distributed under the project's licenses: MIT for code, CC BY 4.0 for data.
