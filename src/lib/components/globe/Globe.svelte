@@ -29,7 +29,7 @@
 		createRenderer={(canvas) => {
 			const renderer = new WebGPURenderer({ canvas, antialias: true, forceWebGL: false });
 
-			renderer.setPixelRatio(1);
+			renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 			renderer
 				.init()
 				.then(() => {

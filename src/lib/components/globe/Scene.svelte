@@ -13,6 +13,7 @@
 	  BackSide,
 	  BufferAttribute,
 	  BufferGeometry,
+	  CanvasTexture,
 	  Color,
 	  Float32BufferAttribute,
 	  Group,
@@ -23,6 +24,7 @@
 	  Points,
 	  PointsMaterial,
 	  SphereGeometry,
+	  SRGBColorSpace,
 	  Vector3
 	} from 'three';
 	import type { OrbitControls as OrbitControlsRef } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -179,15 +181,73 @@
 		return { geometry, material };
 	}
 
-	function createMoon(): Mesh {
+	function makeMoonTexture(): CanvasTexture {
+		const s = 512;
+		const cv = document.createElement('canvas');
+		cv.width = s;
+		cv.height = s;
+		const ctx = cv.getContext('2d')!;
+		ctx.fillStyle = '#b7bac2';
+		ctx.fillRect(0, 0, s, s);
 
-		const geo = new SphereGeometry(0.55, 64, 64);
+		const maria: [number, number, number][] = [
+			[0.36, 0.4, 0.2],
+			[0.62, 0.56, 0.15],
+			[0.5, 0.72, 0.12],
+			[0.72, 0.32, 0.1]
+		];
+		for (const [mx, my, mr] of maria) {
+			const g = ctx.createRadialGradient(mx * s, my * s, 0, mx * s, my * s, mr * s);
+			g.addColorStop(0, 'rgba(122,126,138,0.55)');
+			g.addColorStop(1, 'rgba(122,126,138,0)');
+			ctx.fillStyle = g;
+			ctx.beginPath();
+			ctx.arc(mx * s, my * s, mr * s, 0, 7);
+			ctx.fill();
+		}
+
+		for (let i = 0; i < 150; i++) {
+			const x = Math.random() * s;
+			const y = Math.random() * s;
+			const r = 2 + Math.random() * Math.random() * 24;
+			const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+			g.addColorStop(0, 'rgba(74,76,84,0.5)');
+			g.addColorStop(0.72, 'rgba(150,153,160,0)');
+			g.addColorStop(0.86, 'rgba(228,231,237,0.55)');
+			g.addColorStop(1, 'rgba(150,153,160,0)');
+			ctx.fillStyle = g;
+			ctx.beginPath();
+			ctx.arc(x, y, r, 0, 7);
+			ctx.fill();
+		}
+
+		const img = ctx.getImageData(0, 0, s, s);
+		const d = img.data;
+		for (let i = 0; i < d.length; i += 4) {
+			const n = (Math.random() - 0.5) * 16;
+			d[i] += n;
+			d[i + 1] += n;
+			d[i + 2] += n;
+		}
+		ctx.putImageData(img, 0, 0);
+
+		const tex = new CanvasTexture(cv);
+		tex.colorSpace = SRGBColorSpace;
+		return tex;
+	}
+
+	function createMoon(): Mesh {
+		const tex = makeMoonTexture();
+		const geo = new SphereGeometry(0.55, 96, 96);
 		const mat = new MeshStandardMaterial({
-			color: new Color('#d4d8e0'),
-			roughness: 0.95,
+			map: tex,
+			bumpMap: tex,
+			bumpScale: 1.1,
+			color: new Color('#cdd1d9'),
+			roughness: 1,
 			metalness: 0,
 			emissive: new Color('#0a0c12'),
-			emissiveIntensity: 0.07
+			emissiveIntensity: 0.04
 		});
 
 		const m = new Mesh(geo, mat);
@@ -228,6 +288,7 @@
 		earthGeo.dispose();
 		earthMat.dispose();
 		moon.geometry.dispose();
+		(moon.material as MeshStandardMaterial).map?.dispose();
 		(moon.material as MeshStandardMaterial).dispose();
 		graticule.geometry.dispose();
 		(graticule.material as LineBasicMaterial).dispose();

@@ -19,7 +19,7 @@
 	import { dots, researchOf, severityOf } from '$lib/data/scales/severity';
 	import { statusOf } from '$lib/data/scales/status';
 	import { HEALTH } from '$lib/data/zones/health';
-	import type { Tier, Zone } from '$lib/data/zones/types';
+	import type { EmissionType, Tier, Zone } from '$lib/data/zones/types';
 	import { air, aqiColor, ensureAirData } from '$lib/state/air-quality.svelte';
 	import { angularDistanceDeg } from '$lib/utils/geo';
 	import {
@@ -34,6 +34,13 @@
 
 	const W = 960;
 	const H = 620;
+
+	const EMISSION_LABEL: Record<EmissionType, string> = {
+		ionizing: 'Ionizing radiation',
+		rf: 'Radio-frequency / microwave',
+		chemical: 'Chemical / geochemical',
+		mixed: 'Mixed'
+	};
 
 	const info = $derived(countryByIso3(page.params.id ?? ''));
 
