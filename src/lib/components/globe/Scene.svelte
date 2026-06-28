@@ -51,6 +51,10 @@
 
 	interactivity();
 
+	const reduceMotion =
+		typeof window !== 'undefined' &&
+		window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 	const { camera, size } = useThrelte();
 	let controls = $state<OrbitControlsRef | undefined>(undefined);
 
@@ -120,10 +124,10 @@
 			}
 		}
 
-		stars.rotation.y += delta * 0.004;
+		if (!reduceMotion) stars.rotation.y += delta * 0.004;
 
 		if (flying && cam) {
-			const k = Math.min(1, delta * 2.5);
+			const k = reduceMotion ? 1 : Math.min(1, delta * 2.5);
 			const curDist = cam.position.length();
 			const target = flyTarget || curDist;
 			const cur = cam.position.clone().normalize();

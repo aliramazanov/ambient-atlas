@@ -8,7 +8,7 @@
 	import Icon from './Icon.svelte';
 	import Select from './Select.svelte';
 
-	let minimized = $state(false);
+	let minimized = $state(typeof window !== 'undefined' && window.innerWidth < 880);
 
 	const pinCount = $derived(Object.keys(ui.pinned).length);
 

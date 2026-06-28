@@ -16,6 +16,7 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "check:citations": "node --experimental-strip-types scripts/check/citations.ts",
+    "test": "node --experimental-strip-types --test scripts/test/*.test.ts",
     "data:places": "node --experimental-strip-types scripts/generate/places.ts",
     "data:life": "node --experimental-strip-types scripts/generate/life-expectancy.ts",
     "data:citylife": "node --experimental-strip-types scripts/generate/city-life-expectancy.ts",

@@ -35,7 +35,7 @@
 		for (const k of Object.keys(ui.cats)) ui.cats[k] = on;
 	}
 
-	let minimized = $state(false);
+	let minimized = $state(typeof window !== 'undefined' && window.innerWidth < 880);
 	let open = $state<Record<string, boolean>>({});
 	const toggle = (k: string) => (open[k] = !open[k]);
 </script>

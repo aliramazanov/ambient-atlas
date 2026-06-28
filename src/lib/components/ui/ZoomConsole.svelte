@@ -112,4 +112,9 @@
 		letter-spacing: 0.16em;
 		color: var(--faint);
 	}
+	@media (max-width: 880px) {
+		.zoomc {
+			display: none;
+		}
+	}
 </style>

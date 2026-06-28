@@ -26,5 +26,11 @@ jobs:
       - name: Type and style check
         run: pnpm check
 
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Validate citations
+        run: pnpm check:citations
+
       - name: Production build
         run: pnpm build

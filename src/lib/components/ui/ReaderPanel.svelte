@@ -407,4 +407,15 @@
 		color: var(--muted);
 		cursor: default;
 	}
+	@media (max-width: 620px) {
+		.backdrop {
+			padding: 10px;
+		}
+		.folder-tab {
+			margin-left: 14px;
+		}
+		.sheet {
+			max-height: 90vh;
+		}
+	}
 </style>

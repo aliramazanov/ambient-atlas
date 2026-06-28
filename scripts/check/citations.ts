@@ -1,44 +1,66 @@
-// Resolve every DOI in the dataset against the Crossref API and report failures.
-// Usage: node scripts/validate-citations.ts
-import { readFile } from "node:fs/promises";
+import { zones } from "../../src/lib/data/zones/zones.ts";
+import { questions } from "../../src/lib/data/zones/questions.ts";
 
-const FILES = ["src/lib/data/zones/zones.ts", "src/lib/data/zones/questions.ts"];
-const DOI_RE = /doi:\s*'([^']+)'/g;
+const online = process.argv.includes("--online");
 
-const dois = new Set();
-for (const f of FILES) {
-  const text = await readFile(f, "utf8");
-  let m;
-  while ((m = DOI_RE.exec(text)) !== null) dois.add(m[1]);
-}
+const items = [
+  ...zones.map((z) => ({ id: z.id, name: z.name, citations: z.citations })),
+  ...questions.map((q) => ({ id: q.id, name: q.name, citations: q.citations })),
+];
 
-console.log(`Found ${dois.size} DOIs to verify.\n`);
-
-let ok = 0;
+const urlRe = /^https?:\/\/\S+$/;
 let bad = 0;
-for (const doi of dois) {
-  try {
-    const res = await fetch(
-      `https://api.crossref.org/works/${encodeURIComponent(doi)}`,
-      {
-        headers: {
-          "User-Agent":
-            "ambient-atlas-citation-check/1.0 (mailto:toaliramazanov@tutamail.com)",
-        },
-      },
-    );
-    if (res.ok) {
-      ok++;
-      console.log("OK   ", doi);
-    } else {
-      bad++;
-      console.log("FAIL ", doi, `(http ${res.status})`);
-    }
-  } catch (err) {
+
+for (const it of items) {
+  if (!it.citations || it.citations.length === 0) {
+    console.log("MISSING citation:", it.id, "-", it.name);
     bad++;
-    console.log("ERROR", doi, err.message);
+    continue;
+  }
+  for (const c of it.citations) {
+    if (!c.ref || !String(c.ref).trim()) {
+      console.log("EMPTY ref:", it.id, "-", c.url ?? "");
+      bad++;
+    }
+    if (!c.url || !urlRe.test(c.url)) {
+      console.log("BAD url:", it.id, "-", c.ref ?? "", "->", c.url ?? "(none)");
+      bad++;
+    }
   }
 }
 
-console.log(`\n${ok} resolved, ${bad} failed.`);
+console.log(`\nChecked ${items.length} entries; ${bad} citation problem(s).`);
+
+if (online) {
+  const dois = new Set<string>();
+  for (const it of items)
+    for (const c of it.citations) if (c.doi) dois.add(c.doi);
+
+  console.log(`\nResolving ${dois.size} DOIs against Crossref...\n`);
+  let doiBad = 0;
+  for (const doi of dois) {
+    try {
+      const res = await fetch(
+        `https://api.crossref.org/works/${encodeURIComponent(doi)}`,
+        {
+          headers: {
+            "User-Agent":
+              "ambient-atlas-citation-check/1.0 (mailto:toaliramazanov@tutamail.com)",
+          },
+        },
+      );
+      if (res.ok) console.log("OK   ", doi);
+      else {
+        console.log("FAIL ", doi, `(http ${res.status})`);
+        doiBad++;
+      }
+    } catch (err) {
+      console.log("ERROR", doi, (err as Error).message);
+      doiBad++;
+    }
+  }
+  console.log(`\n${dois.size - doiBad} resolved, ${doiBad} failed.`);
+  bad += doiBad;
+}
+
 process.exit(bad ? 1 : 0);
