@@ -3,6 +3,7 @@
 	import { ANTHRO_SUBCATS, anthroSubOf, CATEGORIES, TIERS } from '$lib/data/scales/categories';
 	import { zones } from '$lib/data/zones/zones';
 	import { ui } from '$lib/state/state.svelte';
+	import { onMount } from 'svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { scale } from 'svelte/transition';
 	import Icon from './Icon.svelte';
@@ -35,21 +36,41 @@
 		for (const k of Object.keys(ui.cats)) ui.cats[k] = on;
 	}
 
-	let minimized = $state(typeof window !== 'undefined' && window.innerWidth < 880);
+	let minimized = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
+	let isMobile = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
+	onMount(() => {
+		const mql = window.matchMedia('(max-width: 1023px)');
+		const on = (e: MediaQueryListEvent) => {
+			isMobile = e.matches;
+			minimized = e.matches;
+		};
+		mql.addEventListener('change', on);
+		return () => mql.removeEventListener('change', on);
+	});
+	function showLegend() {
+		minimized = false;
+		ui.openPanel = 'legend';
+	}
+	function hideLegend() {
+		minimized = true;
+		if (ui.openPanel === 'legend') ui.openPanel = null;
+	}
+	$effect(() => {
+		if (isMobile && ui.openPanel && ui.openPanel !== 'legend') minimized = true;
+	});
+	const hidden = $derived(isMobile && ui.openPanel !== null && ui.openPanel !== 'legend');
 	let open = $state<Record<string, boolean>>({});
 	const toggle = (k: string) => (open[k] = !open[k]);
 </script>
 
-{#if minimized}
-	<button class="launcher" onclick={() => (minimized = false)} aria-label="Open menu" transition:scale={{ duration: 240, start: 0.85, opacity: 0, easing: cubicOut }}>
-		<span class="dot"></span>
-		<Icon name="layers" size={15} />
-	</button>
-{:else}
+{#if !minimized}
+	{#if isMobile}
+		<button class="scrim" onclick={hideLegend} aria-label="Close menu"></button>
+	{/if}
 	<div class="legend" transition:scale={{ duration: 260, start: 0.93, opacity: 0, easing: cubicOut }}>
 		<div class="header">
 			<div class="title"><span class="dot"></span> Ambient Atlas</div>
-			<button class="icon-btn min" onclick={() => (minimized = true)} aria-label="Minimize menu">
+			<button class="icon-btn min" onclick={hideLegend} aria-label="Minimize menu">
 				<Icon name="minus" size={15} />
 			</button>
 		</div>
@@ -117,19 +138,24 @@
 
 		</div>
 	</div>
+{:else if !hidden}
+	<button class="launcher" onclick={showLegend} aria-label="Open menu" transition:scale={{ duration: 240, start: 0.85, opacity: 0, easing: cubicOut }}>
+		<span class="dot"></span>
+		<Icon name="layers" size={15} />
+	</button>
 {/if}
 
 <style>
 	.legend {
 		position: absolute;
-		top: 18px;
-		right: 18px;
+		top: 16px;
+		right: 16px;
 		z-index: 20;
-		width: 256px;
+		width: 288px;
 		transform-origin: 100% 0;
 		display: flex;
 		flex-direction: column;
-		max-height: calc(100% - 36px);
+		max-height: calc(100% - 32px);
 		padding: 14px 14px 6px;
 		background: var(--panel);
 		border: 1px solid var(--line);
@@ -141,8 +167,8 @@
 	}
 	.launcher {
 		position: absolute;
-		top: 18px;
-		right: 18px;
+		top: 16px;
+		right: 16px;
 		z-index: 20;
 		transform-origin: 100% 0;
 		display: inline-flex;
@@ -333,15 +359,24 @@
 	input {
 		accent-color: #d9b46a;
 	}
-	@media (max-width: 600px) {
+	.scrim {
+		position: fixed;
+		inset: 0;
+		z-index: 19;
+		border: none;
+		background: rgba(3, 5, 9, 0.45);
+		backdrop-filter: blur(1px);
+		cursor: default;
+	}
+	@media (max-width: 1023px) {
 		.legend {
-			width: min(256px, calc(100vw - 24px));
-			top: 12px;
-			right: 12px;
-		}
-		.launcher {
-			top: 12px;
-			right: 12px;
+			top: 64px;
+			left: 16px;
+			right: 16px;
+			width: auto;
+			max-width: none;
+			max-height: calc(100dvh - 80px);
+			overflow-y: auto;
 		}
 	}
 </style>

@@ -2,13 +2,28 @@
 	import { categoryColor } from '$lib/data/scales/categories';
 	import { dots, researchOf, severityOf } from '$lib/data/scales/severity';
 	import { statusOf } from '$lib/data/scales/status';
-	import { ui } from '$lib/state/state.svelte';
+	import { openZone, ui } from '$lib/state/state.svelte';
 	import { view } from '$lib/state/viewport.svelte';
+
+	function openHovered() {
+		if (ui.hovered) openZone(ui.hovered);
+	}
 </script>
 
 {#if ui.hovered && !view.moving}
 	{@const st = statusOf(ui.hovered)}
-	<div class="tip" style="left:{ui.pointer.x + 16}px; top:{ui.pointer.y + 16}px;">
+	<div
+		class="tip"
+		class:tappable={view.coarse}
+		style="left:{ui.pointer.x + 16}px; top:{ui.pointer.y + 16}px;"
+		role="button"
+		tabindex={view.coarse ? 0 : -1}
+		aria-label="Open this exposure"
+		onclick={openHovered}
+		onkeydown={(e: KeyboardEvent) => {
+			if (e.key === 'Enter' || e.key === ' ') openHovered();
+		}}
+	>
 		<div class="name">
 			<span class="dot" style="background:{categoryColor(ui.hovered)}"></span>
 			{ui.hovered.name}
@@ -20,7 +35,7 @@
 		<div class="sr">
 			severity {dots(severityOf(ui.hovered))} · researched {dots(researchOf(ui.hovered))}
 		</div>
-		<div class="hint">left-click to read, right-click to pin its reach</div>
+		<div class="hint">{view.coarse ? 'Tap to open' : 'left-click to read, right-click to pin its reach'}</div>
 	</div>
 {/if}
 
@@ -37,6 +52,10 @@
 		-webkit-backdrop-filter: blur(var(--blur));
 		pointer-events: none;
 		box-shadow: var(--shadow);
+	}
+	.tip.tappable {
+		pointer-events: auto;
+		cursor: pointer;
 	}
 	.name {
 		font-weight: 700;

@@ -111,6 +111,7 @@
 			if (cam.position.distanceToSquared(lastPos) > 1e-6) {
 				view.moving = true;
 				moveIdle = 0;
+				if (view.coarse && ui.hovered) ui.hovered = null;
 			} else {
 				moveIdle += delta;
 				if (view.moving && moveIdle > 0.2) view.moving = false;
@@ -311,7 +312,7 @@
 	}
 
 	function handleLeave() {
-		ui.hovered = null;
+		if (!view.coarse) ui.hovered = null;
 		view.cursorLL = null;
 	}
 
@@ -329,7 +330,25 @@
 		return { z, lat, lng };
 	}
 
-	function handleClick(e: { point?: Vector3 }) {
+	function handleClick(e: { point?: Vector3; nativeEvent?: PointerEvent }) {
+		if (view.coarse) {
+			let z: typeof ui.hovered = null;
+			if (e.point) {
+				const { lat, lng } = vector3ToLatLng(e.point);
+				z = zoneAtPoint(lat, lng);
+			}
+			if (z) {
+				if (ui.hovered?.id === z.id) {
+					ui.hovered = null;
+					return;
+				}
+				ui.hovered = z;
+				if (e.nativeEvent) ui.pointer = { x: e.nativeEvent.clientX, y: e.nativeEvent.clientY };
+				return;
+			}
+			ui.hovered = null;
+			return;
+		}
 		const { z, lat, lng } = zoneUnder(e);
 		if (z) {
 			openZone(z);

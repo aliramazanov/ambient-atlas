@@ -276,6 +276,7 @@
 	}
 
 	useTask(() => {
+		if (view.coarse) return;
 		if (view.moving || !view.hasFocus || view.overUI) {
 			if (ui.hovered) ui.hovered = null;
 			return;

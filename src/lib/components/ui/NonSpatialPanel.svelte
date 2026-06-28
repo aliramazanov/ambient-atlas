@@ -3,12 +3,36 @@
 	import { questions } from '$lib/data/zones/questions';
 	import { air } from '$lib/state/air-quality.svelte';
 	import { flyToLocation, ui } from '$lib/state/state.svelte';
+	import { onMount } from 'svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { scale, slide } from 'svelte/transition';
 	import Icon from './Icon.svelte';
 	import Select from './Select.svelte';
 
-	let minimized = $state(typeof window !== 'undefined' && window.innerWidth < 880);
+	let minimized = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
+	let isMobile = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
+	onMount(() => {
+		const mql = window.matchMedia('(max-width: 1023px)');
+		const on = (e: MediaQueryListEvent) => {
+			isMobile = e.matches;
+			minimized = e.matches;
+		};
+		mql.addEventListener('change', on);
+		return () => mql.removeEventListener('change', on);
+	});
+
+	function open() {
+		minimized = false;
+		ui.openPanel = 'controls';
+	}
+	function close() {
+		minimized = true;
+		if (ui.openPanel === 'controls') ui.openPanel = null;
+	}
+	$effect(() => {
+		if (isMobile && ui.openPanel && ui.openPanel !== 'controls') minimized = true;
+	});
+	const hidden = $derived(isMobile && ui.openPanel !== null && ui.openPanel !== 'controls');
 
 	const pinCount = $derived(Object.keys(ui.pinned).length);
 
@@ -23,20 +47,14 @@
 	}
 </script>
 
-{#if minimized}
-	<button
-		class="launcher"
-		onclick={() => (minimized = false)}
-		aria-label="Show controls"
-		transition:scale={{ duration: 240, start: 0.85, opacity: 0, easing: cubicOut }}
-	>
-		<Icon name="info" size={15} />
-	</button>
-{:else}
+{#if !minimized}
+	{#if isMobile}
+		<button class="scrim" onclick={close} aria-label="Close controls"></button>
+	{/if}
 	<div class="wrap" transition:scale={{ duration: 260, start: 0.93, opacity: 0, easing: cubicOut }}>
 		<div class="lhead">
 			<span class="ltitle">Controls</span>
-			<button class="min" onclick={() => (minimized = true)} aria-label="Hide controls">
+			<button class="min" onclick={close} aria-label="Hide controls">
 				<Icon name="minus" size={14} />
 			</button>
 		</div>
@@ -113,6 +131,15 @@
 		{/if}
 	</div>
 	</div>
+{:else if !hidden}
+	<button
+		class="launcher"
+		onclick={open}
+		aria-label="Show controls"
+		transition:scale={{ duration: 240, start: 0.85, opacity: 0, easing: cubicOut }}
+	>
+		<Icon name="info" size={15} />
+	</button>
 {/if}
 
 <style>
@@ -121,7 +148,7 @@
 		top: 16px;
 		left: 16px;
 		z-index: 20;
-		width: 320px;
+		width: 288px;
 		max-width: calc(100% - 32px);
 		transform-origin: 0 0;
 	}
@@ -339,5 +366,25 @@
 	}
 	.cites a {
 		font-size: 11px;
+	}
+	.scrim {
+		position: fixed;
+		inset: 0;
+		z-index: 19;
+		border: none;
+		background: rgba(3, 5, 9, 0.45);
+		backdrop-filter: blur(1px);
+		cursor: default;
+	}
+	@media (max-width: 1023px) {
+		.wrap {
+			top: 64px;
+			left: 16px;
+			right: 16px;
+			width: auto;
+			max-width: none;
+			max-height: calc(100dvh - 80px);
+			overflow-y: auto;
+		}
 	}
 </style>

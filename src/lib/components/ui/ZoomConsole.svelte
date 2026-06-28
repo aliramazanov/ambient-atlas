@@ -1,32 +1,44 @@
 <script lang="ts">
+	import { ui } from '$lib/state/state.svelte';
 	import { view, zoomBy, zoomLevel } from '$lib/state/viewport.svelte';
+	import { onMount } from 'svelte';
 	import Icon from './Icon.svelte';
 
 	const lvl = $derived(zoomLevel());
 	const pct = $derived(Math.round(lvl * 100));
+	let isMobile = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
+	onMount(() => {
+		const mql = window.matchMedia('(max-width: 1023px)');
+		const on = (e: MediaQueryListEvent) => (isMobile = e.matches);
+		mql.addEventListener('change', on);
+		return () => mql.removeEventListener('change', on);
+	});
+	const hidden = $derived(isMobile && ui.openPanel !== null);
 
 	void view;
 </script>
 
-<div class="zoomc glass" role="group" aria-label="Globe zoom">
-	<button class="zb" onclick={() => zoomBy(1.28)} aria-label="Zoom out" title="Zoom out">
-		<Icon name="minus" size={14} stroke={2.2} />
-	</button>
+{#if !hidden}
+	<div class="zoomc glass" role="group" aria-label="Globe zoom">
+		<button class="zb" onclick={() => zoomBy(1.28)} aria-label="Zoom out" title="Zoom out">
+			<Icon name="minus" size={14} stroke={2.2} />
+		</button>
 
-	<div class="track" aria-hidden="true">
-		<span class="fill" style="width:{lvl * 100}%"></span>
-		<span class="marker" style="left:{lvl * 100}%"></span>
+		<div class="track" style="--lvl:{lvl}" aria-hidden="true">
+			<span class="fill"></span>
+			<span class="marker"></span>
+		</div>
+
+		<button class="zb" onclick={() => zoomBy(0.78)} aria-label="Zoom in" title="Zoom in">
+			<Icon name="plus" size={14} stroke={2.2} />
+		</button>
+
+		<div class="read">
+			<span class="num">{pct}</span>
+			<span class="unit">ZM</span>
+		</div>
 	</div>
-
-	<button class="zb" onclick={() => zoomBy(0.78)} aria-label="Zoom in" title="Zoom in">
-		<Icon name="plus" size={14} stroke={2.2} />
-	</button>
-
-	<div class="read">
-		<span class="num">{pct}</span>
-		<span class="unit">ZM</span>
-	</div>
-</div>
+{/if}
 
 <style>
 	.zoomc {
@@ -78,16 +90,14 @@
 		left: 0;
 		top: 0;
 		height: 100%;
+		width: calc(var(--lvl) * 100%);
 		border-radius: 3px;
-		background: linear-gradient(
-			to right,
-			rgba(203, 168, 105, 0.35),
-			rgba(227, 197, 133, 0.9)
-		);
+		background: linear-gradient(to right, rgba(203, 168, 105, 0.35), rgba(227, 197, 133, 0.9));
 	}
 	.marker {
 		position: absolute;
 		top: -2px;
+		left: calc(var(--lvl) * 100%);
 		width: 2px;
 		height: 7px;
 		background: var(--gold);
@@ -112,9 +122,38 @@
 		letter-spacing: 0.16em;
 		color: var(--faint);
 	}
-	@media (max-width: 880px) {
+	@media (max-width: 1023px) {
 		.zoomc {
+			left: 16px;
+			right: auto;
+			bottom: auto;
+			top: 50%;
+			transform: translateY(-50%);
+			flex-direction: column-reverse;
+			gap: 9px;
+			padding: 8px 6px;
+		}
+		.read {
 			display: none;
+		}
+		.track {
+			width: 3px;
+			height: 96px;
+		}
+		.fill {
+			top: auto;
+			bottom: 0;
+			width: 100%;
+			height: calc(var(--lvl) * 100%);
+			background: linear-gradient(to top, rgba(203, 168, 105, 0.35), rgba(227, 197, 133, 0.9));
+		}
+		.marker {
+			top: auto;
+			left: 50%;
+			bottom: calc(var(--lvl) * 100%);
+			width: 7px;
+			height: 2px;
+			transform: translate(-50%, 1px);
 		}
 	}
 </style>

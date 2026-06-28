@@ -4,6 +4,7 @@
 	import { cities, countryLabels } from '$lib/data/generated/places';
 	import { zones } from '$lib/data/zones/zones';
 	import { flyToLocation, ui } from '$lib/state/state.svelte';
+	import { onMount, tick } from 'svelte';
 	import Icon from './Icon.svelte';
 
 	interface Item {
@@ -25,6 +26,34 @@
 	let open = $state(false);
 	let active = $state(0);
 	let root: HTMLElement | undefined = $state();
+	let inputEl: HTMLInputElement | undefined = $state();
+	let isMobile = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
+	let searchOpen = $state(false);
+	const fieldShown = $derived(!isMobile || searchOpen);
+	const hidden = $derived(isMobile && ui.openPanel !== null && ui.openPanel !== 'search');
+	onMount(() => {
+		const mql = window.matchMedia('(max-width: 1023px)');
+		const on = (e: MediaQueryListEvent) => (isMobile = e.matches);
+		mql.addEventListener('change', on);
+		return () => mql.removeEventListener('change', on);
+	});
+	$effect(() => {
+		if (isMobile && ui.openPanel && ui.openPanel !== 'search') {
+			searchOpen = false;
+			open = false;
+		}
+	});
+	async function openSearch() {
+		searchOpen = true;
+		ui.openPanel = 'search';
+		await tick();
+		inputEl?.focus();
+	}
+	function closeSearch() {
+		searchOpen = false;
+		open = false;
+		if (ui.openPanel === 'search') ui.openPanel = null;
+	}
 
 	const results = $derived.by(() => {
 		const s = q.trim().toLowerCase();
@@ -48,7 +77,7 @@
 		flyToLocation(it.lat, it.lng, dist);
 
 		q = it.name;
-		open = false;
+		closeSearch();
 
 		if (it.type === 'zone' && it.id) goto(resolve('/zone/[id]', { id: it.id }));
 		else ui.probe = { lat: it.lat, lng: it.lng };
@@ -88,47 +117,60 @@
 
 <svelte:window onpointerdown={onWindowPointer} />
 
-<div class="search" bind:this={root}>
-	<div class="field">
-		<span class="ic"><Icon name="search" size={15} /></span>
-		<input
-			type="text"
-			placeholder="Search a city, country, or zone..."
-			aria-label="Search a city, country, or zone"
-			role="combobox"
-			aria-autocomplete="list"
-			aria-controls="search-results"
-			aria-expanded={open && results.length > 0}
-			aria-activedescendant={open && results.length ? `search-opt-${active}` : undefined}
-			bind:value={q}
-			onfocus={() => (open = true)}
-			oninput={() => {
-				open = true;
-				active = 0;
-			}}
-			onkeydown={onKeydown}
-		/>
-	</div>
-	{#if open && results.length}
-		<ul class="results" id="search-results" role="listbox" aria-label="Search results">
-			{#each results as it, i (it.type + it.name + it.lat)}
-				<!-- svelte-ignore a11y_click_events_have_key_events -->
-				<!-- Keyboard handled on the combobox input via aria-activedescendant. -->
-				<li
-					id="search-opt-{i}"
-					role="option"
-					aria-selected={i === active}
-					class:active={i === active}
-					onpointerenter={() => (active = i)}
-					onclick={() => choose(it)}
-				>
-					<span class="rname">{it.name}</span>
-					<span class="rsub">{it.sub}</span>
-				</li>
-			{/each}
-		</ul>
-	{:else if open && q.trim().length >= 2}
-		<div class="noresults">No matches for "{q.trim()}"</div>
+{#if isMobile && searchOpen}
+	<button class="scrim" onclick={closeSearch} aria-label="Close search"></button>
+{/if}
+<div class="search" bind:this={root} class:open={fieldShown}>
+	{#if fieldShown}
+		<div class="field">
+			<span class="ic"><Icon name="search" size={15} /></span>
+			<input
+				bind:this={inputEl}
+				type="text"
+				placeholder="Search a city, country, or zone..."
+				aria-label="Search a city, country, or zone"
+				role="combobox"
+				aria-autocomplete="list"
+				aria-controls="search-results"
+				aria-expanded={open && results.length > 0}
+				aria-activedescendant={open && results.length ? `search-opt-${active}` : undefined}
+				bind:value={q}
+				onfocus={() => (open = true)}
+				oninput={() => {
+					open = true;
+					active = 0;
+				}}
+				onblur={() => {
+					if (isMobile && !q.trim()) closeSearch();
+				}}
+				onkeydown={onKeydown}
+			/>
+		</div>
+		{#if open && results.length}
+			<ul class="results" id="search-results" role="listbox" aria-label="Search results">
+				{#each results as it, i (it.type + it.name + it.lat)}
+					<!-- svelte-ignore a11y_click_events_have_key_events -->
+					<!-- Keyboard handled on the combobox input via aria-activedescendant. -->
+					<li
+						id="search-opt-{i}"
+						role="option"
+						aria-selected={i === active}
+						class:active={i === active}
+						onpointerenter={() => (active = i)}
+						onclick={() => choose(it)}
+					>
+						<span class="rname">{it.name}</span>
+						<span class="rsub">{it.sub}</span>
+					</li>
+				{/each}
+			</ul>
+		{:else if open && q.trim().length >= 2}
+			<div class="noresults">No matches for "{q.trim()}"</div>
+		{/if}
+	{:else if !hidden}
+		<button class="searchbtn" onclick={openSearch} aria-label="Search">
+			<Icon name="search" size={16} />
+		</button>
 	{/if}
 </div>
 
@@ -141,10 +183,41 @@
 		z-index: 35;
 		width: min(380px, 64vw);
 	}
-	@media (max-width: 620px) {
-		.search {
-			width: calc(100vw - 120px);
-			top: 12px;
+	.search:not(.open) {
+		width: auto;
+	}
+	.searchbtn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		color: var(--muted);
+		background: var(--panel);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+		box-shadow: var(--shadow-sm);
+		backdrop-filter: blur(var(--blur));
+		-webkit-backdrop-filter: blur(var(--blur));
+		cursor: pointer;
+	}
+	.searchbtn:hover {
+		color: var(--text);
+		border-color: var(--line-strong);
+	}
+	.scrim {
+		position: fixed;
+		inset: 0;
+		z-index: 19;
+		border: none;
+		background: rgba(3, 5, 9, 0.45);
+		backdrop-filter: blur(1px);
+		cursor: default;
+	}
+	@media (max-width: 1023px) {
+		.search.open {
+			top: 66px;
+			width: calc(100vw - 32px);
 		}
 	}
 	.field {

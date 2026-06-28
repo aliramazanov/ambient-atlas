@@ -18,6 +18,7 @@
 	import { ui } from '$lib/state/state.svelte';
 	import { readUrlState, writeUrlState } from '$lib/state/url-state';
 	import { view } from '$lib/state/viewport.svelte';
+	import { onMount } from 'svelte';
 	import '../app.css';
 	import type { LayoutProps } from './$types';
 
@@ -33,6 +34,14 @@
 
 	$effect(() => {
 		if (onGlobe) writeUrlState();
+	});
+
+	onMount(() => {
+		const mql = window.matchMedia('(pointer: coarse)');
+		view.coarse = mql.matches;
+		const on = (e: MediaQueryListEvent) => (view.coarse = e.matches);
+		mql.addEventListener('change', on);
+		return () => mql.removeEventListener('change', on);
 	});
 
 	function trackFocus(e: PointerEvent) {

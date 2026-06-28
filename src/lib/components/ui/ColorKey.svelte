@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { ANTHRO_SUBCATS, CATEGORIES } from '$lib/data/scales/categories';
+	import { ui } from '$lib/state/state.svelte';
+	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import Icon from './Icon.svelte';
 
@@ -15,10 +17,31 @@
 	let open = $state(false);
 	let openKey = $state<string | null>(null);
 	const toggle = (k: string) => (openKey = openKey === k ? null : k);
+
+	let isMobile = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
+	onMount(() => {
+		const mql = window.matchMedia('(max-width: 1023px)');
+		const on = (e: MediaQueryListEvent) => (isMobile = e.matches);
+		mql.addEventListener('change', on);
+		return () => mql.removeEventListener('change', on);
+	});
+	const hidden = $derived(isMobile && ui.openPanel !== null && ui.openPanel !== 'colorkey');
+	$effect(() => {
+		if (isMobile && ui.openPanel && ui.openPanel !== 'colorkey') open = false;
+	});
+	function toggleOpen() {
+		open = !open;
+		if (open) ui.openPanel = 'colorkey';
+		else if (ui.openPanel === 'colorkey') ui.openPanel = null;
+	}
 </script>
 
-<div class="wrap">
-	{#if open}
+{#if isMobile && open}
+	<button class="scrim" onclick={toggleOpen} aria-label="Close color key"></button>
+{/if}
+{#if !hidden}
+	<div class="wrap" class:open>
+		{#if open}
 		<div class="panel" transition:slide={{ duration: 160 }}>
 			{#each groups as g (g.title)}
 				<div class="sub">{g.title}</div>
@@ -41,11 +64,12 @@
 		</div>
 	{/if}
 
-	<button class="toggle" onclick={() => (open = !open)} aria-expanded={open}>
+	<button class="toggle" onclick={toggleOpen} aria-expanded={open}>
 		<span class="tlabel"><Icon name="layers" size={13} /> Color key</span>
 		<span class="chev" class:open><Icon name="chevron" size={13} /></span>
 	</button>
 </div>
+{/if}
 
 <style>
 	.wrap {
@@ -53,10 +77,13 @@
 		bottom: 16px;
 		left: 16px;
 		z-index: 20;
-		width: 270px;
+		width: fit-content;
 		max-width: calc(100% - 32px);
 		display: flex;
 		flex-direction: column;
+	}
+	.wrap.open {
+		width: 270px;
 	}
 	.toggle {
 		width: 100%;
@@ -141,5 +168,14 @@
 		line-height: 1.5;
 		color: var(--muted);
 		padding: 2px 10px 9px 28px;
+	}
+	.scrim {
+		position: fixed;
+		inset: 0;
+		z-index: 19;
+		border: none;
+		background: rgba(3, 5, 9, 0.45);
+		backdrop-filter: blur(1px);
+		cursor: default;
 	}
 </style>

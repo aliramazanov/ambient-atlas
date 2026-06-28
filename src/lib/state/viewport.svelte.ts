@@ -17,6 +17,8 @@ export const view = $state<{
   hasFocus: boolean;
   /** True when the pointer is over UI chrome (a panel), not the globe canvas. */
   overUI: boolean;
+  /** True on touch / coarse-pointer devices (no hover). */
+  coarse: boolean;
   /** Geographic point under the cursor on the globe (null when off-globe). */
   cursorLL: { lat: number; lng: number } | null;
   /** Manual zoom request from the zoom console; token forces a re-trigger. */
@@ -31,6 +33,7 @@ export const view = $state<{
   focusY: 0,
   hasFocus: false,
   overUI: false,
+  coarse: typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches,
   cursorLL: null,
   zoom: null,
 });

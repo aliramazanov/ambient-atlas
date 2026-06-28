@@ -247,19 +247,8 @@
 	let openId = $state<string | null>(null);
 	const selected = $derived(marks.find((m) => m.z.id === openId) ?? null);
 
-	let pinnedNames = $state<Set<string>>(new Set());
-
 	function selectZone(id: string) {
-		const next = new Set(pinnedNames);
-		if (next.has(id)) {
-			next.delete(id);
-			if (openId === id) openId = [...next].at(-1) ?? null;
-		} else {
-			next.add(id);
-			openId = id;
-		}
-
-		pinnedNames = next;
+		openId = openId === id ? null : id;
 	}
 </script>
 
@@ -287,6 +276,7 @@
 		<div class="grid">
 			<!-- Controls (left) -->
 			<aside class="panel controls">
+				<div class="grabber" aria-hidden="true"></div>
 				<section class="group">
 					<span class="label">Overlays</span>
 					<label class="switch">
@@ -450,7 +440,7 @@
 						<g
 							class="mark"
 							class:active={openId === m.z.id}
-							class:dim={openId !== null && openId !== m.z.id && !pinnedNames.has(m.z.id)}
+							class:dim={openId !== null && openId !== m.z.id}
 							role="button"
 							tabindex="0"
 							aria-label={m.z.name}
@@ -477,7 +467,7 @@
 									<path d="M{x - h + c},{y + h} L{x - h},{y + h} L{x - h},{y + h - c}" />
 								</g>
 							{/if}
-							{#if pinnedNames.has(m.z.id)}
+							{#if openId === m.z.id}
 								<text class="mark-name" x={x + r + 6} y={y + 3.5}>{m.z.name}</text>
 							{/if}
 						</g>
@@ -668,6 +658,9 @@
 		padding: 14px 15px;
 		backdrop-filter: blur(var(--blur));
 		scrollbar-width: thin;
+	}
+	.grabber {
+		display: none;
 	}
 	.group {
 		display: block;
@@ -1175,21 +1168,43 @@
 	/* Phone: single column, map first. */
 	@media (max-width: 720px) {
 		main {
-			position: absolute;
-			min-height: 100%;
+			overflow-y: auto;
+			overflow-x: hidden;
 		}
+		/* Mobile bottom-sheet: keep the map full-size (markers intact) and let the
+		   unified controls + exposures sheet peek up and reveal on scroll. */
 		.grid {
 			grid-template-columns: minmax(0, 1fr);
 			grid-template-rows: none;
+			flex: none;
+			gap: 0;
+		}
+		.mapcol {
+			order: -1;
+			min-height: 82vh;
 		}
 		.controls {
 			grid-row: auto;
-		}
-		.mapcol {
-			min-height: 56vh;
+			order: 0;
+			border-radius: 20px 20px 0 0;
+			padding: 6px 18px 18px;
+			font-size: 14.5px;
 		}
 		.side {
+			order: 1;
 			max-height: none;
+			border-radius: 0 0 20px 20px;
+			margin-top: -1px;
+			padding: 14px 18px 22px;
+			font-size: 14.5px;
+		}
+		.grabber {
+			display: block;
+			width: 40px;
+			height: 4px;
+			margin: 8px auto 12px;
+			border-radius: 999px;
+			background: var(--line-strong);
 		}
 	}
 	@media (prefers-reduced-motion: reduce) {
