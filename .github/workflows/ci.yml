@@ -1,8 +1,5 @@
 name: CI
 
-# Quality gates for every push and pull request: the type/style check must be
-# clean (0 errors, 0 warnings) and the production build must succeed.
-
 on:
   push:
     branches: [main]
@@ -16,8 +13,6 @@ jobs:
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -28,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Type and style check (svelte-check, must be 0 errors / 0 warnings)
+      - name: Type and style check
         run: pnpm check
 
       - name: Production build
