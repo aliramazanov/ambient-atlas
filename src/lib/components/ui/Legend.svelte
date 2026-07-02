@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { ANTHRO_SUBCATS, anthroSubOf, CATEGORIES, TIERS } from '$lib/data/scales/categories';
-	import { zones } from '$lib/data/zones/zones';
+	import { useIsMobile } from '$lib/state/media.svelte';
 	import { ui } from '$lib/state/state.svelte';
-	import { onMount } from 'svelte';
+	import { zones } from '$lib/data/zones/zones';
 	import { cubicOut } from 'svelte/easing';
 	import { scale } from 'svelte/transition';
+	import Button from './Button.svelte';
 	import Icon from './Icon.svelte';
+	import Scrim from './Scrim.svelte';
 
 	const established = CATEGORIES.filter((c) => c.tier === 'established');
 
@@ -36,16 +38,10 @@
 		for (const k of Object.keys(ui.cats)) ui.cats[k] = on;
 	}
 
-	let minimized = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
-	let isMobile = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
-	onMount(() => {
-		const mql = window.matchMedia('(max-width: 1023px)');
-		const on = (e: MediaQueryListEvent) => {
-			isMobile = e.matches;
-			minimized = e.matches;
-		};
-		mql.addEventListener('change', on);
-		return () => mql.removeEventListener('change', on);
+	const mobile = useIsMobile();
+	let minimized = $state(mobile.current);
+	$effect(() => {
+		minimized = mobile.current;
 	});
 	function showLegend() {
 		minimized = false;
@@ -56,23 +52,23 @@
 		if (ui.openPanel === 'legend') ui.openPanel = null;
 	}
 	$effect(() => {
-		if (isMobile && ui.openPanel && ui.openPanel !== 'legend') minimized = true;
+		if (mobile.current && ui.openPanel && ui.openPanel !== 'legend') minimized = true;
 	});
-	const hidden = $derived(isMobile && ui.openPanel !== null && ui.openPanel !== 'legend');
+	const hidden = $derived(mobile.current && ui.openPanel !== null && ui.openPanel !== 'legend');
 	let open = $state<Record<string, boolean>>({});
 	const toggle = (k: string) => (open[k] = !open[k]);
 </script>
 
 {#if !minimized}
-	{#if isMobile}
-		<button class="scrim" onclick={hideLegend} aria-label="Close menu"></button>
+	{#if mobile.current}
+		<Scrim onclose={hideLegend} label="Close menu" />
 	{/if}
-	<div class="legend" transition:scale={{ duration: 260, start: 0.93, opacity: 0, easing: cubicOut }}>
+	<div class="legend glass" transition:scale={{ duration: 260, start: 0.93, opacity: 0, easing: cubicOut }}>
 		<div class="header">
-			<div class="title"><span class="dot"></span> Ambient Atlas</div>
-			<button class="icon-btn min" onclick={hideLegend} aria-label="Minimize menu">
+			<div class="title">Ambient Atlas</div>
+			<Button variant="icon" size="icon" style="--btn-size:26px" onclick={hideLegend} aria-label="Minimize menu">
 				<Icon name="minus" size={15} />
-			</button>
+			</Button>
 		</div>
 
 		<div class="navlinks">
@@ -135,7 +131,6 @@
 					{/each}
 				</div>
 			</details>
-
 		</div>
 	</div>
 {:else if !hidden}
@@ -157,12 +152,6 @@
 		flex-direction: column;
 		max-height: calc(100% - 32px);
 		padding: 14px 14px 6px;
-		background: var(--panel);
-		border: 1px solid var(--line);
-		border-radius: var(--radius);
-		box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-		backdrop-filter: var(--glass-filter);
-		-webkit-backdrop-filter: var(--glass-filter);
 		font-size: 12.5px;
 	}
 	.launcher {
@@ -185,12 +174,11 @@
 		cursor: pointer;
 	}
 	.dot {
-		width: 9px;
-		height: 9px;
-		border-radius: 50%;
+		width: 8px;
+		height: 8px;
+		border-radius: 2px;
 		flex: none;
-		background: radial-gradient(circle at 30% 30%, #f3dca0, #d9b46a);
-		box-shadow: 0 0 10px rgba(217, 180, 106, 0.7);
+		background: linear-gradient(135deg, #e6c785, #c79a52);
 	}
 	.header {
 		display: flex;
@@ -205,10 +193,6 @@
 		display: flex;
 		align-items: center;
 		gap: 9px;
-	}
-	.min {
-		width: 26px;
-		height: 26px;
 	}
 	.navlinks {
 		display: flex;
@@ -358,15 +342,6 @@
 	}
 	input {
 		accent-color: #d9b46a;
-	}
-	.scrim {
-		position: fixed;
-		inset: 0;
-		z-index: 19;
-		border: none;
-		background: rgba(3, 5, 9, 0.45);
-		backdrop-filter: blur(1px);
-		cursor: default;
 	}
 	@media (max-width: 1023px) {
 		.legend {

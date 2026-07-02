@@ -120,7 +120,7 @@
 			no-repeat;
 		box-shadow:
 			0 30px 90px rgba(0, 0, 0, 0.66),
-			inset 0 1px 0 rgba(227, 197, 133, 0.06),
+			inset 0 1px 0 rgba(255, 255, 255, 0.05),
 			inset 0 0 150px rgba(0, 0, 0, 0.6);
 	}
 	.grain {

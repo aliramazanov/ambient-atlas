@@ -45,7 +45,7 @@
 
 			const fx = view.hasFocus ? view.focusX : w / 2;
 			const fy = view.hasFocus ? view.focusY : h / 2;
-			const focusR = Math.min(150, Math.max(90, Math.min(w, h) * 0.18));
+			const focusR = Math.min(160, Math.max(100, Math.min(w, h) * 0.2));
 			const occupied = new Set<string>();
 
 				for (let i = 0; i < pts.length; i++) {

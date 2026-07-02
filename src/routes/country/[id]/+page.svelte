@@ -784,17 +784,20 @@
 		font-size: 11.5px;
 		font-weight: 600;
 		color: var(--text);
-		background: var(--accent-soft);
-		border: 1px solid var(--accent);
+		background: rgba(255, 255, 255, 0.08);
+		border: 1px solid rgba(255, 255, 255, 0.08);
 		border-radius: 999px;
 		padding: 4px 11px;
 		cursor: pointer;
-		transition: background 120ms ease;
+		transition:
+			background 120ms ease,
+			opacity 120ms ease;
 	}
 	.tier.off {
 		color: var(--muted);
 		background: transparent;
 		border-color: var(--line);
+		opacity: 0.55;
 	}
 	.subchips {
 		display: flex;

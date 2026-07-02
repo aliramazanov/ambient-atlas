@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { ANTHRO_SUBCATS, CATEGORIES } from '$lib/data/scales/categories';
+	import { useIsMobile } from '$lib/state/media.svelte';
 	import { ui } from '$lib/state/state.svelte';
-	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import Icon from './Icon.svelte';
+	import Scrim from './Scrim.svelte';
+	import Toggle from './Toggle.svelte';
 
 	const established = CATEGORIES.filter((c) => c.tier === 'established');
 	const tiers = CATEGORIES.filter((c) => c.tier !== 'established');
@@ -18,16 +20,10 @@
 	let openKey = $state<string | null>(null);
 	const toggle = (k: string) => (openKey = openKey === k ? null : k);
 
-	let isMobile = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
-	onMount(() => {
-		const mql = window.matchMedia('(max-width: 1023px)');
-		const on = (e: MediaQueryListEvent) => (isMobile = e.matches);
-		mql.addEventListener('change', on);
-		return () => mql.removeEventListener('change', on);
-	});
-	const hidden = $derived(isMobile && ui.openPanel !== null && ui.openPanel !== 'colorkey');
+	const mobile = useIsMobile();
+	const hidden = $derived(mobile.current && ui.openPanel !== null && ui.openPanel !== 'colorkey');
 	$effect(() => {
-		if (isMobile && ui.openPanel && ui.openPanel !== 'colorkey') open = false;
+		if (mobile.current && ui.openPanel && ui.openPanel !== 'colorkey') open = false;
 	});
 	function toggleOpen() {
 		open = !open;
@@ -36,39 +32,40 @@
 	}
 </script>
 
-{#if isMobile && open}
-	<button class="scrim" onclick={toggleOpen} aria-label="Close color key"></button>
+{#if mobile.current && open}
+	<Scrim onclose={toggleOpen} label="Close color key" />
 {/if}
 {#if !hidden}
 	<div class="wrap" class:open>
 		{#if open}
-		<div class="panel" transition:slide={{ duration: 160 }}>
-			{#each groups as g (g.title)}
-				<div class="sub">{g.title}</div>
-				{#each g.items as c (c.key)}
-					<button
-						class="row"
-						class:open={openKey === c.key}
-						aria-expanded={openKey === c.key}
-						onclick={() => toggle(c.key)}
-					>
-						<span class="swatch" style="background:{c.color}"></span>
-						<span class="rlabel">{c.label}</span>
-						<span class="chev" class:open={openKey === c.key}><Icon name="chevron" size={12} /></span>
-					</button>
-					{#if openKey === c.key}
-						<div class="rdesc" transition:slide={{ duration: 140 }}>{c.desc}</div>
-					{/if}
+			<div class="panel" transition:slide={{ duration: 160 }}>
+				{#each groups as g (g.title)}
+					<div class="sub">{g.title}</div>
+					{#each g.items as c (c.key)}
+						<button
+							class="row"
+							class:open={openKey === c.key}
+							aria-expanded={openKey === c.key}
+							onclick={() => toggle(c.key)}
+						>
+							<span class="swatch" style="background:{c.color}"></span>
+							<span class="rlabel">{c.label}</span>
+							<span class="chev" class:open={openKey === c.key}><Icon name="chevron" size={12} /></span>
+						</button>
+						{#if openKey === c.key}
+							<div class="rdesc" transition:slide={{ duration: 140 }}>{c.desc}</div>
+						{/if}
+					{/each}
 				{/each}
-			{/each}
-		</div>
-	{/if}
+			</div>
+		{/if}
 
-	<button class="toggle" onclick={toggleOpen} aria-expanded={open}>
-		<span class="tlabel"><Icon name="layers" size={13} /> Color key</span>
-		<span class="chev" class:open><Icon name="chevron" size={13} /></span>
-	</button>
-</div>
+		<Toggle label="Color key" icon="layers" onclick={toggleOpen} aria-expanded={open}>
+			{#snippet trailing()}
+				<span class="chev" class:open><Icon name="chevron" size={13} /></span>
+			{/snippet}
+		</Toggle>
+	</div>
 {/if}
 
 <style>
@@ -84,27 +81,6 @@
 	}
 	.wrap.open {
 		width: 270px;
-	}
-	.toggle {
-		width: 100%;
-		text-align: left;
-		font-size: 12px;
-		font-weight: 600;
-		color: var(--text);
-		background: var(--panel);
-		border: 1px solid var(--line);
-		border-radius: 10px;
-		padding: 9px 12px;
-		cursor: pointer;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		backdrop-filter: blur(8px);
-	}
-	.tlabel {
-		display: flex;
-		align-items: center;
-		gap: 7px;
 	}
 	.chev {
 		display: flex;
@@ -168,14 +144,5 @@
 		line-height: 1.5;
 		color: var(--muted);
 		padding: 2px 10px 9px 28px;
-	}
-	.scrim {
-		position: fixed;
-		inset: 0;
-		z-index: 19;
-		border: none;
-		background: rgba(3, 5, 9, 0.45);
-		backdrop-filter: blur(1px);
-		cursor: default;
 	}
 </style>

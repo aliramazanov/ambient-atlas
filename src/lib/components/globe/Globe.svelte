@@ -79,22 +79,19 @@
 		gap: 10px;
 	}
 	.brand-dot {
-		width: 11px;
-		height: 11px;
-		border-radius: 50%;
-		background: radial-gradient(circle at 30% 30%, #f3dca0, #d9b46a);
-		box-shadow: 0 0 14px rgba(217, 180, 106, 0.8);
-		animation: brand-pulse 2.2s ease-in-out infinite;
+		width: 9px;
+		height: 9px;
+		border-radius: 2px;
+		background: linear-gradient(135deg, #e6c785, #c79a52);
+		animation: brand-pulse 2.4s ease-in-out infinite;
 	}
 	@keyframes brand-pulse {
 		0%,
 		100% {
-			box-shadow: 0 0 10px rgba(217, 180, 106, 0.55);
-			transform: scale(1);
+			opacity: 0.45;
 		}
 		50% {
-			box-shadow: 0 0 22px rgba(217, 180, 106, 0.95);
-			transform: scale(1.18);
+			opacity: 1;
 		}
 	}
 	.spinner.big {

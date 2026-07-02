@@ -1,19 +1,13 @@
 <script lang="ts">
+	import { useIsMobile } from '$lib/state/media.svelte';
 	import { ui } from '$lib/state/state.svelte';
 	import { view, zoomBy, zoomLevel } from '$lib/state/viewport.svelte';
-	import { onMount } from 'svelte';
 	import Icon from './Icon.svelte';
 
 	const lvl = $derived(zoomLevel());
 	const pct = $derived(Math.round(lvl * 100));
-	let isMobile = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
-	onMount(() => {
-		const mql = window.matchMedia('(max-width: 1023px)');
-		const on = (e: MediaQueryListEvent) => (isMobile = e.matches);
-		mql.addEventListener('change', on);
-		return () => mql.removeEventListener('change', on);
-	});
-	const hidden = $derived(isMobile && ui.openPanel !== null);
+	const mobile = useIsMobile();
+	const hidden = $derived(mobile.current && ui.openPanel !== null);
 
 	void view;
 </script>
@@ -101,7 +95,6 @@
 		width: 2px;
 		height: 7px;
 		background: var(--gold);
-		box-shadow: 0 0 5px rgba(227, 197, 133, 0.6);
 		transform: translateX(-1px);
 	}
 	.read {

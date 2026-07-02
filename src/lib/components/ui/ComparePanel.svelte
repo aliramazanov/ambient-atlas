@@ -7,6 +7,7 @@
 	import { zones } from '$lib/data/zones/zones';
 	import { ui } from '$lib/state/state.svelte';
 	import { fly } from 'svelte/transition';
+	import Button from './Button.svelte';
 	import Icon from './Icon.svelte';
 
 	const items = $derived(
@@ -19,19 +20,32 @@
 </script>
 
 {#if items.length}
-	<div class="compare" transition:fly={{ y: 16, duration: 160 }}>
+	<div class="compare glass" transition:fly={{ y: 16, duration: 160 }}>
 		<div class="head">
 			<span>Compare ({items.length})</span>
-			<button class="icon-btn clear" onclick={() => (ui.compare = [])} aria-label="Clear comparison">
+			<Button
+				variant="icon"
+				size="icon"
+				style="--btn-size:24px"
+				onclick={() => (ui.compare = [])}
+				aria-label="Clear comparison"
+			>
 				<Icon name="close" size={14} />
-			</button>
+			</Button>
 		</div>
 		<div class="cols">
 			{#each items as z (z.id)}
 				<div class="col">
-					<button class="icon-btn rm" onclick={() => remove(z.id)} aria-label="Remove">
+					<Button
+						variant="icon"
+						size="icon"
+						class="rm"
+						style="--btn-size:20px"
+						onclick={() => remove(z.id)}
+						aria-label="Remove"
+					>
 						<Icon name="close" size={12} />
-					</button>
+					</Button>
 					<div class="name"><span class="dot" style="background:{categoryColor(z)}"></span>{z.name}</div>
 					<div class="row"><span>Status</span><b style="color:{statusOf(z).color}">{statusOf(z).label}</b></div>
 					<div class="row"><span>Type</span><b>{z.category}</b></div>
@@ -54,12 +68,6 @@
 		transform: translateX(-50%);
 		z-index: 32;
 		max-width: min(760px, calc(100% - 32px));
-		background: var(--panel);
-		border: 1px solid var(--line);
-		border-radius: var(--radius);
-		box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-		backdrop-filter: var(--glass-filter);
-		-webkit-backdrop-filter: var(--glass-filter);
 		padding: 12px 14px;
 	}
 	.head {
@@ -71,10 +79,6 @@
 		letter-spacing: 0.05em;
 		color: var(--muted);
 		margin-bottom: 10px;
-	}
-	.clear {
-		width: 24px;
-		height: 24px;
 	}
 	.cols {
 		display: flex;
@@ -90,12 +94,10 @@
 		border: 1px solid var(--line);
 		border-radius: var(--radius-sm);
 	}
-	.rm {
+	.col :global(.rm) {
 		position: absolute;
 		top: 6px;
 		right: 6px;
-		width: 20px;
-		height: 20px;
 	}
 	.name {
 		font-weight: 600;

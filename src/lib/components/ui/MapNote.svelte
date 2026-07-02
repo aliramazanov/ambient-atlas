@@ -1,20 +1,15 @@
 <script lang="ts">
+	import { useIsMobile } from '$lib/state/media.svelte';
 	import { ui } from '$lib/state/state.svelte';
-	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import Icon from './Icon.svelte';
+	import Scrim from './Scrim.svelte';
 
 	let open = $state(false);
-	let isMobile = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
-	onMount(() => {
-		const mql = window.matchMedia('(max-width: 1023px)');
-		const on = (e: MediaQueryListEvent) => (isMobile = e.matches);
-		mql.addEventListener('change', on);
-		return () => mql.removeEventListener('change', on);
-	});
-	const hidden = $derived(isMobile && ui.openPanel !== null && ui.openPanel !== 'about');
+	const mobile = useIsMobile();
+	const hidden = $derived(mobile.current && ui.openPanel !== null && ui.openPanel !== 'about');
 	$effect(() => {
-		if (isMobile && ui.openPanel && ui.openPanel !== 'about') open = false;
+		if (mobile.current && ui.openPanel && ui.openPanel !== 'about') open = false;
 	});
 	function toggleNote() {
 		open = !open;
@@ -23,13 +18,13 @@
 	}
 </script>
 
-{#if isMobile && open}
-	<button class="scrim" onclick={toggleNote} aria-label="Close"></button>
+{#if mobile.current && open}
+	<Scrim onclose={toggleNote} />
 {/if}
 {#if !hidden}
 	<div class="mapnote">
 		{#if open}
-			<div class="note" transition:fly={{ y: 8, duration: 160 }}>
+			<div class="note glass" transition:fly={{ y: 8, duration: 160 }}>
 				Zone boundaries are approximate and illustrative. Gray zones mark open questions, not
 				established risks. Anthropogenic and conflict layers mix established harm with contested and
 				anecdotal reports; absence of a marker is not proof of safety.
@@ -53,28 +48,13 @@
 		align-items: flex-end;
 		gap: 12px;
 	}
-	.scrim {
-		position: fixed;
-		inset: 0;
-		z-index: 19;
-		border: none;
-		background: rgba(3, 5, 9, 0.45);
-		backdrop-filter: blur(1px);
-		cursor: default;
-	}
 	.note {
 		max-width: min(300px, calc(100vw - 32px));
 		text-align: left;
 		font-size: 11.5px;
 		line-height: 1.5;
 		color: var(--muted);
-		background: var(--panel);
-		border: 1px solid var(--line);
 		padding: 10px 16px;
-		border-radius: var(--radius-sm);
-		backdrop-filter: var(--glass-filter);
-		-webkit-backdrop-filter: var(--glass-filter);
-		box-shadow: var(--shadow);
 	}
 	.ibtn {
 		display: inline-flex;

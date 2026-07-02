@@ -4,6 +4,7 @@
 	import { inspectLocation } from '$lib/interaction/inspect';
 	import { ui } from '$lib/state/state.svelte';
 	import { fly } from 'svelte/transition';
+	import Button from './Button.svelte';
 	import Icon from './Icon.svelte';
 
 	const colorOf = (cat: string) => CATEGORIES.find((c) => c.key === cat)?.color ?? '#999';
@@ -12,9 +13,16 @@
 
 {#if ui.probe && result}
 	<div class="inspector" transition:fly={{ y: 16, duration: 160 }}>
-		<button class="close icon-btn" onclick={() => (ui.probe = null)} aria-label="Close">
+		<Button
+			variant="icon"
+			size="icon"
+			class="close"
+			style="--btn-size:26px"
+			onclick={() => (ui.probe = null)}
+			aria-label="Close"
+		>
 			<Icon name="close" size={15} />
-		</button>
+		</Button>
 		<div class="head"><Icon name="pin" size={15} /> Location</div>
 		<div class="coords">{ui.probe.lat.toFixed(2)}, {ui.probe.lng.toFixed(2)}</div>
 
@@ -73,12 +81,10 @@
 		backdrop-filter: blur(8px);
 		font-size: 12px;
 	}
-	.close {
+	.inspector :global(.close) {
 		position: absolute;
 		top: 10px;
 		right: 10px;
-		width: 26px;
-		height: 26px;
 	}
 	.head {
 		font-weight: 700;

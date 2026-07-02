@@ -53,8 +53,6 @@
 		pointer-events: none;
 		box-shadow: var(--shadow);
 	}
-	/* On touch the tip is a clamped, full-width card near the bottom so it always
-	   reads fully instead of overflowing off the tapped point. */
 	.tip.tappable {
 		pointer-events: auto;
 		cursor: pointer;

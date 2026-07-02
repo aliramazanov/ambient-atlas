@@ -2,10 +2,13 @@
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { cities, countryLabels } from '$lib/data/generated/places';
-	import { zones } from '$lib/data/zones/zones';
+	import { useIsMobile } from '$lib/state/media.svelte';
 	import { flyToLocation, ui } from '$lib/state/state.svelte';
-	import { onMount, tick } from 'svelte';
+	import { zones } from '$lib/data/zones/zones';
+	import { tick } from 'svelte';
+	import Button from './Button.svelte';
 	import Icon from './Icon.svelte';
+	import Scrim from './Scrim.svelte';
 
 	interface Item {
 		name: string;
@@ -27,18 +30,12 @@
 	let active = $state(0);
 	let root: HTMLElement | undefined = $state();
 	let inputEl: HTMLInputElement | undefined = $state();
-	let isMobile = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
 	let searchOpen = $state(false);
-	const fieldShown = $derived(!isMobile || searchOpen);
-	const hidden = $derived(isMobile && ui.openPanel !== null && ui.openPanel !== 'search');
-	onMount(() => {
-		const mql = window.matchMedia('(max-width: 1023px)');
-		const on = (e: MediaQueryListEvent) => (isMobile = e.matches);
-		mql.addEventListener('change', on);
-		return () => mql.removeEventListener('change', on);
-	});
+	const mobile = useIsMobile();
+	const fieldShown = $derived(!mobile.current || searchOpen);
+	const hidden = $derived(mobile.current && ui.openPanel !== null && ui.openPanel !== 'search');
 	$effect(() => {
-		if (isMobile && ui.openPanel && ui.openPanel !== 'search') {
+		if (mobile.current && ui.openPanel && ui.openPanel !== 'search') {
 			searchOpen = false;
 			open = false;
 		}
@@ -117,8 +114,8 @@
 
 <svelte:window onpointerdown={onWindowPointer} />
 
-{#if isMobile && searchOpen}
-	<button class="scrim" onclick={closeSearch} aria-label="Close search"></button>
+{#if mobile.current && searchOpen}
+	<Scrim onclose={closeSearch} label="Close search" />
 {/if}
 <div class="search" bind:this={root} class:open={fieldShown}>
 	{#if fieldShown}
@@ -141,7 +138,7 @@
 					active = 0;
 				}}
 				onblur={() => {
-					if (isMobile && !q.trim()) closeSearch();
+					if (mobile.current && !q.trim()) closeSearch();
 				}}
 				onkeydown={onKeydown}
 			/>
@@ -168,9 +165,9 @@
 			<div class="noresults">No matches for "{q.trim()}"</div>
 		{/if}
 	{:else if !hidden}
-		<button class="searchbtn" onclick={openSearch} aria-label="Search">
+		<Button variant="outline" size="icon" style="--btn-size:40px" onclick={openSearch} aria-label="Search">
 			<Icon name="search" size={16} />
-		</button>
+		</Button>
 	{/if}
 </div>
 
@@ -185,34 +182,6 @@
 	}
 	.search:not(.open) {
 		width: auto;
-	}
-	.searchbtn {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 40px;
-		height: 40px;
-		color: var(--muted);
-		background: var(--panel);
-		border: 1px solid var(--line);
-		border-radius: 10px;
-		box-shadow: var(--shadow-sm);
-		backdrop-filter: var(--glass-filter);
-		-webkit-backdrop-filter: var(--glass-filter);
-		cursor: pointer;
-	}
-	.searchbtn:hover {
-		color: var(--text);
-		border-color: var(--line-strong);
-	}
-	.scrim {
-		position: fixed;
-		inset: 0;
-		z-index: 19;
-		border: none;
-		background: rgba(3, 5, 9, 0.45);
-		backdrop-filter: blur(1px);
-		cursor: default;
 	}
 	@media (max-width: 1023px) {
 		.search.open {

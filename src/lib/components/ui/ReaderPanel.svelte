@@ -8,44 +8,9 @@
 	import { HEALTH } from '$lib/data/zones/health';
 	import type { EmissionType } from '$lib/data/zones/types';
 	import { ui } from '$lib/state/state.svelte';
-	import { fade, scale } from 'svelte/transition';
+	import Button from './Button.svelte';
+	import Dialog from './Dialog.svelte';
 	import Icon from './Icon.svelte';
-
-	let closeBtn: HTMLButtonElement | undefined = $state();
-	let panelEl: HTMLElement | undefined = $state();
-	let lastFocused: HTMLElement | null = null;
-
-	$effect(() => {
-		if (ui.selected) {
-			if (!lastFocused) lastFocused = document.activeElement as HTMLElement;
-			closeBtn?.focus();
-		} else if (lastFocused) {
-			lastFocused.focus?.();
-			lastFocused = null;
-		}
-	});
-
-	function trapTab(e: KeyboardEvent) {
-		if (e.key !== 'Tab' || !panelEl) return;
-
-		const els = Array.from(
-			panelEl.querySelectorAll<HTMLElement>(
-				'a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'
-			)
-		).filter((el) => el.offsetParent !== null);
-
-		if (!els.length) return;
-		const first = els[0];
-		const last = els[els.length - 1];
-
-		if (e.shiftKey && document.activeElement === first) {
-			e.preventDefault();
-			last.focus();
-		} else if (!e.shiftKey && document.activeElement === last) {
-			e.preventDefault();
-			first.focus();
-		}
-	}
 
 	const EMISSION_LABEL: Record<EmissionType, string> = {
 		ionizing: 'Ionizing radiation',
@@ -62,50 +27,27 @@
 	function addCompare(id: string) {
 		if (!ui.compare.includes(id) && ui.compare.length < 4) ui.compare = [...ui.compare, id];
 	}
-
-	function handleKey(e: KeyboardEvent) {
-		if (e.key === 'Escape') close();
-	}
 </script>
-
-<svelte:window onkeydown={handleKey} />
 
 {#if ui.selected}
 	{@const z = ui.selected}
 	{@const st = statusOf(z)}
-	<div
-		class="backdrop"
-		transition:fade={{ duration: 160 }}
-		onclick={(e) => {
-			if (e.target === e.currentTarget) close();
-		}}
-		role="presentation"
-	>
-		<div
-			class="panel"
-			bind:this={panelEl}
-			transition:scale={{ duration: 200, start: 0.96 }}
-			role="dialog"
-			aria-modal="true"
-			aria-label={z.name}
-			tabindex={-1}
-			onkeydown={trapTab}
-		>
-			<div class="folder-tab">
-				<span class="sdot" style="background:{st.color}"></span>
-				<span>Exposure file</span>
-				<span class="ref">№ {z.id}</span>
-			</div>
+	<Dialog onclose={close} label={z.name}>
+		<div class="folder-tab">
+			<span class="sdot" style="background:{st.color}"></span>
+			<span>Exposure file</span>
+			<span class="ref">№ {z.id}</span>
+		</div>
 
-			<div class="sheet">
-				<button class="close icon-btn" bind:this={closeBtn} onclick={close} aria-label="Close">
-					<Icon name="close" size={16} />
-				</button>
+		<div class="sheet">
+			<Button variant="icon" size="icon" class="close" style="--btn-size:30px" onclick={close} aria-label="Close">
+				<Icon name="close" size={16} />
+			</Button>
 
-				<header class="file-head">
-					<h1>{z.name}</h1>
-					<div class="coords">{z.lat.toFixed(2)}, {z.lng.toFixed(2)}</div>
-				</header>
+			<header class="file-head">
+				<h1>{z.name}</h1>
+				<div class="coords">{z.lat.toFixed(2)}, {z.lng.toFixed(2)}</div>
+			</header>
 
 			<div class="rule"></div>
 
@@ -169,36 +111,14 @@
 				</ul>
 			</section>
 
-			<button
-				class="compare-btn"
-				onclick={() => addCompare(z.id)}
-				disabled={ui.compare.includes(z.id)}
-			>
+			<button class="compare-btn" onclick={() => addCompare(z.id)} disabled={ui.compare.includes(z.id)}>
 				{ui.compare.includes(z.id) ? '✓ In comparison' : '+ Add to comparison'}
-				</button>
-			</div>
+			</button>
 		</div>
-	</div>
+	</Dialog>
 {/if}
 
 <style>
-	.backdrop {
-		position: fixed;
-		inset: 0;
-		z-index: 60;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: rgba(3, 5, 9, 0.6);
-		backdrop-filter: blur(4px);
-		padding: 24px;
-	}
-	.panel {
-		position: relative;
-		width: min(680px, 100%);
-		display: flex;
-		flex-direction: column;
-	}
 	.folder-tab {
 		align-self: flex-start;
 		margin-left: 30px;
@@ -235,12 +155,10 @@
 		backdrop-filter: var(--glass-filter);
 		-webkit-backdrop-filter: var(--glass-filter);
 	}
-	.close {
+	.sheet :global(.close) {
 		position: absolute;
 		top: 16px;
 		right: 16px;
-		width: 30px;
-		height: 30px;
 	}
 
 	.file-head {
@@ -408,9 +326,6 @@
 		cursor: default;
 	}
 	@media (max-width: 620px) {
-		.backdrop {
-			padding: 10px;
-		}
 		.folder-tab {
 			margin-left: 14px;
 		}

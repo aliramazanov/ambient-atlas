@@ -45,8 +45,7 @@
 	const ballTex = makeBallTexture();
 	const group = new Group();
 	const disposables: { dispose(): void }[] = [gradient, ballTex];
-	// Shared dot sprite materials, keyed by tint (zones reuse a small palette).
-	const dotMatCache = new Map<string, SpriteMaterial>();
+	const WHITE = new Color('#ffffff');
 
 	interface Entry {
 		id: string;
@@ -68,6 +67,8 @@
 		areaScale: number;
 		onScreen: boolean;
 		glow: number;
+		baseColor: Color;
+		pinAnim: boolean;
 	}
 
 	const entries: Entry[] = [];
@@ -80,7 +81,7 @@
 		const color = new Color(categoryColor(z));
 
 		const center = latLngToVector3(z.lat, z.lng, 1).normalize();
-		const radiusDeg = zoneRadiusDeg(z);
+		const radiusDeg = zoneRadiusDeg(z) * 0.5;
 		const radiusRad = radiusDeg * DEG2RAD;
 		const areaScale = Math.max(0.4, Math.min(1, 14 / radiusDeg));
 
@@ -127,20 +128,16 @@
 			disposables.push(edgeGeo, edgeMat);
 		}
 
-		const tint = color.clone().lerp(new Color('#ffffff'), 0.12).getHexString();
+		const tint = color.clone().lerp(WHITE, 0.12).getHexString();
 
-		let dotMat = dotMatCache.get(tint);
-
-		if (!dotMat) {
-			dotMat = new SpriteMaterial({
-				map: ballTex,
-				color: new Color(`#${tint}`),
-				transparent: true,
-				depthWrite: false
-			});
-			dotMatCache.set(tint, dotMat);
-			disposables.push(dotMat);
-		}
+		const baseColor = new Color(`#${tint}`);
+		const dotMat = new SpriteMaterial({
+			map: ballTex,
+			color: baseColor.clone(),
+			transparent: true,
+			depthWrite: false
+		});
+		disposables.push(dotMat);
 
 		const dotBase = center.clone().multiplyScalar(DOT_R);
 		const dot = new Sprite(dotMat);
@@ -169,7 +166,9 @@
 			reachScreenR: 0,
 			areaScale,
 			onScreen: false,
-			glow: 0
+			glow: 0,
+			baseColor,
+			pinAnim: false
 		});
 	}
 
@@ -337,15 +336,28 @@
 		const hoveredId = ui.hovered?.id ?? null;
 		const intensity = ui.fieldIntensity;
 		const moving = view.moving;
+		const dz = dotZoom(view.dist);
 		const fillFade = zoomFade(view.dist);
 		const ringFade = 0.55 + 0.45 * fillFade;
 
 		for (const e of entries) {
 			const pinned = ui.pinned[e.id];
+
+			if (pinned) {
+				const s = 0.5 + 0.5 * Math.sin(pulseT * 3.2);
+				e.dot.scale.setScalar(DOT_SIZE * dz * 1.2 * (0.94 + 0.12 * s));
+				e.dot.material.color.copy(e.baseColor).lerp(WHITE, 0.08 + 0.14 * s);
+				e.pinAnim = true;
+			} else if (e.pinAnim) {
+				e.dot.scale.setScalar(DOT_SIZE * dz);
+				e.dot.material.color.copy(e.baseColor);
+				e.pinAnim = false;
+			}
+
 			const wantsArea =
 				visibleNow(e) && (showAll || pinned || (!moving && hoveredId === e.id));
 
-				const rate = wantsArea ? 2.4 : 3;
+			const rate = wantsArea ? 2.4 : 5;
 			e.glow += ((wantsArea ? 1 : 0) - e.glow) * Math.min(1, delta * rate);
 
 			const show = e.glow > 0.008;

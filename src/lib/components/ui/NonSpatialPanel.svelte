@@ -2,23 +2,21 @@
 	import { METRICS, METRIC_BY_KEY } from '$lib/data/places/metrics';
 	import { questions } from '$lib/data/zones/questions';
 	import { air } from '$lib/state/air-quality.svelte';
+	import { useIsMobile } from '$lib/state/media.svelte';
 	import { flyToLocation, ui } from '$lib/state/state.svelte';
-	import { onMount } from 'svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { scale, slide } from 'svelte/transition';
+	import Badge from './Badge.svelte';
+	import Button from './Button.svelte';
 	import Icon from './Icon.svelte';
+	import Scrim from './Scrim.svelte';
 	import Select from './Select.svelte';
+	import Toggle from './Toggle.svelte';
 
-	let minimized = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
-	let isMobile = $state(typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches);
-	onMount(() => {
-		const mql = window.matchMedia('(max-width: 1023px)');
-		const on = (e: MediaQueryListEvent) => {
-			isMobile = e.matches;
-			minimized = e.matches;
-		};
-		mql.addEventListener('change', on);
-		return () => mql.removeEventListener('change', on);
+	const mobile = useIsMobile();
+	let minimized = $state(mobile.current);
+	$effect(() => {
+		minimized = mobile.current;
 	});
 
 	function open() {
@@ -30,9 +28,9 @@
 		if (ui.openPanel === 'controls') ui.openPanel = null;
 	}
 	$effect(() => {
-		if (isMobile && ui.openPanel && ui.openPanel !== 'controls') minimized = true;
+		if (mobile.current && ui.openPanel && ui.openPanel !== 'controls') minimized = true;
 	});
-	const hidden = $derived(isMobile && ui.openPanel !== null && ui.openPanel !== 'controls');
+	const hidden = $derived(mobile.current && ui.openPanel !== null && ui.openPanel !== 'controls');
 
 	const pinCount = $derived(Object.keys(ui.pinned).length);
 
@@ -48,98 +46,110 @@
 </script>
 
 {#if !minimized}
-	{#if isMobile}
-		<button class="scrim" onclick={close} aria-label="Close controls"></button>
+	{#if mobile.current}
+		<Scrim onclose={close} label="Close controls" />
 	{/if}
 	<div class="wrap" transition:scale={{ duration: 260, start: 0.93, opacity: 0, easing: cubicOut }}>
 		<div class="lhead">
 			<span class="ltitle">Controls</span>
-			<button class="min" onclick={close} aria-label="Hide controls">
+			<Button variant="ghost" size="icon" style="--btn-size:26px" onclick={close} aria-label="Hide controls">
 				<Icon name="minus" size={14} />
-			</button>
+			</Button>
 		</div>
-		<button class="toggle" onclick={() => (ui.showQuestions = !ui.showQuestions)}>
-			<span class="tlabel"><Icon name="info" size={14} /> Non-spatial open questions</span>
-			<span class="chev" class:open={ui.showQuestions}><Icon name="chevron" size={14} /></span>
-		</button>
 
-	{#if ui.showQuestions}
-		<div class="panel" transition:slide={{ duration: 180 }}>
-			<p class="lead">
-				Real ambient exposures that are global or diffuse, with no honest single location.
-			</p>
-			{#each questions as q (q.id)}
-				<div class="item">
-					<div class="q-name">{q.name}</div>
-					<div class="q-desc">{q.desc}</div>
-					{#if q.citations.length}
-						<div class="cites">
-							{#each q.citations as c (c.url)}
-								<a href={c.url} target="_blank" rel="noopener noreferrer">
-									{c.ref}{c.openAccess ? ' (open)' : ''}
-								</a>
-							{/each}
-						</div>
-					{/if}
-				</div>
-			{/each}
-		</div>
-	{/if}
+		<Toggle
+			label="Non-spatial open questions"
+			icon="info"
+			onclick={() => (ui.showQuestions = !ui.showQuestions)}
+		>
+			{#snippet trailing()}
+				<span class="chev" class:open={ui.showQuestions}><Icon name="chevron" size={14} /></span>
+			{/snippet}
+		</Toggle>
 
-	<button
-		class="reach"
-		class:on={ui.showAllAreas}
-		onclick={() => (ui.showAllAreas = !ui.showAllAreas)}
-		aria-pressed={ui.showAllAreas}
-	>
-		<span class="tlabel"><Icon name="layers" size={14} /> Show all reach areas</span>
-		<span class="pill">{ui.showAllAreas ? 'ON' : 'OFF'}</span>
-	</button>
-
-	<button
-		class="reach"
-		class:on={ui.layers.airQuality}
-		onclick={() => (ui.layers.airQuality = !ui.layers.airQuality)}
-		aria-pressed={ui.layers.airQuality}
-	>
-		<span class="tlabel"><Icon name="wind" size={14} /> Air quality (live)</span>
-		<span class="pill">
-			{ui.layers.airQuality ? (air.status === 'loading' ? '···' : 'ON') : 'OFF'}
-		</span>
-	</button>
-
-	<div class="viewbar">
-		<button class="vbtn" onclick={resetView}>
-			<Icon name="globe" size={13} /> Reset view
-		</button>
-		{#if pinCount > 0}
-			<button class="vbtn" onclick={() => (ui.pinned = {})}>
-				<Icon name="close" size={13} /> Clear pins ({pinCount})
-			</button>
-		{/if}
-	</div>
-
-	<div class="metricbox">
-		<span class="mlabel">Country metric</span>
-		<Select id="metric" label="Country metric" bind:value={ui.countryMetric} options={metricOptions} />
-		{#if ui.countryMetric !== 'none'}
-			{@const m = METRIC_BY_KEY[ui.countryMetric]}
-			<div class="mdesc">
-				{m.source}{m.year ? `, ${m.year}` : ''}.
-				{m.higherBetter ? 'Higher is better.' : 'Lower is better.'}
+		{#if ui.showQuestions}
+			<div class="panel" transition:slide={{ duration: 180 }}>
+				<p class="lead">
+					Real ambient exposures that are global or diffuse, with no honest single location.
+				</p>
+				{#each questions as q (q.id)}
+					<div class="item">
+						<div class="q-name">{q.name}</div>
+						<div class="q-desc">{q.desc}</div>
+						{#if q.citations.length}
+							<div class="cites">
+								{#each q.citations as c (c.url)}
+									<a href={c.url} target="_blank" rel="noopener noreferrer">
+										{c.ref}{c.openAccess ? ' (open)' : ''}
+									</a>
+								{/each}
+							</div>
+						{/if}
+					</div>
+				{/each}
 			</div>
 		{/if}
-	</div>
+
+		<Toggle
+			label="Show all reach areas"
+			icon="layers"
+			active={ui.showAllAreas}
+			aria-pressed={ui.showAllAreas}
+			onclick={() => (ui.showAllAreas = !ui.showAllAreas)}
+		>
+			{#snippet trailing()}
+				<Badge active={ui.showAllAreas}>{ui.showAllAreas ? 'ON' : 'OFF'}</Badge>
+			{/snippet}
+		</Toggle>
+
+		<Toggle
+			label="Air quality (live)"
+			icon="wind"
+			active={ui.layers.airQuality}
+			aria-pressed={ui.layers.airQuality}
+			onclick={() => (ui.layers.airQuality = !ui.layers.airQuality)}
+		>
+			{#snippet trailing()}
+				<Badge active={ui.layers.airQuality}>
+					{ui.layers.airQuality ? (air.status === 'loading' ? '···' : 'ON') : 'OFF'}
+				</Badge>
+			{/snippet}
+		</Toggle>
+
+		<div class="viewbar">
+			<Button variant="outline" size="sm" onclick={resetView}>
+				<Icon name="globe" size={13} /> Reset view
+			</Button>
+			{#if pinCount > 0}
+				<Button variant="outline" size="sm" onclick={() => (ui.pinned = {})}>
+					<Icon name="close" size={13} /> Clear pins ({pinCount})
+				</Button>
+			{/if}
+		</div>
+
+		<div class="metricbox">
+			<span class="mlabel">Country metric</span>
+			<Select id="metric" label="Country metric" bind:value={ui.countryMetric} options={metricOptions} />
+			{#if ui.countryMetric !== 'none'}
+				{@const m = METRIC_BY_KEY[ui.countryMetric]}
+				<div class="mdesc">
+					{m.source}{m.year ? `, ${m.year}` : ''}.
+					{m.higherBetter ? 'Higher is better.' : 'Lower is better.'}
+				</div>
+			{/if}
+		</div>
 	</div>
 {:else if !hidden}
-	<button
-		class="launcher"
+	<Button
+		variant="outline"
+		size="icon"
+		class="ctrl-launcher"
+		style="--btn-size:40px"
 		onclick={open}
 		aria-label="Show controls"
-		transition:scale={{ duration: 240, start: 0.85, opacity: 0, easing: cubicOut }}
 	>
 		<Icon name="info" size={15} />
-	</button>
+	</Button>
 {/if}
 
 <style>
@@ -150,31 +160,23 @@
 		z-index: 20;
 		width: 288px;
 		max-width: calc(100% - 32px);
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
 		transform-origin: 0 0;
 	}
-	.launcher {
+	:global(.ctrl-launcher) {
 		position: absolute;
 		top: 16px;
 		left: 16px;
 		z-index: 20;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 40px;
-		height: 40px;
 		color: var(--text);
-		background: var(--panel);
-		border: 1px solid var(--line);
-		border-radius: 10px;
-		cursor: pointer;
-		backdrop-filter: blur(8px);
 		transform-origin: 0 0;
 	}
 	.lhead {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 8px;
 		padding: 5px 7px 5px 12px;
 		background: var(--panel);
 		border: 1px solid var(--line);
@@ -189,117 +191,22 @@
 		text-transform: uppercase;
 		color: var(--muted);
 	}
-	.min {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 26px;
-		height: 26px;
-		color: var(--muted);
-		background: transparent;
-		border: none;
-		border-radius: 7px;
-		cursor: pointer;
-		transition:
-			color var(--dur) var(--ease),
-			background var(--dur) var(--ease);
-	}
-	.min:hover {
-		color: var(--text);
-		background: var(--line);
-	}
-	.toggle {
-		width: 100%;
-		text-align: left;
-		font-size: 12px;
-		font-weight: 600;
-		color: var(--text);
-		background: var(--panel);
-		border: 1px solid var(--line);
-		border-radius: 10px;
-		padding: 10px 12px;
-		cursor: pointer;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		backdrop-filter: blur(8px);
-	}
-	.tlabel {
-		display: flex;
-		align-items: center;
-		gap: 7px;
-	}
 	.chev {
 		display: flex;
 		transition: transform var(--dur) var(--ease);
 	}
-	.reach {
-		width: 100%;
-		margin-top: 8px;
-		text-align: left;
-		font-size: 12px;
-		font-weight: 600;
-		color: var(--text);
-		background: var(--panel);
-		border: 1px solid var(--line);
-		border-radius: 10px;
-		padding: 10px 12px;
-		cursor: pointer;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		backdrop-filter: blur(8px);
-		transition:
-			border-color var(--dur) var(--ease),
-			background var(--dur) var(--ease);
-	}
-	.reach.on {
-		border-color: var(--accent);
-		background: var(--accent-soft);
-	}
-	.pill {
-		font-size: 10px;
-		font-weight: 700;
-		letter-spacing: 0.05em;
-		padding: 2px 7px;
-		border-radius: 999px;
-		border: 1px solid var(--line-strong);
-		color: var(--muted);
-	}
-	.reach.on .pill {
-		color: var(--accent);
-		border-color: var(--accent);
+	.chev.open {
+		transform: rotate(90deg);
 	}
 	.viewbar {
-		margin-top: 8px;
 		display: flex;
 		gap: 8px;
 	}
-	.vbtn {
+	.viewbar :global(.btn) {
 		flex: 1;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		gap: 6px;
-		font-size: 11.5px;
-		font-weight: 600;
 		color: var(--muted);
-		background: var(--panel);
-		border: 1px solid var(--line);
-		border-radius: 10px;
-		padding: 8px 10px;
-		cursor: pointer;
-		backdrop-filter: blur(8px);
-		transition:
-			color var(--dur) var(--ease),
-			border-color var(--dur) var(--ease);
-	}
-	.vbtn:hover {
-		color: var(--text);
-		border-color: var(--line-strong);
 	}
 	.metricbox {
-		margin-top: 8px;
 		background: var(--panel);
 		border: 1px solid var(--line);
 		border-radius: 10px;
@@ -322,11 +229,7 @@
 		line-height: 1.5;
 		color: var(--muted);
 	}
-	.chev.open {
-		transform: rotate(90deg);
-	}
 	.panel {
-		margin-top: 8px;
 		max-height: min(70vh, 560px);
 		overflow-y: auto;
 		background: var(--panel);
@@ -366,15 +269,6 @@
 	}
 	.cites a {
 		font-size: 11px;
-	}
-	.scrim {
-		position: fixed;
-		inset: 0;
-		z-index: 19;
-		border: none;
-		background: rgba(3, 5, 9, 0.45);
-		backdrop-filter: blur(1px);
-		cursor: default;
 	}
 	@media (max-width: 1023px) {
 		.wrap {
