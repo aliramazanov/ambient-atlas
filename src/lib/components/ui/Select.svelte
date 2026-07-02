@@ -249,12 +249,10 @@
 		margin: 0;
 		padding: 5px;
 		list-style: none;
-		background: var(--panel);
+		background: var(--panel-solid);
 		border: 1px solid var(--line-strong);
 		border-radius: var(--radius-sm);
 		box-shadow: var(--shadow);
-		backdrop-filter: var(--glass-filter);
-		-webkit-backdrop-filter: var(--glass-filter);
 	}
 	.list li {
 		display: flex;
