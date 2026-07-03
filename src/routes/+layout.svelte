@@ -95,6 +95,12 @@
 {@render children()}
 
 <style>
+	.stage {
+		cursor: grab;
+	}
+	.stage:active {
+		cursor: grabbing;
+	}
 	.stage.zone-hover {
 		cursor: pointer;
 	}

@@ -127,6 +127,9 @@
 		border: 1px solid rgba(0, 0, 0, 0.3);
 		white-space: nowrap;
 		font-variant-numeric: tabular-nums;
-		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+		box-shadow:
+			inset 0 1.5px 1.5px rgba(255, 255, 255, 0.6),
+			inset 0 -2px 2.5px rgba(0, 0, 0, 0.32),
+			0 1px 4px rgba(0, 0, 0, 0.45);
 	}
 </style>

@@ -58,6 +58,21 @@
 	const { camera, size } = useThrelte();
 	let controls = $state<OrbitControlsRef | undefined>(undefined);
 
+	let lastActivity = 0;
+	onMount(() => {
+		lastActivity = performance.now();
+		const bump = () => (lastActivity = performance.now());
+		window.addEventListener('pointermove', bump, { passive: true });
+		window.addEventListener('pointerdown', bump, { passive: true });
+		window.addEventListener('wheel', bump, { passive: true });
+		window.addEventListener('keydown', bump);
+		return () => {
+			window.removeEventListener('pointermove', bump);
+			window.removeEventListener('pointerdown', bump);
+			window.removeEventListener('wheel', bump);
+			window.removeEventListener('keydown', bump);
+		};
+	});
 
 	onMount(() => {
 		const onWheel = (e: WheelEvent) => {
@@ -108,7 +123,20 @@
 
 			if (view.dist !== dr) view.dist = dr;
 
-			if (cam.position.distanceToSquared(lastPos) > 1e-6) {
+			const nothingOpen =
+				ui.openPanel === null &&
+				!ui.selected &&
+				!ui.probe &&
+				!ui.hovered &&
+				ui.compare.length === 0;
+			const idleRotate =
+				!reduceMotion && !flying && nothingOpen && performance.now() - lastActivity > 5000;
+			if (controls) {
+				controls.autoRotate = idleRotate;
+				controls.autoRotateSpeed = 0.45;
+			}
+
+			if (!idleRotate && cam.position.distanceToSquared(lastPos) > 1e-6) {
 				view.moving = true;
 				moveIdle = 0;
 				if (view.coarse && ui.hovered) ui.hovered = null;
@@ -158,8 +186,8 @@
 
 	function createEarth() {
 		const geometry = new SphereGeometry(1, 200, 200);
-		const ocean = new Color('#0a1c36').convertSRGBToLinear();
-		const land = new Color('#3c566e').convertSRGBToLinear();
+		const ocean = new Color('#081527').convertSRGBToLinear();
+		const land = new Color('#47617b').convertSRGBToLinear();
 		const pos = geometry.attributes.position;
 		const colors = new Float32Array(pos.count * 3);
 		const v = new Vector3();
@@ -180,7 +208,7 @@
 			roughness: 0.9,
 			metalness: 0.05,
 			emissive: new Color('#16344f'),
-			emissiveIntensity: 0.22
+			emissiveIntensity: 0.16
 		});
 
 		return { geometry, material };
@@ -422,8 +450,8 @@
 	/>
 </T.PerspectiveCamera>
 
-<T.AmbientLight intensity={0.34} color="#8ea6c8" />
-<T.DirectionalLight position={[5, 2.5, 4]} intensity={1.95} color="#fff1d6" />
+<T.AmbientLight intensity={0.28} color="#8ea6c8" />
+<T.DirectionalLight position={[5, 2.5, 4]} intensity={2.35} color="#fff1d6" />
 
 <T.Mesh
 	geometry={earthGeo}
@@ -451,6 +479,17 @@
 		/>
 	</T.Mesh>
 {/each}
+
+<T.Mesh geometry={atmoGeo} scale={1.006}>
+	<T.MeshBasicMaterial
+		color="#c2e2ff"
+		transparent
+		opacity={0.22}
+		side={BackSide}
+		blending={AdditiveBlending}
+		depthWrite={false}
+	/>
+</T.Mesh>
 
 <T is={moon} />
 <T is={stars} />

@@ -3,6 +3,7 @@
 	import { resolve } from '$app/paths';
 	import { cityLifeExpectancy } from '$lib/data/generated/city-life-expectancy';
 	import { cities, countryLabels } from '$lib/data/generated/places';
+	import { countryByIso3 } from '$lib/data/places/countries';
 	import { METRIC_BY_KEY, metricColor } from '$lib/data/places/metrics';
 	import { flyToLocation, ui } from '$lib/state/state.svelte';
 	import { view } from '$lib/state/viewport.svelte';
@@ -14,6 +15,20 @@
 		if (!iso3) return;
 		flyToLocation(lat, lng, 1.8);
 		setTimeout(() => goto(resolve('/country/[id]', { id: iso3 })), 600);
+	}
+
+	function pinCountry(iso3: string | undefined) {
+		if (!iso3) return;
+		const info = countryByIso3(iso3);
+		if (!info || !info.zones.length) return;
+		const ids = info.zones.map((z) => z.id);
+		const allPinned = ids.every((id) => ui.pinned[id]);
+		const next = { ...ui.pinned };
+		for (const id of ids) {
+			if (allPinned) delete next[id];
+			else next[id] = true;
+		}
+		ui.pinned = next;
 	}
 
 	interface L {
@@ -213,6 +228,12 @@
 			onkeydown={l.kind === 'country' && l.iso3
 				? (e: KeyboardEvent) => {
 						if (e.key === 'Enter' || e.key === ' ') openCountry(l.iso3, l.lat, l.lng);
+					}
+				: undefined}
+			oncontextmenu={l.kind === 'country' && l.iso3
+				? (e: MouseEvent) => {
+						e.preventDefault();
+						pinCountry(l.iso3);
 					}
 				: undefined}
 		>

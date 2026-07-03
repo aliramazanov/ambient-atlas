@@ -34,8 +34,10 @@
 				.init()
 				.then(() => {
 					ready = true;
-					// @ts-expect-error backend flag is present after init
-					backend = renderer.backend?.isWebGPUBackend ? 'webgpu' : 'webgl';
+					backend = (renderer.backend as { isWebGPUBackend?: boolean } | undefined)
+						?.isWebGPUBackend
+						? 'webgpu'
+						: 'webgl';
 				})
 				.catch((err) => console.error('renderer init failed', err));
 			return renderer;

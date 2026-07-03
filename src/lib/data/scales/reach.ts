@@ -20,7 +20,6 @@ const BY_CATEGORY: Record<string, number> = {
 };
 
 const OVERRIDE: Record<string, number> = {
-  // Airborne: dust corridors are continental; volcanic vents are local.
   "saharan-source": 2500,
   "saharan-atlantic": 2500,
   "saharan-amazon": 2000,
@@ -42,7 +41,6 @@ const OVERRIDE: Record<string, number> = {
   "yellowstone-gas": 90,
   "lake-kivu": 60,
 
-  // Gray, often diffuse and large.
   saa: 2800,
   "geomagnetic-auroral": 2500,
   "photoperiod-nordic": 1500,
@@ -59,7 +57,6 @@ const OVERRIDE: Record<string, number> = {
   "azerbaijan-mud-volcanoes": 60,
   "caucasus-mineral-waters-radon": 50,
 
-  // Radon-prone terrains are regional.
   "radon-cornwall": 200,
   "fennoscandia-radon": 900,
   "iberia-radon": 500,
@@ -72,7 +69,6 @@ const OVERRIDE: Record<string, number> = {
   "radon-erzgebirge": 300,
   "radon-france": 600,
 
-  // UV belts.
   "australia-uv": 1800,
   "nz-uv": 1200,
   "punta-arenas-uv": 300,
@@ -80,21 +76,18 @@ const OVERRIDE: Record<string, number> = {
   "uv-us-southwest": 1000,
   "uv-tropics-africa": 2000,
 
-  // Altitude regions.
   altiplano: 600,
   tibet: 1200,
   "ethiopian-highlands": 400,
   "la-rinconada": 15,
   leadville: 20,
 
-  // Radiation areas.
   ramsar: 15,
   "kerala-monazite": 60,
   guarapari: 12,
   yangjiang: 60,
   mamuju: 60,
 
-  // Chemistry: deltas and belts.
   "bengal-arsenic": 400,
   "chile-arsenic": 150,
   "eafrica-fluoride": 1500,
@@ -114,7 +107,6 @@ const OVERRIDE: Record<string, number> = {
   almaden: 40,
   idrija: 25,
 
-  // Fiber.
   cappadocia: 25,
   biancavilla: 12,
   metsovo: 12,
@@ -125,7 +117,6 @@ const OVERRIDE: Record<string, number> = {
   "new-caledonia-asbestos": 200,
   "libby-montana": 20,
 
-  // Dietary belts.
   "guam-bmaa": 18,
   "konzo-drc": 400,
   "konzo-moz": 300,
@@ -134,7 +125,6 @@ const OVERRIDE: Record<string, number> = {
   ciguatera: 600,
   neurolathyrism: 350,
 
-  // Solved.
   blackfoot: 40,
   "balkan-nephropathy": 120,
   "kashin-beck": 700,
@@ -146,7 +136,6 @@ const OVERRIDE: Record<string, number> = {
   "haff-disease": 40,
   mseleni: 40,
 
-  // Anthropogenic: fallout reaches far; point sources are local.
   chernobyl: 150,
   fukushima: 60,
   semipalatinsk: 300,
@@ -221,5 +210,5 @@ export function reachKm(z: Zone): number {
 /** Reach as a great-circle radius in degrees (clamped so even local sites
  * render a readable glow, while large phenomena keep their true reach). */
 export function zoneRadiusDeg(z: Zone): number {
-  return Math.min(30, Math.max(2, reachKm(z) / 111));
+  return Math.min(30, Math.max(2, reachKm(z) / 111)) * 0.5;
 }

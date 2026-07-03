@@ -1558,27 +1558,6 @@ export const zones: Zone[] = [
     ],
   },
   {
-    id: "mesoamerican-nephropathy",
-    name: "Mesoamerican nephropathy",
-    tier: "gray",
-    category: "gray",
-    lat: 12.57,
-    lng: -87.03,
-    r: 90,
-    certainty: "open",
-    emissionType: "chemical",
-    desc: "A fatal kidney disease strikes young male farm laborers on the Pacific lowlands of Central America. Recurrent heat stress with dehydration versus agrochemicals and heavy metals are debated; the cause is unresolved.",
-    citations: [
-      {
-        type: "review",
-        ref: "Mesoamerican Nephropathy review 2020",
-        url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7588276/",
-        openAccess: true,
-      },
-    ],
-  },
-
-  {
     id: "chernobyl",
     name: "Chernobyl exclusion zone",
     tier: "anthropogenic",

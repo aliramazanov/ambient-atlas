@@ -116,17 +116,6 @@
 			{/snippet}
 		</Toggle>
 
-		<div class="viewbar">
-			<Button variant="outline" size="sm" onclick={resetView}>
-				<Icon name="globe" size={13} /> Reset view
-			</Button>
-			{#if pinCount > 0}
-				<Button variant="outline" size="sm" onclick={() => (ui.pinned = {})}>
-					<Icon name="close" size={13} /> Clear pins ({pinCount})
-				</Button>
-			{/if}
-		</div>
-
 		<div class="metricbox">
 			<span class="mlabel">Country metric</span>
 			<Select id="metric" label="Country metric" bind:value={ui.countryMetric} options={metricOptions} />
@@ -136,6 +125,17 @@
 					{m.source}{m.year ? `, ${m.year}` : ''}.
 					{m.higherBetter ? 'Higher is better.' : 'Lower is better.'}
 				</div>
+			{/if}
+		</div>
+
+		<div class="viewbar">
+			<Button variant="outline" size="sm" onclick={resetView}>
+				<Icon name="globe" size={13} /> Reset view
+			</Button>
+			{#if pinCount > 0}
+				<Button variant="outline" size="sm" onclick={() => (ui.pinned = {})}>
+					<Icon name="close" size={13} /> Clear pins ({pinCount})
+				</Button>
 			{/if}
 		</div>
 	</div>
@@ -148,7 +148,7 @@
 		onclick={open}
 		aria-label="Show controls"
 	>
-		<Icon name="info" size={15} />
+		<Icon name="sliders" size={15} />
 	</Button>
 {/if}
 

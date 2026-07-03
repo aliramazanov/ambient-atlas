@@ -36,7 +36,7 @@
 		<div class="folder-tab">
 			<span class="sdot" style="background:{st.color}"></span>
 			<span>Exposure file</span>
-			<span class="ref">№ {z.id}</span>
+			<span class="ref">{z.id}</span>
 		</div>
 
 		<div class="sheet">
@@ -58,7 +58,9 @@
 				</div>
 				<div class="field">
 					<dt>Category</dt>
-					<dd style="color:{categoryColor(z)}">{z.category}</dd>
+					<dd style="color:{categoryColor(z)}">
+					{z.category.charAt(0).toUpperCase() + z.category.slice(1)}
+				</dd>
 				</div>
 				{#if z.certainty}
 					<div class="field"><dt>Certainty</dt><dd>{CERTAINTY_LABEL[z.certainty]}</dd></div>
@@ -155,6 +157,16 @@
 		backdrop-filter: var(--glass-filter);
 		-webkit-backdrop-filter: var(--glass-filter);
 	}
+	.sheet::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		border-radius: inherit;
+		opacity: 0.04;
+		mix-blend-mode: overlay;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	}
 	.sheet :global(.close) {
 		position: absolute;
 		top: 16px;
@@ -173,9 +185,10 @@
 	h1 {
 		margin: 6px 0 6px;
 		font-family: var(--font-display);
-		font-size: 26px;
-		line-height: 1.18;
-		letter-spacing: -0.01em;
+		font-weight: 600;
+		font-size: 29px;
+		line-height: 1.12;
+		letter-spacing: -0.02em;
 	}
 	.coords {
 		font-family: var(--font-mono);

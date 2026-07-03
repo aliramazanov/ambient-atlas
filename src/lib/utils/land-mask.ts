@@ -7,7 +7,6 @@ const H = 512;
 let data: Uint8ClampedArray | null = null;
 
 function build() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const landFeature = feature(land110 as any, (land110 as any).objects.land);
   const canvas = document.createElement("canvas");
   canvas.width = W;
@@ -19,7 +18,6 @@ function build() {
   const path = geoPath(proj, ctx);
   ctx.fillStyle = "#fff";
   ctx.beginPath();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   path(landFeature as any);
   ctx.fill();
   data = ctx.getImageData(0, 0, W, H).data;

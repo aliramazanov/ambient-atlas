@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
+	import { base, resolve } from '$app/paths';
 	import { page } from '$app/state';
+	import { onMount } from 'svelte';
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Select from '$lib/components/ui/Select.svelte';
 	import { cities } from '$lib/data/generated/places';
@@ -24,6 +25,7 @@
 	import { angularDistanceDeg } from '$lib/utils/geo';
 	import {
 	  geoArea,
+	  geoBounds,
 	  geoCentroid,
 	  geoCircle,
 	  geoContains,
@@ -120,6 +122,35 @@
 	const shape = $derived(path && frame ? (path(frame) ?? '') : '');
 	const grat = $derived(path ? (path(geoGraticule10()) ?? '') : '');
 	const centroid = $derived(path && frame ? path.centroid(frame) : null);
+
+	let riversRaw = $state<GeoJSON.FeatureCollection | null>(null);
+	let lakesRaw = $state<GeoJSON.FeatureCollection | null>(null);
+	onMount(async () => {
+		const [r, l] = await Promise.all([
+			fetch(`${base}/ne_rivers.json`).then((x) => x.json()).catch(() => null),
+			fetch(`${base}/ne_lakes.json`).then((x) => x.json()).catch(() => null)
+		]);
+		riversRaw = r;
+		lakesRaw = l;
+	});
+
+	function nearBounds(fc: GeoJSON.FeatureCollection, b: [[number, number], [number, number]]) {
+		const [[w, s], [e, n]] = b;
+		const pad = 1.5;
+		const features = fc.features.filter((f) => {
+			const [[fw, fs], [fe, fn]] = geoBounds(f);
+			return fe >= w - pad && fw <= e + pad && fn >= s - pad && fs <= n + pad;
+		});
+		return { type: 'FeatureCollection', features } as GeoJSON.FeatureCollection;
+	}
+
+	const cbounds = $derived(frame ? geoBounds(frame) : null);
+	const riversD = $derived(
+		path && riversRaw && cbounds ? (path(nearBounds(riversRaw, cbounds)) ?? '') : ''
+	);
+	const lakesD = $derived(
+		path && lakesRaw && cbounds ? (path(nearBounds(lakesRaw, cbounds)) ?? '') : ''
+	);
 
 	function zoneVisible(z: Zone): boolean {
 		if (!tierOn[z.tier]) return false;
@@ -377,22 +408,26 @@
 					role="presentation"
 				>
 					<defs>
-						<!-- Sphere shading overlay: bright highlight top-left fading to a dark
-						     lower-right edge. objectBoundingBox units, so one gradient gives
-						     every marker a 3D ball look regardless of position or size. -->
 						<radialGradient id="sphere" cx="0.34" cy="0.28" r="0.85">
 							<stop offset="0" stop-color="#ffffff" stop-opacity="0.55" />
 							<stop offset="0.22" stop-color="#ffffff" stop-opacity="0.06" />
 							<stop offset="0.68" stop-color="#000000" stop-opacity="0" />
 							<stop offset="1" stop-color="#000000" stop-opacity="0.3" />
 						</radialGradient>
-						<!-- Soft contact shadow so markers read as balls seated in the surface. -->
 						<filter id="ballShadow" x="-60%" y="-60%" width="220%" height="220%">
 							<feDropShadow dx="0" dy="1.1" stdDeviation="1.3" flood-color="#05070e" flood-opacity="0.6" />
 						</filter>
+						<filter id="landLift" x="-25%" y="-25%" width="150%" height="150%">
+							<feDropShadow dx="0" dy="3" stdDeviation="10" flood-color="#5a86bd" flood-opacity="0.22" />
+						</filter>
+						<clipPath id="landClip"><path d={shape} /></clipPath>
 					</defs>
 					<path d={grat} class="grat" />
-					<path d={shape} class="land" style="fill:{landFill}" />
+					<path d={shape} class="land" filter="url(#landLift)" style="fill:{landFill}" />
+					<g class="water" clip-path="url(#landClip)">
+						<path d={lakesD} class="lake" />
+						<path d={riversD} class="river" />
+					</g>
 					{#if metricMeta && metricValue != null && centroid}
 						<g class="shade-readout">
 							<text
@@ -614,9 +649,10 @@
 	}
 	.title h1 {
 		font-family: var(--font-display);
-		font-size: clamp(20px, 2.6vw, 30px);
+		font-weight: 600;
+		font-size: clamp(22px, 2.8vw, 33px);
 		margin: 0;
-		letter-spacing: -0.01em;
+		letter-spacing: -0.02em;
 		white-space: nowrap;
 	}
 	.count {
@@ -847,13 +883,25 @@
 	}
 	.grat {
 		fill: none;
-		stroke: rgba(120, 150, 200, 0.08);
+		stroke: rgba(120, 150, 200, 0.12);
 		stroke-width: 0.5;
 	}
 	.land {
 		stroke: rgba(140, 175, 220, 0.4);
 		stroke-width: 1;
 		transition: fill 220ms ease;
+	}
+	.river {
+		fill: none;
+		stroke: rgba(99, 160, 216, 0.5);
+		stroke-width: 0.7;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+	.lake {
+		fill: rgba(72, 122, 178, 0.34);
+		stroke: rgba(99, 160, 216, 0.4);
+		stroke-width: 0.4;
 	}
 	.shade-readout {
 		pointer-events: none;
@@ -1051,28 +1099,34 @@
 		padding: 8px 9px;
 		cursor: pointer;
 		transition:
-			background 120ms ease,
-			border-color 120ms ease;
+			background var(--dur) var(--ease-out),
+			border-color var(--dur) var(--ease-out),
+			transform var(--dur-fast) var(--ease-out);
 	}
 	.list button:hover {
-		background: rgba(255, 255, 255, 0.04);
-		border-color: var(--line);
+		background: rgba(255, 255, 255, 0.05);
+		border-color: var(--line-strong);
+		transform: translateX(2px);
 	}
 	.dot {
 		width: 9px;
 		height: 9px;
 		border-radius: 50%;
 		flex: none;
+		box-shadow:
+			inset 0 1px 1px rgba(255, 255, 255, 0.5),
+			inset 0 -1px 1.5px rgba(0, 0, 0, 0.35);
 	}
 	.lname {
 		flex: 1;
 		line-height: 1.3;
 	}
 	.ltier {
-		color: var(--muted);
-		font-size: 9.5px;
+		color: var(--faint);
+		font-family: var(--font-mono);
+		font-size: 9px;
 		text-transform: uppercase;
-		letter-spacing: 0.04em;
+		letter-spacing: 0.1em;
 		flex: none;
 	}
 

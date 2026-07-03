@@ -39,10 +39,21 @@
 		transition:
 			color var(--dur) var(--ease),
 			background var(--dur) var(--ease),
-			border-color var(--dur) var(--ease);
+			border-color var(--dur) var(--ease),
+			transform var(--dur-fast) var(--ease-out);
+	}
+	.btn:hover {
+		transform: translateY(-1px);
 	}
 	.btn:active {
-		transform: translateY(0.5px);
+		transform: translateY(0.5px) scale(0.985);
+		transition-duration: 60ms;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.btn:hover,
+		.btn:active {
+			transform: none;
+		}
 	}
 
 	.v-outline {
@@ -50,10 +61,21 @@
 		border-color: var(--line);
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.06),
+			0 1px 2px rgba(0, 0, 0, 0.28);
+		transition:
+			color var(--dur) var(--ease),
+			border-color var(--dur) var(--ease),
+			transform var(--dur-fast) var(--ease-out),
+			box-shadow var(--dur) var(--ease-out);
 	}
 	.v-outline:hover {
 		color: var(--text);
 		border-color: var(--line-strong);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.1),
+			0 6px 16px rgba(0, 0, 0, 0.34);
 	}
 	.v-ghost {
 		background: transparent;

@@ -28,16 +28,19 @@
     inset 0 -30px 46px -24px rgba(0, 0, 0, 0.34);
   --shadow-sm: 0 6px 20px rgba(0, 0, 0, 0.45);
   --blur: 18px;
-  --glass-filter: blur(18px) saturate(1.7);
+  --glass-filter: blur(18px) saturate(1.4);
 
-  /* Motion */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
   --dur: 0.18s;
+  --dur-fast: 0.11s;
+  --dur-slow: 0.32s;
 
   --font:
     "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
-  --font-display: "Sora", var(--font);
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   /* Technical mono face for coordinates and readouts (dossier/HUD feel). */
   --font-mono:
     "IBM Plex Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
@@ -50,6 +53,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  font-optical-sizing: auto;
 }
 
 * {
@@ -65,6 +69,13 @@ body {
   color: var(--text);
   overflow: hidden;
   font-feature-settings: "cv05", "ss01";
+  font-variant-numeric: tabular-nums;
+  caret-color: var(--accent);
+}
+
+::selection {
+  background: rgba(203, 168, 105, 0.28);
+  color: var(--text);
 }
 
 #svelte,

@@ -3,12 +3,41 @@
 	import { CATEGORIES } from '$lib/data/scales/categories';
 	import { inspectLocation } from '$lib/interaction/inspect';
 	import { ui } from '$lib/state/state.svelte';
+	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import Button from './Button.svelte';
 	import Icon from './Icon.svelte';
 
 	const colorOf = (cat: string) => CATEGORIES.find((c) => c.key === cat)?.color ?? '#999';
 	const result = $derived(ui.probe ? inspectLocation(ui.probe.lat, ui.probe.lng) : null);
+
+	let nearby = $state<[string, number, number][] | null>(null);
+	onMount(async () => {
+		nearby = (await import('$lib/data/generated/nearby')).nearby;
+	});
+
+	function distKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
+		const R = 6371;
+		const dLat = ((lat2 - lat1) * Math.PI) / 180;
+		const dLng = ((lng2 - lng1) * Math.PI) / 180;
+		const a =
+			Math.sin(dLat / 2) ** 2 +
+			Math.cos((lat1 * Math.PI) / 180) *
+				Math.cos((lat2 * Math.PI) / 180) *
+				Math.sin(dLng / 2) ** 2;
+		return 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
+	}
+
+	const nearestCities = $derived.by(() => {
+		const p = ui.probe;
+		if (!p) return [];
+		if (!nearby) return result?.cities ?? [];
+		return nearby
+			.map(([n, a, o]) => ({ name: n, km: distKm(p.lat, p.lng, a, o) }))
+			.sort((x, y) => x.km - y.km)
+			.slice(0, 8)
+			.map((c) => ({ name: c.name, distKm: Math.round(c.km) }));
+	});
 </script>
 
 {#if ui.probe && result}
@@ -43,7 +72,7 @@
 
 		<div class="section-label">Nearest cities</div>
 		<div class="cities">
-			{#each result.cities as c (c.name)}
+			{#each nearestCities as c (c.name)}
 				<span class="chip">{c.name} <i>{c.distKm} km</i></span>
 			{/each}
 		</div>

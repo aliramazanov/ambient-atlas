@@ -48,7 +48,7 @@
 					</Button>
 					<div class="name"><span class="dot" style="background:{categoryColor(z)}"></span>{z.name}</div>
 					<div class="row"><span>Status</span><b style="color:{statusOf(z).color}">{statusOf(z).label}</b></div>
-					<div class="row"><span>Type</span><b>{z.category}</b></div>
+					<div class="row"><span>Type</span><b>{z.category.charAt(0).toUpperCase() + z.category.slice(1)}</b></div>
 					{#if z.certainty}<div class="row"><span>Certainty</span><b>{CERTAINTY_LABEL[z.certainty]}</b></div>{/if}
 					<div class="row"><span>Severity</span><b class="dt">{dots(severityOf(z))}</b></div>
 					<div class="row"><span>Research</span><b class="dt">{dots(researchOf(z))}</b></div>

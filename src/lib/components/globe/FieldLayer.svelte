@@ -81,7 +81,7 @@
 		const color = new Color(categoryColor(z));
 
 		const center = latLngToVector3(z.lat, z.lng, 1).normalize();
-		const radiusDeg = zoneRadiusDeg(z) * 0.5;
+		const radiusDeg = zoneRadiusDeg(z);
 		const radiusRad = radiusDeg * DEG2RAD;
 		const areaScale = Math.max(0.4, Math.min(1, 14 / radiusDeg));
 

@@ -41,17 +41,36 @@
 		gap: 10px;
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.05),
+			0 1px 2px rgba(0, 0, 0, 0.24);
 		transition:
 			color var(--dur) var(--ease),
 			background var(--dur) var(--ease),
-			border-color var(--dur) var(--ease);
+			border-color var(--dur) var(--ease),
+			transform var(--dur-fast) var(--ease-out),
+			box-shadow var(--dur) var(--ease-out);
 	}
 	.toggle:hover {
 		border-color: var(--line-strong);
+		transform: translateY(-1px);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.09),
+			0 6px 16px rgba(0, 0, 0, 0.32);
+	}
+	.toggle:active {
+		transform: translateY(0.5px);
+		transition-duration: 60ms;
 	}
 	.toggle.active {
 		border-color: var(--accent);
 		background: var(--accent-soft);
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.toggle:hover,
+		.toggle:active {
+			transform: none;
+		}
 	}
 	.lbl {
 		display: flex;
