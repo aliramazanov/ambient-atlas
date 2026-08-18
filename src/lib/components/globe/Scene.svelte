@@ -5,7 +5,7 @@
 	import { latLngToVector3, vector3ToLatLng } from '$lib/utils/geo';
 	import { isLand } from '$lib/utils/land-mask';
 	import { T, useTask, useThrelte } from '@threlte/core';
-	import { OrbitControls, interactivity } from '@threlte/extras';
+	import { interactivity, OrbitControls } from '@threlte/extras';
 	import { geoGraticule10 } from 'd3-geo';
 	import { onDestroy, onMount } from 'svelte';
 	import {
@@ -56,9 +56,11 @@
 		window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 	const { camera, size } = useThrelte();
+
 	let controls = $state<OrbitControlsRef | undefined>(undefined);
 
 	let lastActivity = 0;
+
 	onMount(() => {
 		lastActivity = performance.now();
 		const bump = () => (lastActivity = performance.now());
@@ -117,6 +119,7 @@
 		if (cam) view.camera = cam;
 		view.width = size.current.width;
 		view.height = size.current.height;
+
 		if (cam) {
 			const d = cam.position.length();
 			const dr = Math.round(d * 100) / 100;
@@ -129,9 +132,11 @@
 				!ui.probe &&
 				!ui.hovered &&
 				ui.compare.length === 0;
-			const idleRotate =
+
+				const idleRotate =
 				!reduceMotion && !flying && nothingOpen && performance.now() - lastActivity > 5000;
-			if (controls) {
+
+				if (controls) {
 				controls.autoRotate = idleRotate;
 				controls.autoRotateSpeed = 0.45;
 			}
@@ -229,6 +234,7 @@
 			[0.5, 0.72, 0.12],
 			[0.72, 0.32, 0.1]
 		];
+
 		for (const [mx, my, mr] of maria) {
 			const g = ctx.createRadialGradient(mx * s, my * s, 0, mx * s, my * s, mr * s);
 			g.addColorStop(0, 'rgba(122,126,138,0.55)');
@@ -256,12 +262,14 @@
 
 		const img = ctx.getImageData(0, 0, s, s);
 		const d = img.data;
+
 		for (let i = 0; i < d.length; i += 4) {
 			const n = (Math.random() - 0.5) * 16;
 			d[i] += n;
 			d[i + 1] += n;
 			d[i + 2] += n;
 		}
+
 		ctx.putImageData(img, 0, 0);
 
 		const tex = new CanvasTexture(cv);
@@ -361,10 +369,12 @@
 	function handleClick(e: { point?: Vector3; nativeEvent?: PointerEvent }) {
 		if (view.coarse) {
 			let z: typeof ui.hovered = null;
+
 			if (e.point) {
 				const { lat, lng } = vector3ToLatLng(e.point);
 				z = zoneAtPoint(lat, lng);
 			}
+
 			if (z) {
 				if (ui.hovered?.id === z.id) {
 					ui.hovered = null;
@@ -374,14 +384,17 @@
 				if (e.nativeEvent) ui.pointer = { x: e.nativeEvent.clientX, y: e.nativeEvent.clientY };
 				return;
 			}
+
 			ui.hovered = null;
 			return;
 		}
 		const { z, lat, lng } = zoneUnder(e);
+
 		if (z) {
 			openZone(z);
 			return;
 		}
+
 		if (e.point) {
 			ui.probe = { lat, lng };
 			flyToLocation(lat, lng);

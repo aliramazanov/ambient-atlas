@@ -44,6 +44,7 @@ export function angularDistanceDeg(
   const a1 = lat1 * toRad;
   const a2 = lat2 * toRad;
   const dLng = (lng2 - lng1) * toRad;
+
   const cosD =
     Math.sin(a1) * Math.sin(a2) + Math.cos(a1) * Math.cos(a2) * Math.cos(dLng);
 

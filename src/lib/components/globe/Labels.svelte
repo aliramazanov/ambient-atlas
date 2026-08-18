@@ -47,8 +47,10 @@
 	}
 
 	const labels: L[] = [];
+
 	for (const c of countryLabels) {
 		const pos = latLngToVector3(c.lat, c.lng, 1);
+
 		labels.push({
 			text: c.name,
 			kind: 'country',
@@ -64,6 +66,7 @@
 			iso3: c.iso3
 		});
 	}
+
 	for (const c of cities) {
 		const pos = latLngToVector3(c.lat, c.lng, 1);
 		labels.push({

@@ -22,6 +22,7 @@ export function dominantZone(lat: number, lng: number): Zone | null {
   for (const z of zones) {
     if (!zoneVisible(z)) continue;
     const d = angularDistanceDeg(lat, lng, z.lat, z.lng);
+
     if (d < bestD) {
       bestD = d;
       best = z;
@@ -39,6 +40,7 @@ export function zoneAtPoint(lat: number, lng: number): Zone | null {
     if (!zoneVisible(z)) continue;
 
     const clip = clipFor(z.id);
+
     if (clip) {
       if (clip(lat, lng)) {
         const d = angularDistanceDeg(lat, lng, z.lat, z.lng);

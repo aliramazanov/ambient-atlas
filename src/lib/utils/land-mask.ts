@@ -9,13 +9,18 @@ let data: Uint8ClampedArray | null = null;
 function build() {
   const landFeature = feature(land110 as any, (land110 as any).objects.land);
   const canvas = document.createElement("canvas");
+
   canvas.width = W;
   canvas.height = H;
+
   const ctx = canvas.getContext("2d")!;
+
   const proj = geoEquirectangular()
     .scale(W / (2 * Math.PI))
     .translate([W / 2, H / 2]);
+
   const path = geoPath(proj, ctx);
+
   ctx.fillStyle = "#fff";
   ctx.beginPath();
   path(landFeature as any);

@@ -103,6 +103,7 @@
 			opacity: fillBase,
 			depthWrite: false
 		});
+
 		const cap = new Mesh(capGeo, capMat);
 		cap.renderOrder = 2;
 
@@ -114,12 +115,14 @@
 		if (!clip) {
 			const halfW = Math.min(0.6 * DEG2RAD, Math.max(0.08 * DEG2RAD, radiusRad * 0.03));
 			const edgeGeo = buildBand(center, u, v, radiusRad, halfW, EDGE_R, 80);
+
 			const edgeMat = new MeshBasicMaterial({
 				color,
 				transparent: true,
 				opacity: 0.6,
 				depthWrite: false
 			});
+
 			const edge = new Mesh(edgeGeo, edgeMat);
 			edge.renderOrder = 4;
 			group.add(edge);
@@ -131,12 +134,14 @@
 		const tint = color.clone().lerp(WHITE, 0.12).getHexString();
 
 		const baseColor = new Color(`#${tint}`);
+
 		const dotMat = new SpriteMaterial({
 			map: ballTex,
 			color: baseColor.clone(),
 			transparent: true,
 			depthWrite: false
 		});
+
 		disposables.push(dotMat);
 
 		const dotBase = center.clone().multiplyScalar(DOT_R);
@@ -171,8 +176,6 @@
 			pinAnim: false
 		});
 	}
-
-
 
 	const rRight = new Vector3();
 	const rUp = new Vector3();
@@ -242,6 +245,7 @@
 					}
 				}
 			}
+
 			for (const p of pts) {
 				p.x += (p.tx - p.x) * 0.04;
 				p.y += (p.ty - p.y) * 0.04;
@@ -276,7 +280,12 @@
 
 	useTask(() => {
 		if (view.coarse) return;
-		if (view.moving || !view.hasFocus || view.overUI) {
+
+		if (
+			view.moving ||
+			!view.hasFocus ||
+			view.overUI
+		) {
 			if (ui.hovered) ui.hovered = null;
 			return;
 		}
@@ -308,10 +317,12 @@
 			needsRelax = true;
 			return;
 		}
+
 		if (!needsRelax) return;
 		needsRelax = false;
 		relaxMarkers();
 	});
+
 	$effect(() => {
 		for (const x of Object.values(ui.tiers)) void x;
 		for (const x of Object.values(ui.cats)) void x;
@@ -354,8 +365,7 @@
 				e.pinAnim = false;
 			}
 
-			const wantsArea =
-				visibleNow(e) && (showAll || pinned || (!moving && hoveredId === e.id));
+			const wantsArea = visibleNow(e) && (showAll || pinned || (!moving && hoveredId === e.id));
 
 			const rate = wantsArea ? 2.4 : 5;
 			e.glow += ((wantsArea ? 1 : 0) - e.glow) * Math.min(1, delta * rate);
@@ -367,6 +377,7 @@
 			const hov = hoveredId === e.id;
 			const pulse = hov ? 1.06 + 0.08 * Math.sin(pulseT * 4) : 1;
 			const f = intensity * Math.max(0.7, e.certainty) * pulse * e.areaScale;
+
 			for (const fd of e.fades) {
 				const zf = pinned ? 1 : fd.kind === 'ring' ? ringFade : fillFade;
 				fd.mat.opacity = Math.min(0.8, fd.base * f * zf) * e.glow;
@@ -500,6 +511,7 @@
 		const c = document.createElement('canvas');
 		c.width = c.height = size;
 		const ctx = c.getContext('2d')!;
+
 		const g = ctx.createRadialGradient(
 			size * 0.36,
 			size * 0.32,
@@ -508,6 +520,7 @@
 			size * 0.5,
 			size * 0.5
 		);
+
 		g.addColorStop(0, '#ffffff');
 		g.addColorStop(0.45, '#d7d7d7');
 		g.addColorStop(0.82, '#6f6f6f');
