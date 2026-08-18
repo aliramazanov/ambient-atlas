@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { zones } from "../../src/lib/data/zones/zones.ts";
 import { questions } from "../../src/lib/data/zones/questions.ts";
 
@@ -9,6 +11,16 @@ const items = [
 ];
 
 const urlRe = /^https?:\/\/\S+$/;
+const localRe = /^\/\S+$/;
+const staticDir = fileURLToPath(new URL("../../static/", import.meta.url));
+
+function resolveUrl(url: string): "ok" | "missing-file" | "bad" {
+  if (urlRe.test(url)) return "ok";
+  if (!localRe.test(url)) return "bad";
+  const file = decodeURIComponent(url.split(/[#?]/)[0]).slice(1);
+  return existsSync(staticDir + file) ? "ok" : "missing-file";
+}
+
 let bad = 0;
 
 for (const it of items) {
@@ -22,8 +34,10 @@ for (const it of items) {
       console.log("EMPTY ref:", it.id, "-", c.url ?? "");
       bad++;
     }
-    if (!c.url || !urlRe.test(c.url)) {
-      console.log("BAD url:", it.id, "-", c.ref ?? "", "->", c.url ?? "(none)");
+    const state = c.url ? resolveUrl(c.url) : "bad";
+    if (state !== "ok") {
+      const label = state === "missing-file" ? "MISSING asset:" : "BAD url:";
+      console.log(label, it.id, "-", c.ref ?? "", "->", c.url ?? "(none)");
       bad++;
     }
   }
