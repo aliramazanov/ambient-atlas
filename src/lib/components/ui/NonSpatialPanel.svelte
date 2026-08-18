@@ -15,6 +15,7 @@
 
 	const mobile = useIsMobile();
 	let minimized = $state(mobile.current);
+
 	$effect(() => {
 		minimized = mobile.current;
 	});
@@ -23,13 +24,16 @@
 		minimized = false;
 		ui.openPanel = 'controls';
 	}
+
 	function close() {
 		minimized = true;
 		if (ui.openPanel === 'controls') ui.openPanel = null;
 	}
+
 	$effect(() => {
 		if (mobile.current && ui.openPanel && ui.openPanel !== 'controls') minimized = true;
 	});
+
 	const hidden = $derived(mobile.current && ui.openPanel !== null && ui.openPanel !== 'controls');
 
 	const pinCount = $derived(Object.keys(ui.pinned).length);

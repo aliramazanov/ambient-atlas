@@ -2,9 +2,9 @@
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { cities, countryLabels } from '$lib/data/generated/places';
+	import { zones } from '$lib/data/zones/zones';
 	import { useIsMobile } from '$lib/state/media.svelte';
 	import { flyToLocation, ui } from '$lib/state/state.svelte';
-	import { zones } from '$lib/data/zones/zones';
 	import { tick } from 'svelte';
 	import Button from './Button.svelte';
 	import Icon from './Icon.svelte';
@@ -34,18 +34,21 @@
 	const mobile = useIsMobile();
 	const fieldShown = $derived(!mobile.current || searchOpen);
 	const hidden = $derived(mobile.current && ui.openPanel !== null && ui.openPanel !== 'search');
+
 	$effect(() => {
 		if (mobile.current && ui.openPanel && ui.openPanel !== 'search') {
 			searchOpen = false;
 			open = false;
 		}
 	});
+
 	async function openSearch() {
 		searchOpen = true;
 		ui.openPanel = 'search';
 		await tick();
 		inputEl?.focus();
 	}
+
 	function closeSearch() {
 		searchOpen = false;
 		open = false;

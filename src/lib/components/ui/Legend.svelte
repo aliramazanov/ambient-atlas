@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { ANTHRO_SUBCATS, anthroSubOf, CATEGORIES, TIERS } from '$lib/data/scales/categories';
+	import { zones } from '$lib/data/zones/zones';
 	import { useIsMobile } from '$lib/state/media.svelte';
 	import { ui } from '$lib/state/state.svelte';
-	import { zones } from '$lib/data/zones/zones';
 	import { cubicOut } from 'svelte/easing';
 	import { scale } from 'svelte/transition';
 	import Button from './Button.svelte';
@@ -40,20 +40,25 @@
 
 	const mobile = useIsMobile();
 	let minimized = $state(mobile.current);
+
 	$effect(() => {
 		minimized = mobile.current;
 	});
+
 	function showLegend() {
 		minimized = false;
 		ui.openPanel = 'legend';
 	}
+
 	function hideLegend() {
 		minimized = true;
 		if (ui.openPanel === 'legend') ui.openPanel = null;
 	}
+
 	$effect(() => {
 		if (mobile.current && ui.openPanel && ui.openPanel !== 'legend') minimized = true;
 	});
+
 	const hidden = $derived(mobile.current && ui.openPanel !== null && ui.openPanel !== 'legend');
 	let open = $state<Record<string, boolean>>({});
 	const toggle = (k: string) => (open[k] = !open[k]);

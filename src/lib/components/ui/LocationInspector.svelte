@@ -12,6 +12,7 @@
 	const result = $derived(ui.probe ? inspectLocation(ui.probe.lat, ui.probe.lng) : null);
 
 	let nearby = $state<[string, number, number][] | null>(null);
+
 	onMount(async () => {
 		nearby = (await import('$lib/data/generated/nearby')).nearby;
 	});

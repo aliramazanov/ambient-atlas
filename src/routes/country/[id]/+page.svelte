@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { base, resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import { onMount } from 'svelte';
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Select from '$lib/components/ui/Select.svelte';
 	import { cities } from '$lib/data/generated/places';
@@ -33,6 +32,7 @@
 	  geoMercator,
 	  geoPath
 	} from 'd3-geo';
+	import { onMount } from 'svelte';
 
 	const W = 960;
 	const H = 620;

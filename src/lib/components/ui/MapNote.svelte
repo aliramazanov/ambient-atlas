@@ -8,9 +8,11 @@
 	let open = $state(false);
 	const mobile = useIsMobile();
 	const hidden = $derived(mobile.current && ui.openPanel !== null && ui.openPanel !== 'about');
+
 	$effect(() => {
 		if (mobile.current && ui.openPanel && ui.openPanel !== 'about') open = false;
 	});
+
 	function toggleNote() {
 		open = !open;
 		if (open) ui.openPanel = 'about';

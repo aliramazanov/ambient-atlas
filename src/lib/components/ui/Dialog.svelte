@@ -36,11 +36,14 @@
 			onclose();
 			return;
 		}
+
 		if (e.key !== 'Tab') return;
 		const els = focusable();
+
 		if (!els.length) return;
 		const first = els[0];
 		const last = els[els.length - 1];
+
 		if (e.shiftKey && document.activeElement === first) {
 			e.preventDefault();
 			last.focus();

@@ -22,9 +22,11 @@
 
 	const mobile = useIsMobile();
 	const hidden = $derived(mobile.current && ui.openPanel !== null && ui.openPanel !== 'colorkey');
+
 	$effect(() => {
 		if (mobile.current && ui.openPanel && ui.openPanel !== 'colorkey') open = false;
 	});
+
 	function toggleOpen() {
 		open = !open;
 		if (open) ui.openPanel = 'colorkey';

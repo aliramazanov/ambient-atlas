@@ -33,7 +33,9 @@ export const view = $state<{
   focusY: 0,
   hasFocus: false,
   overUI: false,
-  coarse: typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches,
+  coarse:
+    typeof window !== "undefined" &&
+    window.matchMedia("(pointer: coarse)").matches,
   cursorLL: null,
   zoom: null,
 });

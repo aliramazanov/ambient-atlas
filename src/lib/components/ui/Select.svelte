@@ -95,6 +95,7 @@
 			}
 			return;
 		}
+
 		switch (e.key) {
 			case 'Escape':
 				e.preventDefault();
