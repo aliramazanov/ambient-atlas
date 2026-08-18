@@ -72,7 +72,9 @@ const order: { key: MetricKey; fmt: (v: number) => string }[] = [
 for (const { key, fmt } of order) {
   const map = indicators[key];
   const meta = indicatorMeta[key];
+
   if (!map || !meta || !Object.keys(map).length) continue;
+
   metrics.push({
     key,
     label: meta.label,

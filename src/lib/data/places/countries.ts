@@ -32,6 +32,7 @@ interface BBoxed {
   e: number;
   n: number;
 }
+
 const boxed: BBoxed[] = fc.features.map((feat) => {
   const [[w, s], [e, n]] = geoBounds(feat);
   return {

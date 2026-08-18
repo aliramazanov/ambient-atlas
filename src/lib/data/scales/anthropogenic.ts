@@ -67,6 +67,10 @@ const OVERRIDE: Record<string, AnthroSub> = {
   "hamburg-georgswerder-dioxin-hill": "waste",
   "leverkusen-burrig-currenta-explosion": "waste",
   "nizhny-tagil-metallurgy": "industrial",
+  "hajigabul-lake": "waste",
+  "bussi-sul-tirino": "waste",
+  "ivry-paris-incinerator": "waste",
+  "la-spezia-pitelli-landfill": "waste",
 };
 
 function classify(z: Zone): AnthroSub {
