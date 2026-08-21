@@ -1,12 +1,12 @@
 import { angularDistanceDeg } from "$lib/utils/geo";
-import { indicatorMeta, indicators } from "../generated/indicators";
+import { indicatorMeta, indicators } from "../generated/indicators.ts";
 import {
   lifeExpectancy,
   lifeExpectancyYear,
 } from "../generated/life-expectancy";
-import { countryLabels } from "../generated/places";
-import { zoneRadiusDeg } from "../scales/reach";
-import { zones } from "../zones/zones";
+import { countryLabels } from "../generated/places.ts";
+import { zoneRadiusDeg } from "../scales/reach.ts";
+import { zones } from "../zones/zones.ts";
 
 export type MetricKey =
   | "none"

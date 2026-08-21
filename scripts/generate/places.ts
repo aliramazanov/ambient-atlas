@@ -3,11 +3,14 @@
 // globally significant smaller cities, and country labels (from world-countries).
 // Usage: node scripts/generate-places.ts
 import { writeFileSync } from 'node:fs';
-import allCitiesPkg from 'all-the-cities';
-import countriesPkg from 'world-countries';
+import allCities, { type City } from 'all-the-cities';
+import countries from 'world-countries';
 
-const allCities = allCitiesPkg.default ?? allCitiesPkg;
-const countries = countriesPkg.default ?? countriesPkg;
+interface Located {
+	lat: number;
+	lng: number;
+	pop: number;
+}
 
 const MIN_POP = 1_500_000;
 const MAX_CITIES = 400;
@@ -57,8 +60,8 @@ for (const s of significant) known.add(s.name.toLowerCase());
 
 // world-countries has capital names but not coordinates, so resolve each
 // capital against all-the-cities, scoped by country (ISO2) with a name fallback.
-const byCountryName = new Map();
-const byName = new Map();
+const byCountryName = new Map<string, Located>();
+const byName = new Map<string, Located>();
 for (const c of allCities) {
 	const loc = { lat: c.loc.coordinates[1], lng: c.loc.coordinates[0], pop: c.population };
 	const ck = `${(c.country || '').toLowerCase()}|${c.name.toLowerCase()}`;
@@ -69,7 +72,7 @@ for (const c of allCities) {
 	if (!prevN || loc.pop > prevN.pop) byName.set(nk, loc);
 }
 
-const capitals = [];
+const capitals: { name: string; lat: number; lng: number; pop: number; capital: boolean }[] = [];
 let unresolved = 0;
 for (const c of countries) {
 	const name = Array.isArray(c.capital) ? c.capital[0] : null;
@@ -91,7 +94,7 @@ for (const c of countries) {
 // city in any cell not already represented by a major city or capital.
 const COVERAGE_FLOOR = 75_000;
 const CELL = 6; // degrees
-const cellTop = new Map();
+const cellTop = new Map<string, City[]>();
 for (const c of allCities) {
 	if (c.population < COVERAGE_FLOOR) continue;
 	const lat = c.loc.coordinates[1];
@@ -101,7 +104,7 @@ for (const c of allCities) {
 	arr.push(c);
 	cellTop.set(key, arr);
 }
-const coverage = [];
+const coverage: { name: string; lat: number; lng: number; pop: number }[] = [];
 for (const arr of cellTop.values()) {
 	arr.sort((a, b) => b.population - a.population);
 	let represented = false;

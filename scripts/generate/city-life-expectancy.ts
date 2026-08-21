@@ -5,7 +5,24 @@
 // Output is keyed by "lat,lng" (3 decimals) to avoid name collisions.
 // Usage: node scripts/generate-city-life-expectancy.ts
 import { geoContains } from "d3-geo";
+import type { Feature, Polygon, MultiPolygon } from "geojson";
 import { readFileSync, writeFileSync } from "node:fs";
+
+interface CityRow {
+  name: string;
+  lat: number;
+  lng: number;
+}
+
+interface EurostatResponse {
+  value: Record<string, number>;
+  dimension: {
+    geo: { category: { index: Record<string, number> } };
+    time: { category: { index: Record<string, number> } };
+  };
+}
+
+type NutsFeature = Feature<Polygon | MultiPolygon, { NUTS_ID?: string; id?: string }>;
 
 const GISCO =
   "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_20M_2021_4326_LEVL_2.geojson";
@@ -18,34 +35,34 @@ const m = placesSrc.match(
   /export const cities: CityLabel\[\] = (\[[\s\S]*?\]);/,
 );
 if (!m) throw new Error("Could not parse cities from places.ts");
-const cities = JSON.parse(m[1]);
+const cities = JSON.parse(m[1]) as CityRow[];
 
 // Eurostat regional life expectancy, keyed by NUTS code.
-const stat = await (await fetch(EUROSTAT)).json();
+const stat = (await (await fetch(EUROSTAT)).json()) as EurostatResponse;
 const geoIndex = stat.dimension.geo.category.index;
 const values = stat.value;
 const year = stat.dimension.time.category.index
   ? Object.keys(stat.dimension.time.category.index)[0]
   : "";
-const leByCode = {};
+const leByCode: Record<string, number> = {};
 for (const [code, pos] of Object.entries(geoIndex)) {
   const v = values[pos];
   if (typeof v === "number") leByCode[code] = v;
 }
 
 // NUTS-2 region polygons that have a life expectancy value.
-const gj = await (await fetch(GISCO)).json();
-const regions = [];
+const gj = (await (await fetch(GISCO)).json()) as { features: NutsFeature[] };
+const regions: { feature: NutsFeature; le: number }[] = [];
 for (const f of gj.features) {
   const code = f.properties.NUTS_ID ?? f.properties.id;
-  const le = leByCode[code];
+  const le = code ? leByCode[code] : undefined;
   if (typeof le === "number") regions.push({ feature: f, le });
 }
 
-const map = {};
+const map: Record<string, number> = {};
 let matched = 0;
 for (const c of cities) {
-  const pt = [c.lng, c.lat];
+  const pt: [number, number] = [c.lng, c.lat];
   for (const r of regions) {
     if (geoContains(r.feature, pt)) {
       map[`${c.lat.toFixed(3)},${c.lng.toFixed(3)}`] =

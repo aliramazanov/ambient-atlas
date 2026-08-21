@@ -6,6 +6,7 @@
 	import Slider from '$lib/components/ui/Slider.svelte';
 	import { cityData } from '$lib/data/generated/citydata';
 	import { METRIC_BY_KEY } from '$lib/data/places/metrics';
+	import Meta from '$lib/seo/Meta.svelte';
 
 	const SHOW_OPTIONS = [
 		{ value: '25', label: 'Top 25' },
@@ -99,7 +100,11 @@
 	}
 </script>
 
-<svelte:head><title>Ambient Atlas: City rankings</title></svelte:head>
+<Meta
+	title="Ambient Atlas: City rankings"
+	description="Rank the world's cities by the conditions you choose to disqualify and the social factors you weight, scored against every mapped exposure zone."
+	path="/rankings"
+/>
 
 <main>
 	<div class="wrap">

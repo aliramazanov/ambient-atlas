@@ -1,7 +1,6 @@
-import { existsSync } from "node:fs";
-import { fileURLToPath } from "node:url";
-import { zones } from "../../src/lib/data/zones/zones.ts";
 import { questions } from "../../src/lib/data/zones/questions.ts";
+import { zones } from "../../src/lib/data/zones/zones.ts";
+import { resolveUrl } from "./lib.ts";
 
 const online = process.argv.includes("--online");
 
@@ -9,17 +8,6 @@ const items = [
   ...zones.map((z) => ({ id: z.id, name: z.name, citations: z.citations })),
   ...questions.map((q) => ({ id: q.id, name: q.name, citations: q.citations })),
 ];
-
-const urlRe = /^https?:\/\/\S+$/;
-const localRe = /^\/\S+$/;
-const staticDir = fileURLToPath(new URL("../../static/", import.meta.url));
-
-function resolveUrl(url: string): "ok" | "missing-file" | "bad" {
-  if (urlRe.test(url)) return "ok";
-  if (!localRe.test(url)) return "bad";
-  const file = decodeURIComponent(url.split(/[#?]/)[0]).slice(1);
-  return existsSync(staticDir + file) ? "ok" : "missing-file";
-}
 
 let bad = 0;
 
@@ -29,12 +17,15 @@ for (const it of items) {
     bad++;
     continue;
   }
+
   for (const c of it.citations) {
     if (!c.ref || !String(c.ref).trim()) {
       console.log("EMPTY ref:", it.id, "-", c.url ?? "");
       bad++;
     }
+
     const state = c.url ? resolveUrl(c.url) : "bad";
+
     if (state !== "ok") {
       const label = state === "missing-file" ? "MISSING asset:" : "BAD url:";
       console.log(label, it.id, "-", c.ref ?? "", "->", c.url ?? "(none)");
@@ -51,7 +42,9 @@ if (online) {
     for (const c of it.citations) if (c.doi) dois.add(c.doi);
 
   console.log(`\nResolving ${dois.size} DOIs against Crossref...\n`);
+
   let doiBad = 0;
+
   for (const doi of dois) {
     try {
       const res = await fetch(
@@ -63,6 +56,7 @@ if (online) {
           },
         },
       );
+
       if (res.ok) console.log("OK   ", doi);
       else {
         console.log("FAIL ", doi, `(http ${res.status})`);

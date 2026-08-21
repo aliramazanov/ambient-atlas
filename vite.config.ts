@@ -3,6 +3,7 @@ import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
+  envPrefix: ["VITE_", "PUBLIC_"],
   plugins: [
     sveltekit({
       compilerOptions: {
@@ -10,9 +11,7 @@ export default defineConfig({
           filename.split(/[/\\]/).includes("node_modules") ? undefined : true,
       },
 
-      // Static SPA build. The app is client-rendered (Three.js is browser only),
-      // so we ship a fallback shell and route entirely on the client.
-      adapter: adapter({ fallback: "index.html" }),
+      adapter: adapter(),
     }),
   ],
 });

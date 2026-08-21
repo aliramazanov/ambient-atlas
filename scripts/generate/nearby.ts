@@ -1,13 +1,9 @@
 import { writeFileSync } from 'node:fs';
-import allCitiesPkg from 'all-the-cities';
-
-const allCities = (allCitiesPkg as { default?: unknown }).default ?? allCitiesPkg;
+import allCities from 'all-the-cities';
 
 const MIN_POP = 30000;
 
-type RawCity = { name: string; population: number; loc: { coordinates: [number, number] } };
-
-const rows = (allCities as RawCity[])
+const rows = allCities
 	.filter((c) => c.population >= MIN_POP)
 	.map(
 		(c) =>

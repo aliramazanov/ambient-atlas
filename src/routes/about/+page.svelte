@@ -1,12 +1,34 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import Icon from '$lib/components/ui/Icon.svelte';
+	import JsonLd from '$lib/seo/JsonLd.svelte';
+	import Meta from '$lib/seo/Meta.svelte';
+	import { absolute, siteName } from '$lib/seo/site';
 	import { zones } from '$lib/data/zones/zones';
 
 	const zoneCount = zones.length;
 </script>
 
-<svelte:head><title>Ambient Atlas: Sources & methodology</title></svelte:head>
+<Meta
+	title="Ambient Atlas: Sources & methodology"
+	description="How Ambient Atlas is built: where each figure comes from, how severity and certainty are judged, and what the map deliberately does not claim."
+	path="/about"
+/>
+
+<JsonLd
+	data={{
+		'@context': 'https://schema.org',
+		'@type': 'Dataset',
+		name: siteName,
+		description:
+			'Curated dataset of places where the ambient environment shapes human health, with a citation for every entry.',
+		license: 'https://creativecommons.org/licenses/by/4.0/',
+		creator: { '@type': 'Person', name: 'Ali Ramazanov' },
+		url: absolute('/about') ?? undefined,
+		variableMeasured: ['tier', 'category', 'certainty', 'severity', 'research depth', 'reach'],
+		size: `${zoneCount} entries`
+	}}
+/>
 
 <main>
 	<div class="wrap">

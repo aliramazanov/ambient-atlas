@@ -4,6 +4,23 @@
 // Usage: node scripts/generate-indicators.ts
 import { writeFileSync } from 'node:fs';
 
+interface WorldBankRow {
+	countryiso3code?: string;
+	date?: string;
+	value?: number | null;
+}
+
+interface IndicatorMeta {
+	label: string;
+	source: string;
+	year: string;
+	unit: string;
+	higherBetter: boolean;
+	domain: [number, number];
+}
+
+type ValueMap = Record<string, number>;
+
 const WB = {
 	gini: { code: 'SI.POV.GINI', label: 'Gini (inequality)', unit: '', higherBetter: false },
 	income: {
@@ -26,30 +43,31 @@ const WB = {
 	}
 };
 
-async function fetchWB(code) {
+async function fetchWB(code: string): Promise<{ map: ValueMap; year: string }> {
 	const url = `https://api.worldbank.org/v2/country/all/indicator/${code}?format=json&mrnev=1&per_page=400`;
-	const json = await (await fetch(url)).json();
+	const json = (await (await fetch(url)).json()) as [unknown, WorldBankRow[]?];
 	const rows = json[1] ?? [];
-	const map = {};
+	const map: ValueMap = {};
 	let year = '';
 	for (const r of rows) {
 		if (r.countryiso3code && typeof r.value === 'number') {
 			map[r.countryiso3code] = Math.round(r.value * 10) / 10;
-			if (r.date > year) year = r.date;
+			if (r.date && r.date > year) year = r.date;
 		}
 	}
 	return { map, year };
 }
 
-function domain(map) {
+function domain(map: ValueMap): [number, number] {
 	const v = Object.values(map).sort((a, b) => a - b);
 	if (!v.length) return [0, 1];
-	const p = (q) => v[Math.min(v.length - 1, Math.max(0, Math.floor(q * (v.length - 1))))];
+	const p = (q: number) =>
+		v[Math.min(v.length - 1, Math.max(0, Math.floor(q * (v.length - 1))))];
 	return [p(0.02), p(0.98)];
 }
 
-const indicators = {};
-const indicatorMeta = {};
+const indicators: Record<string, ValueMap> = {};
+const indicatorMeta: Record<string, IndicatorMeta> = {};
 
 for (const [key, def] of Object.entries(WB)) {
 	const { map, year } = await fetchWB(def.code);
@@ -70,7 +88,7 @@ const HDI_URLS = [
 	'https://hdr.undp.org/sites/default/files/2023-24_HDR/HDR23-24_Composite_indices_complete_time_series.csv',
 	'https://hdr.undp.org/sites/default/files/2021-22_HDR/HDR21-22_Composite_indices_complete_time_series.csv'
 ];
-let hdi = {};
+let hdi: ValueMap = {};
 let hdiYear = '';
 for (const url of HDI_URLS) {
 	try {

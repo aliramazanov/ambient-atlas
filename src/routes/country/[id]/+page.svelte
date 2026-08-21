@@ -20,6 +20,7 @@
 	import { statusOf } from '$lib/data/scales/status';
 	import { HEALTH } from '$lib/data/zones/health';
 	import type { EmissionType, Tier, Zone } from '$lib/data/zones/types';
+	import Meta from '$lib/seo/Meta.svelte';
 	import { air, aqiColor, ensureAirData } from '$lib/state/air-quality.svelte';
 	import { angularDistanceDeg } from '$lib/utils/geo';
 	import {
@@ -134,10 +135,18 @@
 		lakesRaw = l;
 	});
 
+	function hasGeometry(f: GeoJSON.Feature): boolean {
+		const g = f.geometry;
+		if (!g || !('coordinates' in g)) return false;
+		const coords = g.coordinates as unknown[];
+		return Array.isArray(coords) && coords.every((part) => part != null);
+	}
+
 	function nearBounds(fc: GeoJSON.FeatureCollection, b: [[number, number], [number, number]]) {
 		const [[w, s], [e, n]] = b;
 		const pad = 1.5;
 		const features = fc.features.filter((f) => {
+			if (!hasGeometry(f)) return false;
 			const [[fw, fs], [fe, fn]] = geoBounds(f);
 			return fe >= w - pad && fw <= e + pad && fn >= s - pad && fs <= n + pad;
 		});
@@ -283,7 +292,13 @@
 	}
 </script>
 
-<svelte:head><title>Ambient Atlas: {info?.name ?? 'Country'}</title></svelte:head>
+<Meta
+	title="Ambient Atlas: {info?.name ?? 'Country'}"
+	description={info
+		? `${info.name}: ${info.zones.length} mapped ambient-exposure ${info.zones.length === 1 ? 'zone' : 'zones'}, shown with national health and development indicators.`
+		: 'This country is not in the atlas.'}
+	path="/country/{page.params.id}"
+/>
 
 <main>
 	<header class="topbar">

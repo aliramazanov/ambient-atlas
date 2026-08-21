@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import Meta from '$lib/seo/Meta.svelte';
+	import { zones } from '$lib/data/zones/zones';
 	import { flyToLocation, ui } from '$lib/state/state.svelte';
 	import { untrack } from 'svelte';
 
@@ -19,3 +21,9 @@
 		});
 	});
 </script>
+
+<Meta
+	title="Ambient Atlas"
+	description="An interactive globe of {zones.length} sourced places where the ambient environment shapes human health, from natural radiation to industrial contamination."
+	path="/"
+/>

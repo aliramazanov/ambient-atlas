@@ -2,11 +2,11 @@ import { geoBounds, geoContains } from "d3-geo";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 import { feature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
-import topo from "world-atlas/countries-50m.json";
+import topo from "world-atlas/countries-50m.json" with { type: "json" };
 import worldCountries from "world-countries";
-import { zoneRadiusDeg } from "../scales/reach";
+import { zoneRadiusDeg } from "../scales/reach.ts";
 import type { Zone } from "../zones/types";
-import { zones } from "../zones/zones";
+import { zones } from "../zones/zones.ts";
 
 type CountryProps = { name: string };
 export type CountryFeature = Feature<Geometry, CountryProps>;
@@ -44,6 +44,10 @@ const boxed: BBoxed[] = fc.features.map((feat) => {
     n,
   };
 });
+
+export const countryIso3List: string[] = [
+  ...new Set(boxed.map((b) => b.iso).filter((iso): iso is string => iso != null)),
+].sort();
 
 export function countryAtPoint(lat: number, lng: number): string | null {
   for (const b of boxed) {

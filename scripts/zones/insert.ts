@@ -12,16 +12,34 @@ const header = headerArg ?? 'PER-COUNTRY SWEEP';
 const ZONES = 'src/lib/data/zones/zones.ts';
 const MARKER = '\t// ===================== EXPANSION 8: EUROPE / ANATOLIA GAPS';
 
-const candidates = JSON.parse(readFileSync(jsonPath, 'utf8'));
+interface Candidate {
+	id: string;
+	name: string;
+	tier: string;
+	category: string;
+	lat: number;
+	lng: number;
+	reachKm: number;
+	certainty?: string;
+	severity: number;
+	research: number;
+	emissionType?: string;
+	desc: string;
+	health: string;
+	citation: { type: string; ref: string; url: string; openAccess?: boolean };
+}
+
+const candidates = JSON.parse(readFileSync(jsonPath, 'utf8')) as Candidate[];
 let src = readFileSync(ZONES, 'utf8');
 
-const clean = (s) => String(s).replace(/—/g, ', ').replace(/–/g, '-');
-const J = (s) => JSON.stringify(clean(s));
-const certaintyFor = (t) => (t === 'gray' ? 'open' : t === 'solved' ? 'solved-firm' : 'established');
+const clean = (s: unknown) => String(s).replace(/\u2014/g, ', ').replace(/\u2013/g, '-');
+const J = (s: unknown) => JSON.stringify(clean(s));
+const certaintyFor = (t: string) =>
+	t === 'gray' ? 'open' : t === 'solved' ? 'solved-firm' : 'established';
 
 let inserted = 0;
 let skipped = 0;
-const lines = [];
+const lines: string[] = [];
 for (const z of candidates) {
 	if (src.includes(`id: '${z.id}'`) || src.includes(`id: "${z.id}"`)) {
 		skipped++;

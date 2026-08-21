@@ -15,6 +15,11 @@ pnpm install
 pnpm dev          # local dev server
 ```
 
+Copy `.env.example` to `.env` and set `PUBLIC_SITE_URL` to the deployed origin. Without it the
+build still succeeds, but canonical links, `og:url` and `og:image` are omitted and
+`pnpm data:sitemap` writes nothing, because a sitemap against a guessed domain is worse than no
+sitemap.
+
 ## Quality gates (must pass before a PR is merged)
 
 CI runs these on every push and pull request; please run them locally first:

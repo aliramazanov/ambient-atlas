@@ -6,17 +6,23 @@ import { writeFileSync } from 'node:fs';
 const URL =
 	'https://api.worldbank.org/v2/country/all/indicator/SP.DYN.LE00.IN?format=json&mrnev=1&per_page=400';
 
+interface WorldBankRow {
+	countryiso3code?: string;
+	date?: string;
+	value?: number | null;
+}
+
 const res = await fetch(URL);
 if (!res.ok) throw new Error(`World Bank API ${res.status}`);
-const json = await res.json();
+const json = (await res.json()) as [unknown, WorldBankRow[]?];
 const rows = json[1] ?? [];
 
-const map = {};
+const map: Record<string, number> = {};
 let latest = '';
 for (const r of rows) {
 	if (r.countryiso3code && typeof r.value === 'number') {
 		map[r.countryiso3code] = Math.round(r.value * 10) / 10;
-		if (r.date > latest) latest = r.date;
+		if (r.date && r.date > latest) latest = r.date;
 	}
 }
 

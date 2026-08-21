@@ -6,11 +6,13 @@
 	import { dots, researchOf, severityOf } from '$lib/data/scales/severity';
 	import { statusOf } from '$lib/data/scales/status';
 	import { HEALTH } from '$lib/data/zones/health';
-	import type { EmissionType } from '$lib/data/zones/types';
+	import type { EmissionType, Zone } from '$lib/data/zones/types';
 	import { ui } from '$lib/state/state.svelte';
 	import Button from './Button.svelte';
 	import Dialog from './Dialog.svelte';
 	import Icon from './Icon.svelte';
+
+	let { zone }: { zone: Zone | null } = $props();
 
 	const EMISSION_LABEL: Record<EmissionType, string> = {
 		ionizing: 'Ionizing radiation',
@@ -29,8 +31,8 @@
 	}
 </script>
 
-{#if ui.selected}
-	{@const z = ui.selected}
+{#if zone}
+	{@const z = zone}
 	{@const st = statusOf(z)}
 	<Dialog onclose={close} label={z.name}>
 		<div class="folder-tab">

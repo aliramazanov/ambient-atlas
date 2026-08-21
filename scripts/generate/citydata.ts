@@ -4,17 +4,41 @@
 // Run with: node --experimental-strip-types scripts/generate-citydata.ts
 import { writeFileSync } from 'node:fs';
 import allCitiesPkg from 'all-the-cities';
-import countriesPkg from 'world-countries';
+import countries from 'world-countries';
 import { zones } from '../../src/lib/data/zones/zones.ts';
 import { zoneRadiusDeg } from '../../src/lib/data/scales/reach.ts';
 import { lifeExpectancy } from '../../src/lib/data/generated/life-expectancy.ts';
 import { indicators } from '../../src/lib/data/generated/indicators.ts';
 
-const allCities = (allCitiesPkg.default ?? allCitiesPkg).slice().sort((a, b) => b.population - a.population);
-const countries = countriesPkg.default ?? countriesPkg;
+interface Candidate {
+	name: string;
+	country: string;
+	lat: number;
+	lng: number;
+	pop: number;
+	le: number | null;
+	hdi: number | null;
+	inc: number | null;
+	gini: number | null;
+	hom: number | null;
+	f: number;
+	clim?: number | null;
+	temp?: number | null;
+}
 
-const iso2to3 = new Map();
-const iso3name = new Map();
+type CityDatum = Omit<Candidate, 'pop'>;
+
+interface DailyBlock {
+	daily?: {
+		temperature_2m_mean?: (number | null)[];
+		sunshine_duration?: (number | null)[];
+	};
+}
+
+const allCities = allCitiesPkg.slice().sort((a, b) => b.population - a.population);
+
+const iso2to3 = new Map<string, string>();
+const iso3name = new Map<string, string>();
 for (const c of countries) {
 	if (c.cca2 && c.cca3) {
 		iso2to3.set(c.cca2.toUpperCase(), c.cca3);
@@ -22,7 +46,7 @@ for (const c of countries) {
 	}
 }
 
-function angDeg(la1, lo1, la2, lo2) {
+function angDeg(la1: number, lo1: number, la2: number, lo2: number): number {
 	const r = Math.PI / 180;
 	const a1 = la1 * r;
 	const a2 = la2 * r;
@@ -40,7 +64,7 @@ const zoneInfo = zones.map((z) => ({
 }));
 
 // Bitmask: EST=1 UV=2 RADON=4 GRAY=8 MAN=16 CONFLICT=32 CLIMATE=64
-function flags(lat, lng) {
+function flags(lat: number, lng: number): number {
 	let f = 0;
 	for (const z of zoneInfo) {
 		if (angDeg(lat, lng, z.lat, z.lng) > z.rd) continue;
@@ -54,8 +78,8 @@ function flags(lat, lng) {
 	return f;
 }
 
-const seen = new Set();
-const cands = [];
+const seen = new Set<string>();
+const cands: Candidate[] = [];
 for (const c of allCities) {
 	if (c.population < 300000) continue;
 	const iso3 = iso2to3.get((c.country || '').toUpperCase());
@@ -81,16 +105,16 @@ for (const c of allCities) {
 }
 
 // Dedup near-duplicates within ~0.5 degrees, keeping the largest.
-const dedup = [];
+const dedup: Candidate[] = [];
 for (const c of cands) {
 	if (dedup.some((d) => angDeg(c.lat, c.lng, d.lat, d.lng) < 0.5)) continue;
 	dedup.push(c);
 }
-const out = dedup.map(({ pop, ...rest }) => rest); // drop pop from output
+const out: CityDatum[] = dedup.map(({ pop, ...rest }) => rest);
 
 // Climate comfort from Open-Meteo archive (free, no key, multi-coordinate):
 // mean 2024 temperature, fraction of mild days (10-24C), and sunshine hours.
-async function fetchClimate(cities) {
+async function fetchClimate(cities: CityDatum[]): Promise<void> {
 	const CH = 50;
 	for (let i = 0; i < cities.length; i += CH) {
 		const slice = cities.slice(i, i + CH);
@@ -100,8 +124,8 @@ async function fetchClimate(cities) {
 		try {
 			const res = await fetch(url);
 			if (!res.ok) throw new Error(`climate ${res.status}`);
-			let data = await res.json();
-			if (!Array.isArray(data)) data = [data];
+			const payload = (await res.json()) as DailyBlock | DailyBlock[];
+			const data: DailyBlock[] = Array.isArray(payload) ? payload : [payload];
 			for (let j = 0; j < data.length; j++) {
 				const c = slice[j];
 				const d = data[j]?.daily;
@@ -110,16 +134,16 @@ async function fetchClimate(cities) {
 					c.temp = null;
 					continue;
 				}
-				const t = (d.temperature_2m_mean || []).filter((x) => x != null);
+				const t = (d.temperature_2m_mean ?? []).filter((x): x is number => x != null);
 				const meanT = t.length ? t.reduce((a, b) => a + b, 0) / t.length : null;
 				const mild = t.length ? t.filter((x) => x >= 10 && x <= 24).length / t.length : 0;
-				const sunH = (d.sunshine_duration || []).reduce((a, b) => a + (b || 0), 0) / 3600;
+				const sunH = (d.sunshine_duration ?? []).reduce<number>((a, b) => a + (b ?? 0), 0) / 3600;
 				const sNorm = Math.max(0, Math.min(1, (sunH - 1200) / (3000 - 1200)));
 				c.clim = meanT == null ? null : Math.round(100 * (0.6 * mild + 0.4 * sNorm));
 				c.temp = meanT == null ? null : Math.round(meanT * 10) / 10;
 			}
 		} catch (err) {
-			console.warn('\nclimate chunk failed:', err.message);
+			console.warn('\nclimate chunk failed:', err instanceof Error ? err.message : err);
 			for (const c of slice) {
 				c.clim = c.clim ?? null;
 				c.temp = c.temp ?? null;

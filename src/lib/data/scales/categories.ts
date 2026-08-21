@@ -1,5 +1,5 @@
 import type { Certainty, Tier, Zone } from "../zones/types";
-import { anthroSubOf } from "./anthropogenic";
+import { anthroSubOf } from "./anthropogenic.ts";
 
 export { anthroSubOf };
 

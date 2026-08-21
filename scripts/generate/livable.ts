@@ -5,17 +5,32 @@
 //   tolerated, ranked by society indicators (highest livability with low risk).
 import { writeFileSync } from 'node:fs';
 import allCitiesPkg from 'all-the-cities';
-import countriesPkg from 'world-countries';
+import countries from 'world-countries';
 import { zones } from '../../src/lib/data/zones/zones.ts';
 import { zoneRadiusDeg } from '../../src/lib/data/scales/reach.ts';
 import { lifeExpectancy } from '../../src/lib/data/generated/life-expectancy.ts';
 import { indicators, indicatorMeta } from '../../src/lib/data/generated/indicators.ts';
 
-const allCities = (allCitiesPkg.default ?? allCitiesPkg).slice().sort((a, b) => b.population - a.population);
-const countries = countriesPkg.default ?? countriesPkg;
+type Range = [number, number];
 
-const iso2to3 = new Map();
-const iso3name = new Map();
+interface Candidate {
+	name: string;
+	country: string;
+	lat: number;
+	lng: number;
+	le: number;
+	score: number;
+	est: string[];
+	gray: string[];
+	man: string[];
+	conflict: string[];
+	margin: number;
+}
+
+const allCities = allCitiesPkg.slice().sort((a, b) => b.population - a.population);
+
+const iso2to3 = new Map<string, string>();
+const iso3name = new Map<string, string>();
 for (const c of countries) {
 	if (c.cca2 && c.cca3) {
 		iso2to3.set(c.cca2.toUpperCase(), c.cca3);
@@ -23,7 +38,7 @@ for (const c of countries) {
 	}
 }
 
-function angDeg(la1, lo1, la2, lo2) {
+function angDeg(la1: number, lo1: number, la2: number, lo2: number): number {
 	const r = Math.PI / 180;
 	const a1 = la1 * r;
 	const a2 = la2 * r;
@@ -34,11 +49,11 @@ function angDeg(la1, lo1, la2, lo2) {
 
 const zoneInfo = zones.map((z) => ({ lat: z.lat, lng: z.lng, rd: zoneRadiusDeg(z), tier: z.tier, name: z.name }));
 
-function exposure(lat, lng) {
-	const est = [];
-	const gray = [];
-	const man = [];
-	const conflict = [];
+function exposure(lat: number, lng: number) {
+	const est: string[] = [];
+	const gray: string[] = [];
+	const man: string[] = [];
+	const conflict: string[] = [];
 	let natMargin = Infinity;
 	for (const z of zoneInfo) {
 		const d = angDeg(lat, lng, z.lat, z.lng);
@@ -57,22 +72,26 @@ function exposure(lat, lng) {
 	return { est, gray, man, conflict, natMargin };
 }
 
-function dom(map) {
+function dom(map: Record<string, number>): Range {
 	const v = Object.values(map).sort((a, b) => a - b);
-	const p = (q) => v[Math.max(0, Math.min(v.length - 1, Math.floor(q * (v.length - 1))))];
+	const p = (q: number) =>
+		v[Math.max(0, Math.min(v.length - 1, Math.floor(q * (v.length - 1))))];
 	return [p(0.02), p(0.98)];
 }
-function norm(v, [lo, hi]) {
+function norm(v: number, [lo, hi]: Range): number {
 	if (hi === lo) return 0.5;
 	return Math.max(0, Math.min(1, (v - lo) / (hi - lo)));
 }
 const leDom = dom(lifeExpectancy);
-const incDom = indicators.income
-	? [Math.log10(indicatorMeta.income.domain[0] || 1), Math.log10(indicatorMeta.income.domain[1] || 1)]
+const incDom: Range | null = indicators.income
+	? [
+			Math.log10(indicatorMeta.income.domain[0] || 1),
+			Math.log10(indicatorMeta.income.domain[1] || 1)
+		]
 	: null;
 
-function society(iso) {
-	const parts = [];
+function society(iso: string): number | null {
+	const parts: number[] = [];
 	if (lifeExpectancy[iso] != null) parts.push(norm(lifeExpectancy[iso], leDom));
 	if (indicators.hdi?.[iso] != null) parts.push(norm(indicators.hdi[iso], indicatorMeta.hdi.domain));
 	if (indicators.income?.[iso] != null && incDom) parts.push(norm(Math.log10(indicators.income[iso]), incDom));
@@ -83,8 +102,8 @@ function society(iso) {
 }
 
 const MINPOP = 300000;
-const seen = new Set();
-const cands = [];
+const seen = new Set<string>();
+const cands: Candidate[] = [];
 for (const c of allCities) {
 	if (c.population < MINPOP) continue;
 	const iso3 = iso2to3.get((c.country || '').toUpperCase());
@@ -114,7 +133,7 @@ for (const c of allCities) {
 
 // Collapse near-duplicate cities (suburbs, alternative names) within ~0.5 degrees,
 // keeping the largest. Candidates are already in descending population order.
-const dedup = [];
+const dedup: Candidate[] = [];
 for (const c of cands) {
 	if (dedup.some((d) => angDeg(c.lat, c.lng, d.lat, d.lng) < 0.5)) continue;
 	dedup.push(c);
@@ -133,8 +152,8 @@ const listB = dedup
 	.slice(0, 30);
 
 // Collapse the several overlapping radon belts into one honest label.
-function cleanGray(gray) {
-	const out = [];
+function cleanGray(gray: string[]): string[] {
+	const out: string[] = [];
 	let radon = false;
 	for (const g of gray) {
 		if (/radon/i.test(g)) radon = true;
@@ -144,7 +163,7 @@ function cleanGray(gray) {
 	return out;
 }
 
-const trim = (c) => ({
+const trim = (c: Candidate) => ({
 	name: c.name,
 	country: c.country,
 	lat: c.lat,
