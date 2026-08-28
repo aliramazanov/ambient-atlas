@@ -14,6 +14,7 @@
 
 	function dismiss() {
 		show = false;
+
 		try {
 			localStorage.setItem('aa_onboarded', '1');
 		} catch {

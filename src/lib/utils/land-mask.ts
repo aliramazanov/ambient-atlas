@@ -30,11 +30,15 @@ function build() {
 
 export function isLand(lat: number, lng: number): boolean {
   if (!data) build();
+
   let x = Math.floor(((lng + 180) / 360) * W);
   let y = Math.floor(((90 - lat) / 180) * H);
+
   if (x < 0) x = 0;
   else if (x >= W) x = W - 1;
+
   if (y < 0) y = 0;
   else if (y >= H) y = H - 1;
+
   return data![(y * W + x) * 4] > 128;
 }

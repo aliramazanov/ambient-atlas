@@ -48,6 +48,8 @@ export function clipFor(
   id: string,
 ): ((lat: number, lng: number) => boolean) | null {
   const fs = featsFor.get(id);
+
   if (!fs || !fs.length) return null;
+
   return (lat, lng) => fs.some((f) => geoContains(f, [lng, lat]));
 }

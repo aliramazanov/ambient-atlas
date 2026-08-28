@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import Icon from '$lib/components/ui/Icon.svelte';
+	import { zones } from '$lib/data/zones/zones';
 	import JsonLd from '$lib/seo/JsonLd.svelte';
 	import Meta from '$lib/seo/Meta.svelte';
 	import { absolute, siteName } from '$lib/seo/site';
-	import { zones } from '$lib/data/zones/zones';
 
 	const zoneCount = zones.length;
 </script>

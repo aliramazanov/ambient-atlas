@@ -40,19 +40,23 @@
 	async function open() {
 		place();
 		isOpen = true;
+
 		active = Math.max(
 			0,
 			options.findIndex((o) => o.value === value)
 		);
+
 		await tick();
 		scrollActive();
 	}
 
 	$effect(() => {
 		if (!isOpen) return;
+
 		const reposition = () => place();
 		window.addEventListener('scroll', reposition, true);
 		window.addEventListener('resize', reposition);
+
 		return () => {
 			window.removeEventListener('scroll', reposition, true);
 			window.removeEventListener('resize', reposition);

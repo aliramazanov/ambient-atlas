@@ -19,15 +19,20 @@
 
 	function pinCountry(iso3: string | undefined) {
 		if (!iso3) return;
+
 		const info = countryByIso3(iso3);
+
 		if (!info || !info.zones.length) return;
+
 		const ids = info.zones.map((z) => z.id);
 		const allPinned = ids.every((id) => ui.pinned[id]);
 		const next = { ...ui.pinned };
+
 		for (const id of ids) {
 			if (allPinned) delete next[id];
 			else next[id] = true;
 		}
+
 		ui.pinned = next;
 	}
 

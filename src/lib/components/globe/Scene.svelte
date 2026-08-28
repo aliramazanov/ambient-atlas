@@ -84,7 +84,9 @@
 			const near = Math.max(0, Math.min(1, (d - 1.1) / (4 - 1.1)));
 			controls.zoomSpeed = e.deltaY > 0 ? 1.15 : 0.35 + near * 0.35;
 		};
+
 		window.addEventListener('wheel', onWheel, { capture: true, passive: true });
+
 		return () => window.removeEventListener('wheel', onWheel, { capture: true });
 	});
 
@@ -96,6 +98,7 @@
 
 	$effect(() => {
 		const f = ui.flyTo;
+
 		if (f) {
 			flyDir.copy(latLngToVector3(f.lat, f.lng, 1)).normalize();
 			flyTarget = f.dist ?? 0;
@@ -106,6 +109,7 @@
 
 	$effect(() => {
 		const z = view.zoom;
+
 		if (z) {
 			const cam = camera.current;
 			if (cam) flyDir.copy(cam.position).normalize();
@@ -116,7 +120,9 @@
 
 	useTask((delta) => {
 		const cam = camera.current;
+
 		if (cam) view.camera = cam;
+
 		view.width = size.current.width;
 		view.height = size.current.height;
 
@@ -170,6 +176,7 @@
 			cam.position.copy(cur.multiplyScalar(nd));
 			cam.lookAt(0, 0, 0);
 			controls?.update?.();
+
 			if (cur.angleTo(flyDir) < 0.02 && Math.abs(nd - target) < 0.03) flying = false;
 		}
 	});
@@ -181,6 +188,7 @@
 
 	const ATMOSPHERE = Array.from({ length: 24 }, (_, i) => {
 		const t = i / 23;
+
 		return {
 			scale: 1.012 + t * 0.46,
 			opacity: 0.055 * Math.pow(1 - t, 2.2),

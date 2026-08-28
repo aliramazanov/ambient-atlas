@@ -39,7 +39,7 @@
 	const FILL_R = 1.002;
 	const EDGE_R = 1.0035;
 	const DOT_R = 1.006;
-	const DOT_SIZE = 0.0064; // sprite world size for the epicenter ball (before zoom)
+	const DOT_SIZE = 0.0064;
 
 	const gradient = makeRadialTexture();
 	const ballTex = makeBallTexture();
@@ -253,6 +253,7 @@
 				const oy = p.y - p.ty;
 				const od = Math.hypot(ox, oy);
 				const cap = p.sr * 3;
+
 				if (od > cap) {
 					p.x = p.tx + (ox / od) * cap;
 					p.y = p.ty + (oy / od) * cap;
@@ -297,8 +298,10 @@
 
 		for (const e of entries) {
 			if (!e.onScreen) continue;
+
 			const d = Math.hypot(e.sx - fx, e.sy - fy);
 			const hit = Math.max(18, Math.min(e.reachScreenR * 0.4, 60));
+
 			if (d <= hit && d < bestD) {
 				bestD = d;
 				best = e;
@@ -332,6 +335,7 @@
 	$effect(() => {
 		const moving = view.moving;
 		const dz = dotZoom(view.dist);
+
 		for (const e of entries) {
 			const on = visibleNow(e);
 			e.dot.visible = on && !moving;
@@ -466,6 +470,7 @@
 		for (let i = 0; i <= rings; i++) {
 			const a = (i / rings) * radiusRad;
 			const ur = (i / rings) * 0.5;
+
 			for (let j = 0; j <= spokes; j++) {
 				const t = (j / spokes) * Math.PI * 2;
 				const [x, y, z] = capPoint(center, u, v, a, t, radius);
@@ -482,6 +487,7 @@
 				const [la, lo] = ptLatLng(cx, cy, cz);
 				if (!clip(la, lo)) return;
 			}
+
 			idx.push(p, q, r2);
 		};
 
@@ -509,6 +515,7 @@
 	function makeBallTexture(): CanvasTexture {
 		const size = 128;
 		const c = document.createElement('canvas');
+
 		c.width = c.height = size;
 		const ctx = c.getContext('2d')!;
 
@@ -540,13 +547,17 @@
 		c.width = c.height = size;
 		const ctx = c.getContext('2d')!;
 		const g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+
 		g.addColorStop(0, 'rgba(255,255,255,1)');
 		g.addColorStop(0.45, 'rgba(255,255,255,0.5)');
 		g.addColorStop(1, 'rgba(255,255,255,0)');
+
 		ctx.fillStyle = g;
 		ctx.fillRect(0, 0, size, size);
+
 		const tex = new CanvasTexture(c);
 		tex.colorSpace = SRGBColorSpace;
+
 		return tex;
 	}
 </script>

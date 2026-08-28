@@ -26,7 +26,7 @@ interface UiState {
   /** Camera fly-to request; token forces re-trigger for repeats. dist = target zoom. */
   flyTo: { lat: number; lng: number; token: number; dist?: number } | null;
   showQuestions: boolean;
-  openPanel: 'controls' | 'legend' | 'search' | 'colorkey' | 'about' | null;
+  openPanel: "controls" | "legend" | "search" | "colorkey" | "about" | null;
 }
 
 export const ui = $state<UiState>({
