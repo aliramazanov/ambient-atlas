@@ -37,3 +37,4 @@ jobs:
 
       - name: Browser smoke test
         run: pnpm test:smoke
+        timeout-minutes: 10

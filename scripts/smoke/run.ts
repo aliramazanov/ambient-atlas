@@ -6,6 +6,7 @@ import { Session } from "./cdp.ts";
 
 const PREVIEW_PORT = 4183;
 const DEBUG_PORT = 9333;
+const OVERALL_TIMEOUT_MS = 6 * 60_000;
 const HOST = "127.0.0.1";
 const ORIGIN = `http://${HOST}:${PREVIEW_PORT}`;
 
@@ -95,9 +96,23 @@ async function waitFor(
 
 const started: ChildProcess[] = [];
 const profile = mkdtempSync(join(tmpdir(), "aa-smoke-"));
+let shutDown = false;
+
+/** npx spawns vite as a grandchild, so signal the whole group, not just the child. */
+function stop(child: ChildProcess): void {
+  if (child.pid == null) return;
+  try {
+    process.kill(-child.pid, "SIGTERM");
+  } catch {
+    child.kill("SIGTERM");
+  }
+}
 
 function shutdown(): void {
-  for (const child of started) child.kill("SIGTERM");
+  if (shutDown) return;
+  shutDown = true;
+  clearTimeout(watchdog);
+  for (const child of started) stop(child);
 
   rmSync(profile, {
     recursive: true,
@@ -107,8 +122,19 @@ function shutdown(): void {
   });
 }
 
+function finish(code: number): never {
+  shutdown();
+  process.exit(code);
+}
+
+const watchdog = setTimeout(() => {
+  console.error(`\nsmoke run exceeded ${OVERALL_TIMEOUT_MS / 1000}s, aborting`);
+  finish(1);
+}, OVERALL_TIMEOUT_MS);
+
 process.on("exit", shutdown);
-process.on("SIGINT", () => process.exit(130));
+process.on("SIGINT", () => finish(130));
+process.on("SIGTERM", () => finish(143));
 
 if (!existsSync("build/index.html"))
   throw new Error("build/ is missing, run pnpm build first");
@@ -124,8 +150,9 @@ const preview = spawn(
     String(PREVIEW_PORT),
     "--strictPort",
   ],
-  { stdio: "ignore" },
+  { stdio: "ignore", detached: true },
 );
+preview.unref();
 started.push(preview);
 
 const chrome = spawn(
@@ -139,8 +166,9 @@ const chrome = spawn(
     `--user-data-dir=${profile}`,
     "about:blank",
   ],
-  { stdio: "ignore" },
+  { stdio: "ignore", detached: true },
 );
+chrome.unref();
 started.push(chrome);
 
 await waitFor(`${ORIGIN}/`, "vite preview");
@@ -200,9 +228,10 @@ session.close();
 if (failures.length) {
   console.error(`\n${failures.length} smoke failure(s):`);
   for (const f of failures) console.error(`  ${f}`);
-  process.exit(1);
+  finish(1);
 }
 
 console.log(
   `\n${ROUTES.length} routes served, rendered and stayed console-clean.`,
 );
+finish(0);
