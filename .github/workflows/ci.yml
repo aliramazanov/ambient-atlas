@@ -34,3 +34,6 @@ jobs:
 
       - name: Production build
         run: pnpm build
+
+      - name: Browser smoke test
+        run: pnpm test:smoke

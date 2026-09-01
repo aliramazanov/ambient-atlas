@@ -31,6 +31,7 @@
 	let root: HTMLElement | undefined = $state();
 	let inputEl: HTMLInputElement | undefined = $state();
 	let searchOpen = $state(false);
+
 	const mobile = useIsMobile();
 	const fieldShown = $derived(!mobile.current || searchOpen);
 	const hidden = $derived(mobile.current && ui.openPanel !== null && ui.openPanel !== 'search');
